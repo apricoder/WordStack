@@ -3,29 +3,101 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="30dp"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.GreetingActivity">
 
-    <RelativeLayout
-        android:layout_alignParentBottom="true"
+    <!-- TOOLBAR WRAPPER -->
+    <LinearLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="30dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/go_next_button"
-            android:padding="15dp"
-            android:background="@drawable/rounded_button"
-            android:textColor="#7883c2"
-            android:textAllCaps="true"
-            android:textSize="18sp"
-            android:text="Choose languages"
+        <!-- TOOLBAR -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp" />
+            android:layout_height="56dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="5dp">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Welcome"
+                android:textAllCaps="true"
+                android:textColor="@color/mainBlue"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- SHADOW -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/mainBlue" />
+
+    </LinearLayout>
+
+    <!-- LAYOUT WRAPPER -->
+    <RelativeLayout
+        android:id="@+id/root_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <!-- CONTENT WRAPPER -->
+        <RelativeLayout
+            android:id="@+id/content_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="30dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="With WordStack You can learn language in three easy steps:\n\n1. Create card stack\n2. Fill it with word-translation cards\n3. Repeat cards to remember them!\n\nHelp me to translate new words for You by specifying language You want to learn."
+                    android:textColor="@color/mainBlue"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+            <!--android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat"-->
+
+            <!-- BOTTOM -->
+            <RelativeLayout
+                android:id="@+id/bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:padding="30dp">
+
+                <!-- NEXT BUTTON -->
+                <Button
+                    android:id="@+id/go_next_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_rounded"
+                    android:padding="15dp"
+                    android:text="Choose language"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainBlue"
+                    android:textSize="18sp" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
