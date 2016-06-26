@@ -1,5 +1,6 @@
 package com.olebokolo.wordstack.core.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 import lombok.AllArgsConstructor;
@@ -12,8 +13,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class Side {
+public class UserSettings extends SugarRecord {
     private Long id;
-    private Long languageId;
-    private String content;
+    private Long frontLangId;
+    private Long backLangId;
 }
