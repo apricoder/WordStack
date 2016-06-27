@@ -58,8 +58,8 @@ public class LanguagesActivity extends AppCompatActivity {
         @NonNull
         private String matchDialogTitle(int clickedView) {
             return clickedView == R.id.front_lang_layout
-                            ? "Specify language You know"
-                            : "Choose language You want to learn";
+                            ? "Specify language\nYou know"
+                            : "Choose language\nYou want to learn";
         }
     };
 

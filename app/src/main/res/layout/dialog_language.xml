@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -12,23 +13,34 @@
         card_view:cardCornerRadius="5dp">
 
         <!-- WRAPPER -->
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="15dp">
+            android:padding="15dp"
+            android:orientation="vertical">
 
             <!-- TITLE -->
             <TextView
                 android:id="@+id/dialog_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Choose language You want\nto learn"
+                android:text="Choose language You want to learn"
                 android:textAllCaps="true"
                 android:textColor="@color/mainBlue"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
-        </RelativeLayout>
+            <GridView
+                android:id="@+id/flag_list"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_language"
+                android:numColumns="3">
+
+            </GridView>
+
+        </LinearLayout>
 
 
     </android.support.v7.widget.CardView>
