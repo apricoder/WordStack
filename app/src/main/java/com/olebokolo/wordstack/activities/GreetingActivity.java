@@ -13,7 +13,7 @@ public class GreetingActivity extends AppCompatActivity {
     private ActivityNavigator navigator;
 
     public GreetingActivity() {
-        AppHeart appHeart = AppHeart.getInstance();
+        AppHeart appHeart = AppHeart.getInstanceFor(this);
         navigator = appHeart.getNavigator();
     }
 

@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.AppHeart;
-import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsFactory;
+import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 
 public class StackListActivity extends AppCompatActivity {
@@ -14,8 +14,8 @@ public class StackListActivity extends AppCompatActivity {
     private UserSettingsService settingsService;
 
     public StackListActivity() {
-        AppHeart appHeart = AppHeart.getInstance();
-        UserSettingsFactory factory = appHeart.getUserSettingsFactory();
+        AppHeart appHeart = AppHeart.getInstanceFor(this);
+        UserSettingsComponentsFactory factory = appHeart.getUserSettingsComponentsFactory();
         settingsService = factory.getUserSettingsService();
     }
 

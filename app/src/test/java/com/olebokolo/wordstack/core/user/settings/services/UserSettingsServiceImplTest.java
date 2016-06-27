@@ -15,7 +15,7 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserSettingsServiceTest {
+public class UserSettingsServiceImplTest {
 
     @Spy
     @InjectMocks

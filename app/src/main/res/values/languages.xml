@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>ar_arabic</item>
+        <item>az_azerbaijan</item>
+        <item>be_belorussian</item>
+        <item>bg_bulgarian</item>
+        <item>bs_bosnian</item>
+        <item>cs_czech</item>
+        <item>cy_welsh</item>
+        <item>da_danish</item>
+        <item>de_german</item>
+        <item>el_greek</item>
+        <item>en_english</item>
+        <item>es_spanish</item>
+        <item>et_estonian</item>
+        <item>fa_persian</item>
+        <item>fi_finish</item>
+        <item>fr_french</item>
+        <item>ga_irish</item>
+        <item>he_hebrew</item>
+        <item>hr_croatian</item>
+        <item>hu_hungarian</item>
+        <item>hy_armenian</item>
+        <item>is_icelandic</item>
+        <item>it_italian</item>
+        <item>ja_japanese</item>
+        <item>ka_georgian</item>
+        <item>ko_korean</item>
+        <item>ky_kyrgyz</item>
+        <item>lt_lithuanian</item>
+        <item>lv_latvian</item>
+        <item>mk_macedonian</item>
+        <item>mn_mongolian</item>
+        <item>nl_dutch</item>
+        <item>no_norwegian</item>
+        <item>pl_polish</item>
+        <item>pt_portuguese</item>
+        <item>ro_romanian</item>
+        <item>ru_russian</item>
+        <item>sk_slovakian</item>
+        <item>sl_slovenian</item>
+        <item>sq_albanian</item>
+        <item>sr_serbian</item>
+        <item>sv_swedish</item>
+        <item>tg_tajik</item>
+        <item>th_thai</item>
+        <item>tr_turkish</item>
+        <item>uk_ukrainian</item>
+        <item>uz_uzbek</item>
+        <item>vi_vietnamese</item>
+        <item>zh_chinese</item>
+    </string-array>
+</resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

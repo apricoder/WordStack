@@ -6,7 +6,7 @@ import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsServiceImpl;
 import com.olebokolo.wordstack.core.utils.Comparator;
 
-public class UserSettingsFactoryImpl implements UserSettingsFactory{
+public class UserSettingsComponentsFactoryImpl implements UserSettingsComponentsFactory {
 
     @Override
     public UserSettingsRepository getUserSettingsRepository() {

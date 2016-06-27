@@ -15,7 +15,7 @@ public class LanguagesActivity extends AppCompatActivity {
     private final ActivityNavigator navigator;
 
     public LanguagesActivity() {
-        AppHeart appHeart = AppHeart.getInstance();
+        AppHeart appHeart = AppHeart.getInstanceFor(this);
         navigator = appHeart.getNavigator();
     }
 
@@ -57,9 +57,8 @@ public class LanguagesActivity extends AppCompatActivity {
 
         @NonNull
         private String matchDialogTitle(int clickedView) {
-            return clickedView == R.id.front_lang_layout
-                            ? "Specify language\nYou know"
-                            : "Choose language\nYou want to learn";
+            if (clickedView == R.id.front_lang_layout) return "Specify language\nYou know";
+            else return "Choose language\nYou want to learn";
         }
     };
 
