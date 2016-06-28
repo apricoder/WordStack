@@ -1,11 +1,11 @@
 package com.olebokolo.wordstack.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.olebokolo.wordstack.R;
-import com.olebokolo.wordstack.core.AppHeart;
+import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 
@@ -14,8 +14,8 @@ public class StackListActivity extends AppCompatActivity {
     private UserSettingsService settingsService;
 
     public StackListActivity() {
-        AppHeart appHeart = AppHeart.getInstanceFor(this);
-        UserSettingsComponentsFactory factory = appHeart.getUserSettingsComponentsFactory();
+        WordStack application = WordStack.getInstance();
+        UserSettingsComponentsFactory factory = application.getUserSettingsComponentsFactory();
         settingsService = factory.getUserSettingsService();
     }
 

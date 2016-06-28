@@ -1,11 +1,11 @@
 package com.olebokolo.wordstack.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.olebokolo.wordstack.R;
-import com.olebokolo.wordstack.core.AppHeart;
+import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.utils.ActivityNavigator;
 
 public class GreetingActivity extends AppCompatActivity {
@@ -13,8 +13,8 @@ public class GreetingActivity extends AppCompatActivity {
     private ActivityNavigator navigator;
 
     public GreetingActivity() {
-        AppHeart appHeart = AppHeart.getInstanceFor(this);
-        navigator = appHeart.getNavigator();
+        WordStack application = WordStack.getInstance();
+        navigator = application.getActivityNavigator();
     }
 
     @Override
