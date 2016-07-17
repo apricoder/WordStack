@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
+import com.olebokolo.wordstack.presentation.lists.holders.IconLabelHolder;
 
 public class LanguageAdapter extends ArrayAdapter<LanguageItem> {
 

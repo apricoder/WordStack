@@ -1,4 +1,4 @@
-package com.olebokolo.wordstack.presentation.lists.languages;
+package com.olebokolo.wordstack.presentation.lists.holders;
 
 import android.widget.ImageView;
 import android.widget.TextView;
