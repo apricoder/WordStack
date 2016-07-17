@@ -19,7 +19,7 @@ public class FlagServiceImplTest {
     @Spy @InjectMocks private FlagServiceImpl flagService;
 
     private String shortName = "en";
-    private String fileName = "flag_en.png";
+    private String fileName = "flag_en";
 
     @Test
     public void should_prepare_filename_and_ask_drawable_service_for_image() throws Exception {
