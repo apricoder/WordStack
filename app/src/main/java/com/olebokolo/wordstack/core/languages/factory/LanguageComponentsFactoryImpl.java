@@ -5,6 +5,7 @@ import com.olebokolo.wordstack.core.languages.dao.LanguageDaoImpl;
 import com.olebokolo.wordstack.core.languages.flags.FlagServiceImpl;
 import com.olebokolo.wordstack.core.languages.init.LanguageRowParser;
 import com.olebokolo.wordstack.core.languages.init.LanguagesInitServiceImpl;
+import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.languages.services.LanguageServiceImpl;
 import com.olebokolo.wordstack.core.resources.drawables.DrawableService;
 import com.olebokolo.wordstack.core.resources.factory.DrawableComponentsFactory;
@@ -15,14 +16,19 @@ import lombok.Getter;
 public class LanguageComponentsFactoryImpl implements LanguageComponentsFactory {
 
     @Getter private LanguagesInitServiceImpl languagesInitService;
-    @Getter private LanguageServiceImpl languageService;
     @Getter private LanguageDaoImpl languageDao;
     @Getter private FlagServiceImpl flagService;
-
+    private LanguageServiceImpl languageService;
     private DrawableService drawableService;
     private LanguageRowParser languageRowParser;
     private Comparator comparator;
     private WordStack application;
+
+    @Override
+    public LanguageService getLanguageService() {
+        languagesInitService.initLanguagesInDatabaseIfNeeded();
+        return languageService;
+    }
 
     public LanguageComponentsFactoryImpl() {
         initFields();
@@ -63,5 +69,4 @@ public class LanguageComponentsFactoryImpl implements LanguageComponentsFactory 
     private void setupFlagService() {
         flagService.setDrawableService(drawableService);
     }
-
 }
