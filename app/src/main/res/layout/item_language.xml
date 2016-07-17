@@ -7,14 +7,13 @@
 
     <!-- WRAPPER -->
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="100dp"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="15dp"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        >
+        android:paddingRight="5dp">
 
         <!-- LANGUAGE ICON -->
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +21,7 @@
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_margin="5dp"
-            android:src="@drawable/flag_en"
+            android:src="@drawable/flag_be"
             app:civ_border_color="@color/mainBlue"
             app:civ_border_overlay="true"
             app:civ_border_width="2dp" />
@@ -33,10 +32,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:ellipsize="end"
+            android:lines="1"
             android:textAllCaps="true"
             android:textColor="@color/mainBlue"
             android:textSize="13sp"
-            tools:text="English" />
+            tools:text="Belarussian" />
 
 
     </LinearLayout>

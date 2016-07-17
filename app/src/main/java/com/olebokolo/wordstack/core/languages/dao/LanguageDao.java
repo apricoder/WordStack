@@ -1,10 +1,10 @@
-package com.olebokolo.wordstack.core.languages.repositories;
+package com.olebokolo.wordstack.core.languages.dao;
 
 import com.olebokolo.wordstack.core.model.Language;
 
 import java.util.List;
 
-public interface LanguageRepository {
+public interface LanguageDao {
     List<Language> getAll();
     Language findByShortName(String shortName);
 }

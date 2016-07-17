@@ -2,7 +2,8 @@ package com.olebokolo.wordstack.core.languages.services;
 
 import android.support.annotation.NonNull;
 
-import com.olebokolo.wordstack.core.languages.repositories.LanguageRepository;
+import com.olebokolo.wordstack.core.languages.dao.LanguageDao;
+import com.olebokolo.wordstack.core.languages.init.LanguagesInitService;
 import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.utils.Comparator;
 
@@ -17,8 +18,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LanguageServiceImplTest {
@@ -28,7 +31,10 @@ public class LanguageServiceImplTest {
     private LanguageServiceImpl service;
 
     @Mock
-    private LanguageRepository repository;
+    private LanguageDao repository;
+
+    @Mock
+    private LanguagesInitService initService;
 
     @Spy
     private Comparator comparator;
@@ -51,6 +57,14 @@ public class LanguageServiceImplTest {
         List<Language> emptyList = Collections.emptyList();
         makeRepositoryReturnAsAllLanguages(emptyList);
         assertFalse(service.areLanguagesInDatabase());
+    }
+
+    @Test
+    public void noLanguagesInDatabase_calls_areLanguagesInDatabase() throws Exception {
+        List<Language> emptyList = Collections.emptyList();
+        makeRepositoryReturnAsAllLanguages(emptyList);
+        assertFalse(service.areLanguagesInDatabase());
+        assertTrue(service.noLanguagesInDatabase());
     }
 
     @Test

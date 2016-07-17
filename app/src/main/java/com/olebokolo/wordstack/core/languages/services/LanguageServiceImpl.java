@@ -1,7 +1,7 @@
 package com.olebokolo.wordstack.core.languages.services;
 
+import com.olebokolo.wordstack.core.languages.dao.LanguageDao;
 import com.olebokolo.wordstack.core.languages.init.LanguagesInitService;
-import com.olebokolo.wordstack.core.languages.repositories.LanguageRepository;
 import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.utils.Comparator;
 
@@ -12,13 +12,13 @@ import lombok.Setter;
 @Setter
 public class LanguageServiceImpl implements LanguageService{
 
-    private LanguageRepository repository;
+    private LanguageDao dao;
     private LanguagesInitService initService;
     private Comparator comparator;
 
     @Override
     public boolean areLanguagesInDatabase() {
-        List<Language> languageList = repository.getAll();
+        List<Language> languageList = dao.getAll();
         return comparator.saysNotEmpty(languageList);
     }
 
@@ -30,12 +30,12 @@ public class LanguageServiceImpl implements LanguageService{
     @Override
     public List<Language> getAllLanguages() {
         initService.initLanguagesInDatabaseIfNeeded();
-        return repository.getAll();
+        return dao.getAll();
     }
 
     @Override
     public Language findByShortName(String shortName) {
-        return repository.findByShortName(shortName);
+        return dao.findByShortName(shortName);
     }
 
 }

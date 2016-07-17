@@ -1,7 +1,6 @@
 package com.olebokolo.wordstack.core.app;
 
 import android.app.Application;
-import android.graphics.drawable.Drawable;
 
 import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactory;
 import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactoryImpl;
@@ -23,14 +22,14 @@ public class WordStack extends Application {
     @Getter private ActivityNavigator activityNavigator;
 
     public WordStack() {
-        initFields();
         instance = this;
+        initFields();
     }
 
-    private void initFields() {
+    void initFields() {
         userSettingsComponentsFactory = new UserSettingsComponentsFactoryImpl();
-        languageComponentsFactory = new LanguageComponentsFactoryImpl();
         drawableComponentsFactory = new DrawableComponentsFactoryImpl();
+        languageComponentsFactory = new LanguageComponentsFactoryImpl();
         activityNavigator = new ActivityNavigator();
     }
 

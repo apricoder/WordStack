@@ -17,6 +17,5 @@ import lombok.NoArgsConstructor;
 public class Language extends SugarRecord {
     private Long id;
     private String name;
-    @Unique
-    private String shortName;
+    @Unique private String shortName;
 }

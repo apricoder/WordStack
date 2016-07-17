@@ -1,10 +1,10 @@
-package com.olebokolo.wordstack.core.user.settings.repositories;
+package com.olebokolo.wordstack.core.user.settings.dao;
 
 import com.olebokolo.wordstack.core.model.UserSettings;
 
 import java.util.List;
 
-public class UserSettingsRepositoryImpl implements UserSettingsRepository{
+public class UserSettingsDaoImpl implements UserSettingsDao {
 
     @Override
     public UserSettings getUserSettings() {

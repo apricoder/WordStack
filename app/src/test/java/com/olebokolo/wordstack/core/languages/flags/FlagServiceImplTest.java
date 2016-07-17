@@ -9,18 +9,15 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Mockito.*;
+import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FlagServiceImplTest {
 
-    @Mock
-    private DrawableService drawableService;
+    @Mock private DrawableService drawableService;
+    @Spy @InjectMocks private FlagServiceImpl flagService;
 
-    @Spy
-    @InjectMocks
-    private FlagServiceImpl flagService;
     private String shortName = "en";
     private String fileName = "flag_en.png";
 

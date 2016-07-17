@@ -14,7 +14,7 @@
             android:value="wordstack.db" />
         <meta-data
             android:name="VERSION"
-            android:value="2" />
+            android:value="3" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -22,15 +22,14 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.olebokolo.wordstack" />
 
-        <activity android:name=".activities.StackListActivity">
+        <activity android:name=".presentation.activities.StackListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LanguagesActivity" />
-        <activity android:name=".activities.GreetingActivity" />
+        <activity android:name=".presentation.activities.LanguagesActivity" />
+        <activity android:name=".presentation.activities.GreetingActivity" />
     </application>
 
 </manifest>

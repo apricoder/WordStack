@@ -1,11 +1,8 @@
 package com.olebokolo.wordstack.core.user.settings.services;
 
 import com.olebokolo.wordstack.core.model.UserSettings;
-import com.olebokolo.wordstack.core.user.settings.repositories.UserSettingsRepository;
+import com.olebokolo.wordstack.core.user.settings.dao.UserSettingsDao;
 import com.olebokolo.wordstack.core.utils.Comparator;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserSettingsServiceImplTest {
@@ -22,7 +23,7 @@ public class UserSettingsServiceImplTest {
     private UserSettingsServiceImpl service;
 
     @Mock
-    private UserSettingsRepository repository;
+    private UserSettingsDao repository;
 
     @Spy
     private Comparator comparator;

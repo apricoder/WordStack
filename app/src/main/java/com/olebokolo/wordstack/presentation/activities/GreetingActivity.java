@@ -1,4 +1,4 @@
-package com.olebokolo.wordstack.activities;
+package com.olebokolo.wordstack.presentation.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

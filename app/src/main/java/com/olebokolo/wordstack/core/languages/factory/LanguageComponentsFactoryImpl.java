@@ -1,24 +1,24 @@
 package com.olebokolo.wordstack.core.languages.factory;
 
 import com.olebokolo.wordstack.core.app.WordStack;
-import com.olebokolo.wordstack.core.languages.init.LanguageRowParser;
-import com.olebokolo.wordstack.core.languages.init.LanguagesInitService;
-import com.olebokolo.wordstack.core.languages.init.LanguagesInitServiceImpl;
+import com.olebokolo.wordstack.core.languages.dao.LanguageDaoImpl;
 import com.olebokolo.wordstack.core.languages.flags.FlagServiceImpl;
-import com.olebokolo.wordstack.core.languages.repositories.LanguageRepository;
-import com.olebokolo.wordstack.core.languages.repositories.LanguageRepositoryImpl;
-import com.olebokolo.wordstack.core.languages.services.LanguageService;
+import com.olebokolo.wordstack.core.languages.init.LanguageRowParser;
+import com.olebokolo.wordstack.core.languages.init.LanguagesInitServiceImpl;
 import com.olebokolo.wordstack.core.languages.services.LanguageServiceImpl;
 import com.olebokolo.wordstack.core.resources.drawables.DrawableService;
 import com.olebokolo.wordstack.core.resources.factory.DrawableComponentsFactory;
 import com.olebokolo.wordstack.core.utils.Comparator;
 
+import lombok.Getter;
+
 public class LanguageComponentsFactoryImpl implements LanguageComponentsFactory {
 
-    private LanguagesInitServiceImpl languagesInitService;
-    private LanguageServiceImpl languageService;
-    private LanguageRepositoryImpl languageRepository;
-    private FlagServiceImpl flagService;
+    @Getter private LanguagesInitServiceImpl languagesInitService;
+    @Getter private LanguageServiceImpl languageService;
+    @Getter private LanguageDaoImpl languageDao;
+    @Getter private FlagServiceImpl flagService;
+
     private DrawableService drawableService;
     private LanguageRowParser languageRowParser;
     private Comparator comparator;
@@ -35,7 +35,7 @@ public class LanguageComponentsFactoryImpl implements LanguageComponentsFactory 
     private void initFields() {
         languagesInitService = new LanguagesInitServiceImpl();
         languageService = new LanguageServiceImpl();
-        languageRepository = new LanguageRepositoryImpl();
+        languageDao = new LanguageDaoImpl();
         languageRowParser = new LanguageRowParser();
         flagService = new FlagServiceImpl();
         comparator = new Comparator();
@@ -51,7 +51,7 @@ public class LanguageComponentsFactoryImpl implements LanguageComponentsFactory 
 
     private void setupLanguageService() {
         languageService.setInitService(languagesInitService);
-        languageService.setRepository(languageRepository);
+        languageService.setDao(languageDao);
         languageService.setComparator(comparator);
     }
 
@@ -64,18 +64,4 @@ public class LanguageComponentsFactoryImpl implements LanguageComponentsFactory 
         flagService.setDrawableService(drawableService);
     }
 
-    @Override
-    public LanguagesInitService getLanguagesInitService() {
-        return languagesInitService;
-    }
-
-    @Override
-    public LanguageService getLanguageService() {
-        return languageService;
-    }
-
-    @Override
-    public LanguageRepository getLanguageRepository() {
-        return languageRepository;
-    }
 }

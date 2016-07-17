@@ -1,4 +1,4 @@
-package com.olebokolo.wordstack.activities;
+package com.olebokolo.wordstack.presentation.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.olebokolo.wordstack.R;
-import com.olebokolo.wordstack.activities.dialogs.LanguageDialog;
 import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.utils.ActivityNavigator;
+import com.olebokolo.wordstack.presentation.dialogs.LanguageDialog;
 
 public class LanguagesActivity extends AppCompatActivity {
 

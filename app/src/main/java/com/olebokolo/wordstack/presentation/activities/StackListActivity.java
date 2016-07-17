@@ -1,4 +1,4 @@
-package com.olebokolo.wordstack.activities;
+package com.olebokolo.wordstack.presentation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
