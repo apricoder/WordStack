@@ -1,6 +1,8 @@
 package com.olebokolo.wordstack.presentation.dialogs;
 
 import android.app.Dialog;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -16,32 +18,56 @@ import com.olebokolo.wordstack.presentation.lists.languages.LanguageItem;
 
 import java.util.List;
 
-import lombok.Setter;
-
 public class LanguageDialog extends Dialog {
 
-    private GridView languageList;
-    private TextView dialogTitle;
-
-    @Setter private LanguagesActivity parent;
     private FlagService flagService;
     private LanguageService languageService;
+    private GridView languageList;
+    private LanguageItem[] languageItems;
+    private LanguagesActivity languagesActivity;
+    private TextView dialogTitle;
+    private String title;
 
-    public LanguageDialog(LanguagesActivity activity, String title) {
-        super(activity);
-        setParent(activity);
+    public LanguageDialog(LanguagesActivity languagesActivity, String title) {
+        super(languagesActivity);
+        initFields(languagesActivity, title);
         setupServices();
         setupView();
-        setTitleText(title);
+        setupLanguagesList();
+    }
 
+    private void setupLanguagesList() {
         List<Language> languages = languageService.getAllLanguages();
-        LanguageItem[] languageItems = getListItemsFrom(languages);
-        LanguageAdapter languageAdapter = new LanguageAdapter(activity, R.layout.item_language, languageItems);
+        languageItems = getListItemsFrom(languages);
+        LanguageAdapter languageAdapter = new LanguageAdapter(this.languagesActivity, R.layout.item_language, languageItems);
         languageList.setAdapter(languageAdapter);
+        languageList.setOnItemClickListener(languageItemClick);
+    }
+
+    private AdapterView.OnItemClickListener languageItemClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            sendChosenLanguageAndHide(languageItems[position].getLanguage());
+        }
+    };
+
+    private void sendChosenLanguageAndHide(Language language) {
+        languagesActivity.languageReceived(language);
+        dismiss();
+    }
+
+    private void initFields(LanguagesActivity activity, String title) {
+        this.languagesActivity = activity;
+        this.title = title;
     }
 
     private void setupView() {
         setContentView(R.layout.dialog_language);
+        findViews();
+        setTitleText();
+    }
+
+    private void findViews() {
         languageList = (GridView) findViewById(R.id.flag_list);
         dialogTitle = (TextView) findViewById(R.id.dialog_title);
     }
@@ -60,8 +86,8 @@ public class LanguageDialog extends Dialog {
         return flagService.getFlagByLanguageShortName(language.getShortName());
     }
 
-    private void setTitleText(String titleText) {
-        dialogTitle.setText(titleText);
+    private void setTitleText() {
+        dialogTitle.setText(title);
     }
 
     private void setupServices() {

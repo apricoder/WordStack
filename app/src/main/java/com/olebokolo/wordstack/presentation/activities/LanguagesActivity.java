@@ -1,35 +1,93 @@
 package com.olebokolo.wordstack.presentation.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactory;
+import com.olebokolo.wordstack.core.languages.flags.FlagService;
+import com.olebokolo.wordstack.core.languages.services.LanguageService;
+import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.utils.ActivityNavigator;
 import com.olebokolo.wordstack.presentation.dialogs.LanguageDialog;
 
-public class LanguagesActivity extends AppCompatActivity {
+public class LanguagesActivity extends AppCompatActivity implements LanguageListener {
 
-    private final ActivityNavigator navigator;
+    private FlagService flagService;
+    private LanguageService languageService;
+    private ActivityNavigator navigator;
+    private LinearLayout languageIKnowLayout;
+    private LinearLayout languageILearnLayout;
+    private View goNextButton;
+    private boolean choosingLanguageIKnow;
+    private Language languageIKnow;
+    private Language languageILearn;
 
     public LanguagesActivity() {
         WordStack application = WordStack.getInstance();
         navigator = application.getActivityNavigator();
+        LanguageComponentsFactory factory = application.getLanguageComponentsFactory();
+        languageService = factory.getLanguageService();
+        flagService = factory.getFlagService();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_languages);
-        setUpGoNextButton();
-        setUpLanguageChoosing();
+        findViews();
+        setupGoNextButton();
+        setupLanguageChoosing();
+        setupLanguages();
+        updateLanguageLayouts();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private void setUpGoNextButton() {
-        View goNextButton = findViewById(R.id.go_next_button);
+    private void setupLanguages() {
+        languageIKnow = languageService.findByShortName("en");
+        languageILearn = languageService.findByShortName("fr");
+    }
+
+    private void findViews() {
+        languageIKnowLayout = (LinearLayout) findViewById(R.id.front_lang_layout);
+        languageILearnLayout = (LinearLayout) findViewById(R.id.back_lang_layout);
+        goNextButton = findViewById(R.id.go_next_button);
+    }
+
+    @Override
+    public void languageReceived(Language chosenLanguage) {
+        if (choosingLanguageIKnow) {
+            if (chosenLanguage.equals(languageILearn)) languageILearn = copyLanguage(languageIKnow);
+            languageIKnow = chosenLanguage;
+        }
+        else {
+            if (chosenLanguage.equals(languageIKnow)) languageIKnow = copyLanguage(languageILearn);
+            languageILearn = chosenLanguage;
+        }
+        updateLanguageLayouts();
+    }
+
+    private Language copyLanguage(Language language) {
+        return new Language(language.getId(), language.getName(), language.getShortName());
+    }
+
+    private void updateLanguageLayouts() {
+        fillLayout(languageIKnowLayout, languageIKnow);
+        fillLayout(languageILearnLayout, languageILearn);
+    }
+
+    private void fillLayout(View languageLayout, Language language) {
+        ImageView languageIcon = (ImageView) languageLayout.findViewById(R.id.lang_icon);
+        TextView languageName = (TextView) languageLayout.findViewById(R.id.lang_name);
+        languageIcon.setImageResource(flagService.getFlagByLanguageShortName(language.getShortName()));
+        languageName.setText(language.getName());
+    }
+
+    private void setupGoNextButton() {
         goNextButton.setOnClickListener(goNextClickListener);
     }
 
@@ -40,27 +98,28 @@ public class LanguagesActivity extends AppCompatActivity {
         }
     };
 
-    @SuppressWarnings("ConstantConditions")
-    private void setUpLanguageChoosing() {
-        View frontLangRow = findViewById(R.id.front_lang_layout);
-        View backLangRow = findViewById(R.id.back_lang_layout);
-        frontLangRow.setOnClickListener(languageClickListener);
-        backLangRow.setOnClickListener(languageClickListener);
+    private void setupLanguageChoosing() {
+        languageIKnowLayout.setOnClickListener(languageClickListener);
+        languageILearnLayout.setOnClickListener(languageClickListener);
     }
 
     private View.OnClickListener languageClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View clickedLanguage) {
-            String dialogTitle = matchDialogTitle(clickedLanguage.getId());
+            String dialogTitle = matchDialogTitle(clickedLanguage);
             showChooseLanguageDialog(dialogTitle);
         }
 
-        @NonNull
-        private String matchDialogTitle(int clickedView) {
-            if (clickedView == R.id.front_lang_layout) return "Specify language\nYou know";
+        private String matchDialogTitle(View clickedLanguage) {
+            updateLanguageTrigger(clickedLanguage);
+            if (choosingLanguageIKnow) return "Specify language\nYou know";
             else return "Choose language\nYou want to learn";
         }
     };
+
+    private void updateLanguageTrigger(View clickedLanguage) {
+        choosingLanguageIKnow = clickedLanguage == languageIKnowLayout;
+    }
 
     private void showChooseLanguageDialog(String dialogTitle) {
         LanguagesActivity parent = this;
