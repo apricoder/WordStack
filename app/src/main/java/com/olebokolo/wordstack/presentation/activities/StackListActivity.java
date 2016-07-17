@@ -24,7 +24,6 @@ public class StackListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         if (settingsService.userChoseLanguages()) showThisActivity();
         else showGreetingActivity();
-
     }
 
     private void showThisActivity() {

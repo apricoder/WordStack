@@ -13,6 +13,9 @@ import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactory;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Language;
+import com.olebokolo.wordstack.core.model.UserSettings;
+import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
+import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.ActivityNavigator;
 import com.olebokolo.wordstack.presentation.dialogs.LanguageDialog;
 
@@ -20,6 +23,7 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
 
     private FlagService flagService;
     private LanguageService languageService;
+    private UserSettingsService userSettingsService;
     private ActivityNavigator navigator;
     private LinearLayout languageIKnowLayout;
     private LinearLayout languageILearnLayout;
@@ -31,9 +35,11 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
     public LanguagesActivity() {
         WordStack application = WordStack.getInstance();
         navigator = application.getActivityNavigator();
-        LanguageComponentsFactory factory = application.getLanguageComponentsFactory();
-        languageService = factory.getLanguageService();
-        flagService = factory.getFlagService();
+        LanguageComponentsFactory languageComponentsFactory = application.getLanguageComponentsFactory();
+        languageService = languageComponentsFactory.getLanguageService();
+        flagService = languageComponentsFactory.getFlagService();
+        UserSettingsComponentsFactory userSettingsComponentsFactory = application.getUserSettingsComponentsFactory();
+        userSettingsService = userSettingsComponentsFactory.getUserSettingsService();
     }
 
     @Override
@@ -94,7 +100,15 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
     private View.OnClickListener goNextClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            saveChosenLanguages();
             navigator.goWithSlideAnimation(LanguagesActivity.this, StackListActivity.class);
+        }
+
+        private void saveChosenLanguages() {
+            UserSettings.builder()
+                    .frontLangId(languageIKnow.getId())
+                    .backLangId(languageILearn.getId())
+                    .build().save();
         }
     };
 
