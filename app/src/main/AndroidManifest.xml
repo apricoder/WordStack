@@ -3,7 +3,7 @@
     package="com.olebokolo.wordstack">
 
     <application
-        android:name="com.olebokolo.wordstack.core.app.WordStack"
+        android:name=".core.app.WordStack"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,6 +30,7 @@
         </activity>
         <activity android:name=".presentation.activities.LanguagesActivity" />
         <activity android:name=".presentation.activities.GreetingActivity" />
+        <activity android:name=".presentation.activities.SettingsActivity"></activity>
     </application>
 
 </manifest>

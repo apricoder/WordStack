@@ -33,7 +33,7 @@ public class GreetingActivity extends AppCompatActivity {
     private View.OnClickListener goNextClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            navigator.goWithSlideAnimation(GreetingActivity.this, LanguagesActivity.class);
+            navigator.goForwardWithSlideAnimation(GreetingActivity.this, LanguagesActivity.class);
         }
     };
 
