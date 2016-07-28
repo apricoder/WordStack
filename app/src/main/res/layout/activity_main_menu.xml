@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.activities.MainMenuActivity">
+
+    <!-- TOOLBAR WRAPPER -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TOOLBAR -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="5dp">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="WordStack"
+                android:textAllCaps="true"
+                android:textColor="@color/mainBlue"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- SHADOW -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/mainBlue" />
+
+    </LinearLayout>
+
+    <!-- LAYOUT WRAPPER -->
+    <RelativeLayout
+        android:id="@+id/root_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <!-- CONTENT WRAPPER -->
+        <RelativeLayout
+            android:id="@+id/content_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="30dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin">
+
+            <!-- MENU BUTTONS -->
+            <LinearLayout
+                android:id="@+id/bottom_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="30dp">
+
+                <!-- PRACTICE BUTTON -->
+                <Button
+                    android:id="@+id/practice_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_rounded"
+                    android:padding="15dp"
+                    android:text="Practice"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainBlue"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="18sp" />
+
+                <!-- EDIT STACKS BUTTON -->
+                <Button
+                    android:id="@+id/edit_stacks_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_rounded"
+                    android:padding="15dp"
+                    android:text="Edit stacks"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainBlue"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="18sp" />
+
+                <!-- SETTINGS BUTTON -->
+                <Button
+                    android:id="@+id/settings_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/button_rounded"
+                    android:padding="15dp"
+                    android:text="Settings"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainBlue"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

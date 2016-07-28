@@ -18,15 +18,9 @@ import static org.mockito.Mockito.doReturn;
 @RunWith(MockitoJUnitRunner.class)
 public class UserSettingsServiceImplTest {
 
-    @Spy
-    @InjectMocks
-    private UserSettingsServiceImpl service;
-
-    @Mock
-    private UserSettingsDao repository;
-
-    @Spy
-    private Comparator comparator;
+    @Mock private UserSettingsDao repository;
+    @Spy private Comparator comparator;
+    @Spy @InjectMocks private UserSettingsServiceImpl service;
 
     @Test
     public void userChoseLanguages_returns_true_if_repository_finds_user_settings() throws Exception {

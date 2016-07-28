@@ -101,7 +101,7 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
         @Override
         public void onClick(View v) {
             saveChosenLanguages();
-            navigator.goWithSlideAnimation(LanguagesActivity.this, StackListActivity.class);
+            navigator.goWithSlideAnimation(LanguagesActivity.this, MainMenuActivity.class);
         }
 
         private void saveChosenLanguages() {

@@ -9,11 +9,11 @@ import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 
-public class StackListActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     private UserSettingsService settingsService;
 
-    public StackListActivity() {
+    public MainMenuActivity() {
         WordStack application = WordStack.getInstance();
         UserSettingsComponentsFactory factory = application.getUserSettingsComponentsFactory();
         settingsService = factory.getUserSettingsService();
@@ -27,7 +27,7 @@ public class StackListActivity extends AppCompatActivity {
     }
 
     private void showThisActivity() {
-        setContentView(R.layout.activity_stack_list);
+        setContentView(R.layout.activity_main_menu);
     }
 
     private void showGreetingActivity() {

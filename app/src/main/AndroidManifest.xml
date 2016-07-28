@@ -22,7 +22,7 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.olebokolo.wordstack" />
 
-        <activity android:name=".presentation.activities.StackListActivity">
+        <activity android:name=".presentation.activities.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
