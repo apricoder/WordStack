@@ -3,6 +3,7 @@ package com.olebokolo.wordstack.presentation.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,20 +15,25 @@ import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.model.UserSettings;
-import com.olebokolo.wordstack.core.utils.ActivityNavigator;
+import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
+import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.presentation.dialogs.LanguageDialog;
+import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
+import com.olebokolo.wordstack.presentation.navigation.NavigationDirection;
 
 public class LanguagesActivity extends AppCompatActivity implements LanguageListener {
 
     private FlagService flagService;
     private LanguageService languageService;
     private ActivityNavigator navigator;
+    private UserSettingsService settingsService;
     private LinearLayout languageIKnowLayout;
     private LinearLayout languageILearnLayout;
-    private View goNextButton;
+    private Button goNextButton;
     private boolean choosingLanguageIKnow;
     private Language languageIKnow;
     private Language languageILearn;
+    private View backToolbarButton;
 
     public LanguagesActivity() {
         WordStack application = WordStack.getInstance();
@@ -35,6 +41,8 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
         LanguageComponentsFactory languageComponentsFactory = application.getLanguageComponentsFactory();
         languageService = languageComponentsFactory.getLanguageService();
         flagService = languageComponentsFactory.getFlagService();
+        UserSettingsComponentsFactory factory = application.getUserSettingsComponentsFactory();
+        settingsService = factory.getUserSettingsService();
     }
 
     @Override
@@ -42,6 +50,7 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_languages);
         findViews();
+        setupGoBackButton();
         setupGoNextButton();
         setupLanguageChoosing();
         setupLanguages();
@@ -49,14 +58,21 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
     }
 
     private void setupLanguages() {
-        languageIKnow = languageService.findByShortName("en");
-        languageILearn = languageService.findByShortName("fr");
+        if (settingsService.userChoseLanguages()) {
+            UserSettings userSettings = settingsService.getUserSettings();
+            languageIKnow = languageService.findById(userSettings.getFrontLangId());
+            languageILearn = languageService.findById(userSettings.getBackLangId());
+        } else {
+            languageIKnow = languageService.findByShortName("en");
+            languageILearn = languageService.findByShortName("fr");
+        }
     }
 
     private void findViews() {
+        backToolbarButton = findViewById(R.id.back_toolbar_button);
         languageIKnowLayout = (LinearLayout) findViewById(R.id.front_lang_layout);
         languageILearnLayout = (LinearLayout) findViewById(R.id.back_lang_layout);
-        goNextButton = findViewById(R.id.go_next_button);
+        goNextButton = (Button) findViewById(R.id.go_next_button);
     }
 
     @Override
@@ -64,8 +80,7 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
         if (choosingLanguageIKnow) {
             if (chosenLanguage.equals(languageILearn)) languageILearn = copyLanguage(languageIKnow);
             languageIKnow = chosenLanguage;
-        }
-        else {
+        } else {
             if (chosenLanguage.equals(languageIKnow)) languageIKnow = copyLanguage(languageILearn);
             languageILearn = chosenLanguage;
         }
@@ -89,6 +104,7 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
     }
 
     private void setupGoNextButton() {
+        if (settingsService.userChoseLanguages()) goNextButton.setText("Confirm");
         goNextButton.setOnClickListener(goNextClickListener);
     }
 
@@ -96,14 +112,20 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
         @Override
         public void onClick(View v) {
             saveChosenLanguages();
-            navigator.goForwardWithSlideAnimation(LanguagesActivity.this, MainMenuActivity.class);
+
+            Bundle extras = getIntent().getExtras();
+            Class furtherActivity = (Class) extras.getSerializable("furtherActivity");
+            NavigationDirection furtherDirection = (NavigationDirection) extras.get("furtherSlideDirection");
+            if (furtherDirection != null && furtherDirection.equals(NavigationDirection.BACK)) navigator.goBackWithSlideAnimation(LanguagesActivity.this, furtherActivity);
+            else navigator.goForwardWithSlideAnimation(LanguagesActivity.this, furtherActivity);
         }
 
         private void saveChosenLanguages() {
-            UserSettings.builder()
-                    .frontLangId(languageIKnow.getId())
-                    .backLangId(languageILearn.getId())
-                    .build().save();
+            UserSettings userSettings = settingsService.getUserSettings();
+            if (userSettings == null) userSettings = new UserSettings();
+            userSettings.setFrontLangId(languageIKnow.getId());
+            userSettings.setBackLangId(languageILearn.getId());
+            userSettings.save();
         }
     };
 
@@ -134,5 +156,27 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
         LanguagesActivity parent = this;
         LanguageDialog languageDialog = new LanguageDialog(parent, dialogTitle);
         languageDialog.show();
+    }
+
+    private void setupGoBackButton() {
+        backToolbarButton.setOnClickListener(backClickListener);
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBack();
+    }
+
+    private View.OnClickListener backClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View button) {
+            goBack();
+        }
+    };
+
+    private void goBack() {
+        Bundle extras = getIntent().getExtras();
+        Class previousActivity = (Class) extras.getSerializable("previousActivity");
+        navigator.goBackWithSlideAnimation(this, previousActivity);
     }
 }

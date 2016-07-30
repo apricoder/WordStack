@@ -9,4 +9,5 @@ public interface LanguageService {
     boolean noLanguagesInDatabase();
     List<Language> getAllLanguages();
     Language findByShortName(String shortName);
+    Language findById(Long id);
 }

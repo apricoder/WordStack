@@ -38,4 +38,9 @@ public class LanguageServiceImpl implements LanguageService{
         return dao.findByShortName(shortName);
     }
 
+    @Override
+    public Language findById(Long id) {
+        return Language.findById(Language.class, id);
+    }
+
 }

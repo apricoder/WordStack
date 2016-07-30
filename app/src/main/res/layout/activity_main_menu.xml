@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.activities.MainMenuActivity">
+    tools:context=".presentation.activities.MainMenuActivity"
+    android:orientation="vertical">
 
     <!-- TOOLBAR WRAPPER -->
     <LinearLayout
@@ -46,8 +47,7 @@
     <RelativeLayout
         android:id="@+id/root_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar">
+        android:layout_height="match_parent">
 
         <!-- CONTENT WRAPPER -->
         <RelativeLayout
@@ -113,4 +113,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

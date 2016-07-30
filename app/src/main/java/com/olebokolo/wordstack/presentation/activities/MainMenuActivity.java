@@ -10,7 +10,7 @@ import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
-import com.olebokolo.wordstack.core.utils.ActivityNavigator;
+import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 
 public class MainMenuActivity extends AppCompatActivity {
 

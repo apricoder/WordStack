@@ -8,7 +8,7 @@ import com.olebokolo.wordstack.core.resources.factory.DrawableComponentsFactory;
 import com.olebokolo.wordstack.core.resources.factory.DrawableComponentsFactoryImpl;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactoryImpl;
-import com.olebokolo.wordstack.core.utils.ActivityNavigator;
+import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
 
 import lombok.Getter;

@@ -6,7 +6,8 @@ import android.view.View;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
-import com.olebokolo.wordstack.core.utils.ActivityNavigator;
+import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
+import com.olebokolo.wordstack.presentation.navigation.NavigationDirection;
 
 public class GreetingActivity extends AppCompatActivity {
 
@@ -33,7 +34,11 @@ public class GreetingActivity extends AppCompatActivity {
     private View.OnClickListener goNextClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            navigator.goForwardWithSlideAnimation(GreetingActivity.this, LanguagesActivity.class);
+            navigator.goForwardWithSlideAnimationAndFurtherActivity(
+                    GreetingActivity.this,
+                    LanguagesActivity.class,
+                    MainMenuActivity.class,
+                    NavigationDirection.FORWARD);
         }
     };
 
