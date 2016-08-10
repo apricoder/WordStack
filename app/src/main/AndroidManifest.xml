@@ -25,12 +25,14 @@
         <activity android:name=".presentation.activities.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".presentation.activities.LanguagesActivity" />
         <activity android:name=".presentation.activities.GreetingActivity" />
-        <activity android:name=".presentation.activities.SettingsActivity"></activity>
+        <activity android:name=".presentation.activities.SettingsActivity" />
+        <activity android:name=".presentation.activities.StackListActivity"></activity>
     </application>
 
 </manifest>

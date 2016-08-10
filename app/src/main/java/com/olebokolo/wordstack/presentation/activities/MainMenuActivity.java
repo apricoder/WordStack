@@ -66,7 +66,7 @@ public class MainMenuActivity extends AppCompatActivity {
             switch (clickedButton.getId()) {
                 default:
                 case R.id.practice_button: target = MainMenuActivity.class; break;
-                case R.id.edit_stacks_button: target = MainMenuActivity.class; break;
+                case R.id.edit_stacks_button: target = StackListActivity.class; break;
                 case R.id.settings_button: target = SettingsActivity.class; break;
             }
             navigator.goForwardWithSlideAnimation(MainMenuActivity.this, target);
