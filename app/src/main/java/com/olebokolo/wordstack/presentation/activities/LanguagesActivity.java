@@ -3,6 +3,7 @@ package com.olebokolo.wordstack.presentation.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,44 +18,50 @@ import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
+import com.olebokolo.wordstack.core.utils.TypefaceCollection;
+import com.olebokolo.wordstack.core.utils.TypefaceManager;
 import com.olebokolo.wordstack.presentation.dialogs.LanguageDialog;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.olebokolo.wordstack.presentation.navigation.NavigationDirection;
 
 public class LanguagesActivity extends AppCompatActivity implements LanguageListener {
 
-    private FlagService flagService;
-    private LanguageService languageService;
-    private ActivityNavigator navigator;
-    private UserSettingsService settingsService;
+    public FlagService flagService;
+    public LanguageService languageService;
+    public ActivityNavigator navigator;
+    public UserSettingsService settingsService;
+    public TypefaceCollection typefaceCollection;
+    public TypefaceManager typefaceManager;
+
     private LinearLayout languageIKnowLayout;
     private LinearLayout languageILearnLayout;
     private Button goNextButton;
     private boolean choosingLanguageIKnow;
     private Language languageIKnow;
     private Language languageILearn;
-    private View backToolbarButton;
-
-    public LanguagesActivity() {
-        WordStack application = WordStack.getInstance();
-        navigator = application.getActivityNavigator();
-        LanguageComponentsFactory languageComponentsFactory = application.getLanguageComponentsFactory();
-        languageService = languageComponentsFactory.getLanguageService();
-        flagService = languageComponentsFactory.getFlagService();
-        UserSettingsComponentsFactory factory = application.getUserSettingsComponentsFactory();
-        settingsService = factory.getUserSettingsService();
-    }
+    private ViewGroup backToolbarButton;
+    private ViewGroup rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_languages);
+        WordStack.getInstance().injectDependenciesTo(this);
         findViews();
         setupGoBackButton();
         setupGoNextButton();
+        setupTypefaces();
         setupLanguageChoosing();
         setupLanguages();
         updateLanguageLayouts();
+    }
+
+    private void setupTypefaces() {
+        typefaceManager.setTypefaceForContainer(rootLayout, typefaceCollection.getRalewayLight());
+        typefaceManager.setTypefaceForContainer(backToolbarButton, typefaceCollection.getRalewayMedium());
+        typefaceManager.setTypeface((TextView) languageIKnowLayout.findViewById(R.id.lang_name), typefaceCollection.getRalewayMedium());
+        typefaceManager.setTypeface((TextView) languageILearnLayout.findViewById(R.id.lang_name), typefaceCollection.getRalewayMedium());
+        typefaceManager.setTypeface(goNextButton, typefaceCollection.getRalewayMedium());
     }
 
     private void setupLanguages() {
@@ -69,7 +76,8 @@ public class LanguagesActivity extends AppCompatActivity implements LanguageList
     }
 
     private void findViews() {
-        backToolbarButton = findViewById(R.id.back_toolbar_button);
+        rootLayout = (ViewGroup) findViewById(R.id.root_layout);
+        backToolbarButton = (ViewGroup)findViewById(R.id.back_toolbar_button);
         languageIKnowLayout = (LinearLayout) findViewById(R.id.front_lang_layout);
         languageILearnLayout = (LinearLayout) findViewById(R.id.back_lang_layout);
         goNextButton = (Button) findViewById(R.id.go_next_button);

@@ -3,6 +3,7 @@ package com.olebokolo.wordstack.presentation.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.olebokolo.wordstack.R;
@@ -14,38 +15,42 @@ import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactory;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
+import com.olebokolo.wordstack.core.utils.TypefaceCollection;
+import com.olebokolo.wordstack.core.utils.TypefaceManager;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.olebokolo.wordstack.presentation.navigation.NavigationDirection;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private FlagService flagService;
-    private LanguageService languageService;
-    private UserSettingsService settingsService;
-    private ActivityNavigator navigator;
-    private View backToolbarButton;
+    public FlagService flagService;
+    public LanguageService languageService;
+    public UserSettingsService settingsService;
+    public ActivityNavigator navigator;
+    public TypefaceCollection typefaceCollection;
+    public TypefaceManager typefaceManager;
+
+    private ViewGroup backToolbarButton;
     private ImageView frontLangIcon;
     private ImageView backLangIcon;
-    private View languagesSettings;
-
-    public SettingsActivity() {
-        WordStack application = WordStack.getInstance();
-        navigator = application.getActivityNavigator();
-        LanguageComponentsFactory languageComponentsFactory = application.getLanguageComponentsFactory();
-        languageService = languageComponentsFactory.getLanguageService();
-        flagService = languageComponentsFactory.getFlagService();
-        UserSettingsComponentsFactory factory = application.getUserSettingsComponentsFactory();
-        settingsService = factory.getUserSettingsService();
-    }
+    private ViewGroup languagesSettings;
+    private ViewGroup rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WordStack.getInstance().injectDependenciesTo(this);
         setContentView(R.layout.activity_settings);
         findViews();
         setupGoBackButton();
         setupLanguageIcons();
+        setupTypefaces();
         setupLanguageSettings();
+    }
+
+    private void setupTypefaces() {
+        typefaceManager.setTypefaceForContainer(rootLayout, typefaceCollection.getRalewayLight());
+        typefaceManager.setTypefaceForContainer(backToolbarButton, typefaceCollection.getRalewayMedium());
+        typefaceManager.setTypefaceForContainer(languagesSettings, typefaceCollection.getRalewayMedium());
     }
 
     private void setupLanguageSettings() {
@@ -94,8 +99,9 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        backToolbarButton = findViewById(R.id.back_toolbar_button);
-        languagesSettings = findViewById(R.id.languages_settings);
+        rootLayout = (ViewGroup) findViewById(R.id.root_layout);
+        backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
+        languagesSettings = (ViewGroup) findViewById(R.id.languages_settings);
         frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
     }

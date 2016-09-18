@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +18,8 @@
         <!-- TOOLBAR -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="56dp"
+            android:orientation="horizontal">
 
             <!-- BACK BUTTON WRAPPER -->
             <LinearLayout
@@ -56,12 +58,46 @@
 
             </LinearLayout>
 
+            <!-- SELECTED LANGUAGES -->
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:layout_marginRight="18dp"
+                android:layout_marginEnd="18dp"
+                android:orientation="horizontal">
+
+                <!-- FRONT LANGUAGE -->
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/front_lang_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    tools:src="@drawable/flag_en"
+                    app:civ_border_color="@color/mainBlue"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0.5dp" />
+
+                <!-- BACK LANGUAGE -->
+                <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/back_lang_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    tools:src="@drawable/flag_fr"
+                    app:civ_border_color="@color/mainBlue"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="0.5dp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <!-- SHADOW -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/mainBlue" />
 
     </LinearLayout>
@@ -71,6 +107,15 @@
         android:id="@+id/root_wrapper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!-- STACK LIST -->
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+            
+        </ListView>
 
         <!-- CONTENT WRAPPER -->
         <RelativeLayout
@@ -84,6 +129,7 @@
 
         </RelativeLayout>
 
+        <!-- ADD STACK BUTTON -->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabBtn"
             android:layout_width="wrap_content"

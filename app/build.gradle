@@ -32,6 +32,9 @@ dependencies {
     // circular image view
     compile 'de.hdodenhof:circleimageview:2.0.0'
 
+    // events
+    compile 'org.greenrobot:eventbus:3.0.0'
+
     // lombok
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'org.projectlombok:lombok:1.16.8'

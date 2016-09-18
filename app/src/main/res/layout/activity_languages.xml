@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +34,7 @@
                 <!-- BACK ARROW -->
                 <ImageView
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="-10dp"
                     android:layout_marginRight="5dp"
@@ -59,7 +60,7 @@
         <!-- SHADOW -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:background="@color/mainBlue" />
 
     </LinearLayout>
@@ -96,12 +97,12 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/lang_icon"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
                         tools:src="@drawable/flag_en"
                         app:civ_border_color="@color/mainBlue"
                         app:civ_border_overlay="true"
-                        app:civ_border_width="2dp" />
+                        app:civ_border_width="0.5dp" />
 
                     <LinearLayout
                         android:layout_marginLeft="40dp"
@@ -144,12 +145,12 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@id/lang_icon"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="47dp"
+                        android:layout_height="47dp"
                         tools:src="@drawable/flag_fr"
                         app:civ_border_color="@color/mainBlue"
                         app:civ_border_overlay="true"
-                        app:civ_border_width="2dp" />
+                        app:civ_border_width="0.5dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

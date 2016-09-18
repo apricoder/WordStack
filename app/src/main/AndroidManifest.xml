@@ -22,17 +22,26 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.olebokolo.wordstack" />
 
-        <activity android:name=".presentation.activities.MainMenuActivity">
+        <activity
+            android:name=".presentation.activities.MainMenuActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activities.LanguagesActivity" />
-        <activity android:name=".presentation.activities.GreetingActivity" />
-        <activity android:name=".presentation.activities.SettingsActivity" />
-        <activity android:name=".presentation.activities.StackListActivity"></activity>
+        <activity
+            android:name=".presentation.activities.LanguagesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activities.GreetingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activities.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activities.StackListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
