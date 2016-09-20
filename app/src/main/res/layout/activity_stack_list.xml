@@ -110,11 +110,10 @@
 
         <!-- STACK LIST -->
         <ListView
+            android:id="@+id/stack_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            >
-            
+            tools:listitem="@layout/item_stack">
         </ListView>
 
         <!-- CONTENT WRAPPER -->
@@ -131,7 +130,7 @@
 
         <!-- ADD STACK BUTTON -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabBtn"
+            android:id="@+id/add_stack_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

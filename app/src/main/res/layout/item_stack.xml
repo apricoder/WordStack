@@ -1,12 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingStart="20dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp">
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/stack_menu"
+            android:layout_toStartOf="@+id/stack_menu"
+            android:id="@+id/stack_name"
+            tools:text="Traveling"
+            android:textAllCaps="true"
+            android:textColor="@color/mainBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/cards_count"
+            android:layout_marginTop="6dp"
+            android:layout_below="@id/stack_name"
+            tools:text="35 cards"
+            android:textAllCaps="true"
+            android:textColor="@color/mainBlue"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginEnd="2dp"
+            android:id="@+id/stack_menu"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/c_menu_dots"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            />
 
     </RelativeLayout>
+
+    <View
+        android:background="@color/mainBlue"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
 
 </LinearLayout>

@@ -19,6 +19,7 @@ import com.olebokolo.wordstack.presentation.activities.LanguagesActivity;
 import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
+import com.olebokolo.wordstack.presentation.dialogs.AddStackDialog;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
 
@@ -95,5 +96,9 @@ public class WordStack extends Application {
         settingsActivity.languageService = languageComponentsFactory.getLanguageService();
         settingsActivity.flagService = languageComponentsFactory.getFlagService();
         settingsActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+    }
+
+    public void injectDependenciesTo(AddStackDialog addStackDialog) {
+
     }
 }

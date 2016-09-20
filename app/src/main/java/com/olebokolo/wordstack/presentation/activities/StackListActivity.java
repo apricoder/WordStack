@@ -1,6 +1,7 @@
 package com.olebokolo.wordstack.presentation.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
+import com.olebokolo.wordstack.presentation.dialogs.AddStackDialog;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 
 import java.util.List;
@@ -35,6 +37,7 @@ public class StackListActivity extends AppCompatActivity {
     private ViewGroup backToolbarButton;
     // data
     private List<Stack> stackList;
+    private FloatingActionButton addStackButton;
 
 
     @Override
@@ -46,6 +49,16 @@ public class StackListActivity extends AppCompatActivity {
         setupTypeface();
         setupGoBackButton();
         setupLanguageIcons();
+        setupAddStackButton();
+    }
+
+    private void setupAddStackButton() {
+        addStackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AddStackDialog(StackListActivity.this).show();
+            }
+        });
     }
 
     private void setupTypeface() {
@@ -56,6 +69,7 @@ public class StackListActivity extends AppCompatActivity {
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
         frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
+        addStackButton = (FloatingActionButton) findViewById(R.id.add_stack_button);
     }
 
     private void setupGoBackButton() {
