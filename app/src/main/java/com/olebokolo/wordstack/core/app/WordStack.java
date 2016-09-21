@@ -20,6 +20,7 @@ import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.AddStackDialog;
+import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
 
@@ -99,6 +100,11 @@ public class WordStack extends Application {
     }
 
     public void injectDependenciesTo(AddStackDialog addStackDialog) {
+        addStackDialog.settingsService = this.userSettingsComponentsFactory.getUserSettingsService();
+    }
 
+    public void injectDependenciesTo(StackAdapter stackAdapter) {
+        stackAdapter.typefaceCollection = this.typefaceCollection;
+        stackAdapter.typefaceManager = this.typefaceManager;
     }
 }

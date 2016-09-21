@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:id="@+id/root_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
@@ -27,10 +26,10 @@
 
                 <!-- TITLE -->
                 <TextView
-                    android:id="@+id/dialog_title"
+                    android:id="@+id/alert_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="New stack"
+                    tools:text="Don't You dare!"
                     android:textAllCaps="true"
                     android:textColor="@color/mainBlue"
                     android:textSize="18sp"
@@ -42,24 +41,14 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:focusableInTouchMode="true"
-                        android:id="@+id/stack_name_layout"
+                    <TextView
+                        android:id="@+id/alert_content"
                         android:layout_marginTop="20dp"
-                        android:textColorHint="@color/mainBlue"
+                        android:textColor="@color/mainBlue"
+                        android:textSize="16sp"
+                        tools:text="You've made a big mistake clicking something. From developers. With love and understanding."
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <EditText
-                            android:id="@+id/stack_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/mainBlue"
-                            android:inputType="textCapWords"
-                            android:textColorHint="@color/mainBlue"
-                            android:hint="Stack name" />
-
-                    </android.support.design.widget.TextInputLayout>
+                        android:layout_height="match_parent" />
 
                 </LinearLayout>
 
@@ -71,27 +60,10 @@
                     <TextView
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        android:id="@+id/back_button"
+                        android:id="@+id/ok_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Back"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:textAllCaps="true"
-                        android:textColor="@color/mainBlue"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:id="@+id/add_stack_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Create"
+                        android:text="Ok"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:paddingRight="5dp"
@@ -118,8 +90,6 @@
                 android:layout_height="40dp" />
 
         </RelativeLayout>
-
-
 
     </android.support.v7.widget.CardView>
 

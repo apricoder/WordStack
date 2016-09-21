@@ -1,5 +1,6 @@
 package com.olebokolo.wordstack.core.model;
 
+import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class Stack {
+public class Stack extends SugarRecord {
     private Long id;
     private String name;
     private Long frontLangId;

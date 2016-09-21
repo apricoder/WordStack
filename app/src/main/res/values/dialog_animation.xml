@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="WordStackDialogAnimation">
+    <style name="FadeDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/fade_in_fast</item>
         <item name="android:windowExitAnimation">@anim/fade_out_fast</item>
+    </style>
+    <style name="SlideDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_left_fast</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_right_fast</item>
     </style>
 </resources>
