@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
 import com.olebokolo.wordstack.presentation.lists.holders.TextTextHolder;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -51,6 +54,7 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
             holder.setSecondaryText((TextView) row.findViewById(R.id.cards_count));
             row.setTag(holder);
         } else holder = (TextTextHolder) row.getTag();
+        setupContextMenuClick(row, position);
         typefaceManager.setTypeface(holder.getMainText(), typefaceCollection.getRalewayMedium());
         typefaceManager.setTypeface(holder.getSecondaryText(), typefaceCollection.getRalewayLight());
         StackItem stackItem = stackItems.get(position);
@@ -59,6 +63,15 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
         holder.getSecondaryText().setText(cardsCount);
         animateSlideIfFirstTime(row);
         return row;
+    }
+
+    private void setupContextMenuClick(View row, final int stackPosition) {
+        row.findViewById(R.id.stack_menu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EventBus.getDefault().post(new StackActionsDialogCalledEvent("Actions dialog called!", stackPosition));
+            }
+        });
     }
 
     private void animateSlideIfFirstTime(final View row) {

@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 
-public class InformationalAlert extends Dialog {
+public class AlertInformational extends Dialog {
 
-    public InformationalAlert(Context context, String title, Spanned content) {
+    public AlertInformational(Context context, String title, Spanned content) {
         super(context);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         setContentView(R.layout.dialog_informational_alert);

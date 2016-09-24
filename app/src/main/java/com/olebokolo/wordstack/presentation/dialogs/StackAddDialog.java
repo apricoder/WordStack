@@ -21,7 +21,7 @@ import com.orm.SugarRecord;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class AddStackDialog extends Dialog {
+public class StackAddDialog extends Dialog {
 
     // dependencies
     public UserSettingsService settingsService;
@@ -31,7 +31,7 @@ public class AddStackDialog extends Dialog {
     private TextView backButton;
     private View closeButton;
 
-    public AddStackDialog(StackListActivity activity) {
+    public StackAddDialog(StackListActivity activity) {
         super(activity);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         WordStack.getInstance().injectDependenciesTo(this);
@@ -75,7 +75,7 @@ public class AddStackDialog extends Dialog {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new InformationalAlert(getContext(), title, content).show();
+                new AlertInformational(getContext(), title, content).show();
             }
         }, 300);
     }

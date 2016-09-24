@@ -1,10 +1,6 @@
 package com.olebokolo.wordstack.core.app;
 
 import android.app.Application;
-import android.graphics.Typeface;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactory;
 import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactoryImpl;
@@ -19,7 +15,8 @@ import com.olebokolo.wordstack.presentation.activities.LanguagesActivity;
 import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
-import com.olebokolo.wordstack.presentation.dialogs.AddStackDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
@@ -99,12 +96,17 @@ public class WordStack extends Application {
         settingsActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
     }
 
-    public void injectDependenciesTo(AddStackDialog addStackDialog) {
-        addStackDialog.settingsService = this.userSettingsComponentsFactory.getUserSettingsService();
+    public void injectDependenciesTo(StackAddDialog stackAddDialog) {
+        stackAddDialog.settingsService = this.userSettingsComponentsFactory.getUserSettingsService();
     }
 
     public void injectDependenciesTo(StackAdapter stackAdapter) {
         stackAdapter.typefaceCollection = this.typefaceCollection;
         stackAdapter.typefaceManager = this.typefaceManager;
+    }
+
+    public void injectDependenciesTo(StackActionsDialog stackActionsDialog) {
+        stackActionsDialog.typefaceCollection = this.typefaceCollection;
+        stackActionsDialog.typefaceManager = this.typefaceManager;
     }
 }

@@ -7,11 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.events.StackAddedEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
@@ -22,7 +24,8 @@ import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
-import com.olebokolo.wordstack.presentation.dialogs.AddStackDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackItem;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
@@ -53,6 +56,7 @@ public class StackListActivity extends AppCompatActivity {
     private Long backLangId;
     private List<StackItem> stackItems;
     private StackAdapter stackAdapter;
+    private List<Stack> stacks;
     private ListView stackList;
 
     @Override
@@ -82,6 +86,13 @@ public class StackListActivity extends AppCompatActivity {
         });
     }
 
+    @Subscribe
+    public void onEvent(StackActionsDialogCalledEvent event) {
+        Log.i("WordStack", ">>> " + event.getMessage());
+        Stack stack = stacks.get(event.getStackPosition());
+        new StackActionsDialog(this, stack).show();
+    }
+
     private void setupListView() {
         stackItems = new ArrayList<>();
         findStacksForChosenLanguages();
@@ -102,7 +113,7 @@ public class StackListActivity extends AppCompatActivity {
     private void findStacksForChosenLanguages() {
         String frontLangId = String.valueOf(this.frontLangId);
         String backLangId = String.valueOf(this.backLangId);
-        List<Stack> stacks = SugarRecord.find(Stack.class, "front_Lang_Id = ? and back_Lang_Id = ?", frontLangId, backLangId);
+        stacks = SugarRecord.find(Stack.class, "front_Lang_Id = ? and back_Lang_Id = ?", frontLangId, backLangId);
         updateStackItems(stacks);
     }
 
@@ -115,7 +126,7 @@ public class StackListActivity extends AppCompatActivity {
         addStackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AddStackDialog(StackListActivity.this).show();
+                new StackAddDialog(StackListActivity.this).show();
             }
         });
     }
