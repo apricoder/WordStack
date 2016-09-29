@@ -35,7 +35,7 @@ public class StackAddDialog extends Dialog {
         super(activity);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         WordStack.getInstance().injectDependenciesTo(this);
-        setContentView(R.layout.dialog_add_stack);
+        setContentView(R.layout.dialog_stack_add);
         findViews();
         setupBackButton();
         setupAddStackButton();

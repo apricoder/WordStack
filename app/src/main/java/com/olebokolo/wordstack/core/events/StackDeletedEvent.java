@@ -1,12 +1,12 @@
 package com.olebokolo.wordstack.core.events;
 
+import com.olebokolo.wordstack.core.model.Stack;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor(suppressConstructorProperties = true)
-@NoArgsConstructor
-public class BaseStackEvent {
-    protected String message;
+public class StackDeletedEvent extends BaseStackEvent {
+    private Stack stack;
 }

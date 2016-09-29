@@ -2,6 +2,7 @@ package com.olebokolo.wordstack.presentation.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -18,17 +19,35 @@ public class StackActionsDialog extends Dialog {
     public TypefaceCollection typefaceCollection;
     public TypefaceManager typefaceManager;
     // data
+    private Context context;
     private Stack stack;
 
     public StackActionsDialog(Context context, Stack stack) {
         super(context);
         this.stack = stack;
+        this.context = context;
         WordStack.getInstance().injectDependenciesTo(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        setContentView(R.layout.dialog_actions);
+        setContentView(R.layout.dialog_stack_actions);
         setupFonts();
         setupTitle();
         setupCloseButton();
+        setupDeleteButton();
+    }
+
+    private void setupDeleteButton() {
+        findViewById(R.id.delete_stack_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new StackConfirmDeleteDialog(context, stack).show();
+                    }
+                }, 100);
+            }
+        });
     }
 
     private void setupCloseButton() {

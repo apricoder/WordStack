@@ -94,6 +94,41 @@
                     android:layout_height="0.5dp"
                     android:background="@color/mainBlue" />
 
+                <!-- EDIT CARDS -->
+                <LinearLayout
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:padding="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:padding="5dp"
+                        android:src="@drawable/c_cards_solid"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:textAllCaps="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:gravity="center_vertical"
+                        android:text="Edit cards"
+                        android:textStyle="bold"
+                        android:textColor="@color/mainBlue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <!-- SEPARATOR -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/mainBlue" />
+
                 <!-- RENAME -->
                 <LinearLayout
                     android:background="?attr/selectableItemBackground"
@@ -131,6 +166,7 @@
 
                 <!-- DELETE -->
                 <LinearLayout
+                    android:id="@+id/delete_stack_action"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:padding="10dp"

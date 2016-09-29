@@ -7,14 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.events.ReanimateStackEnterEvent;
 import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.events.StackAddedEvent;
+import com.olebokolo.wordstack.core.events.StackDeleteCalledEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
@@ -50,6 +53,7 @@ public class StackListActivity extends AppCompatActivity {
     private ImageView frontLangIcon;
     private ImageView backLangIcon;
     private ViewGroup backToolbarButton;
+    private Animation deleteAnimation;
     // data
     private FloatingActionButton addStackButton;
     private Long frontLangId;
@@ -72,12 +76,19 @@ public class StackListActivity extends AppCompatActivity {
         setupLanguagesIcons();
         setupAddStackButton();
         setupListView();
+        setupDeleteAnimation();
+    }
+
+    private void setupDeleteAnimation() {
+        deleteAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_to_right_fast);
     }
 
     @Subscribe
     public void onEvent(StackAddedEvent event) {
         Log.i("WordStack", ">>> " + event.getMessage());
         findStacksForChosenLanguages();
+        int itemToAnimatePosition = getStackPosition(stacks.get(stacks.size() - 1));
+        EventBus.getDefault().post(new ReanimateStackEnterEvent(itemToAnimatePosition));
         new Handler().post(new Runnable() {
             @Override
             public void run() {
@@ -91,6 +102,41 @@ public class StackListActivity extends AppCompatActivity {
         Log.i("WordStack", ">>> " + event.getMessage());
         Stack stack = stacks.get(event.getStackPosition());
         new StackActionsDialog(this, stack).show();
+    }
+
+    @Subscribe
+    public void onEvent(StackDeleteCalledEvent event) {
+        final Stack stack = event.getStack();
+        int position = getStackPosition(stack);
+        final View stackItemView = getListItemViewForStack(position);
+        stackItemView.startAnimation(deleteAnimation);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SugarRecord.delete(stack);
+                findStacksForChosenLanguages();
+                stackAdapter.notifyDataSetChanged();
+            }
+        }, 200);
+    }
+
+    private View getListItemViewForStack(int position) {
+        final int firstListItemPosition = stackList.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + stackList.getChildCount() - 1;
+        if (position < firstListItemPosition || position > lastListItemPosition ) {
+            return stackList.getAdapter().getView(position, null, stackList);
+        } else {
+            final int childIndex = position - firstListItemPosition;
+            return stackList.getChildAt(childIndex);
+        }
+    }
+
+    private int getStackPosition(Stack searched) {
+        for (int i = 0; i < stacks.size(); i++) {
+            Stack stack = stacks.get(i);
+            if (stack.getId().equals(searched.getId())) return i;
+        }
+        return -1;
     }
 
     private void setupListView() {
