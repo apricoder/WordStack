@@ -24,10 +24,11 @@ public class StackConfirmDeleteDialog extends Dialog {
     // dependencies
     public TypefaceCollection typefaceCollection;
     public TypefaceManager typefaceManager;
+    // views
+    private TextView content;
     // data
     private Context context;
     private Stack stack;
-    private TextView content;
 
     public StackConfirmDeleteDialog(Context context, Stack stack) {
         super(context);

@@ -18,6 +18,7 @@ import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackConfirmDeleteDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackRenameDialog;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
@@ -114,5 +115,10 @@ public class WordStack extends Application {
     public void injectDependenciesTo(StackConfirmDeleteDialog stackConfirmDeleteDialog) {
         stackConfirmDeleteDialog.typefaceCollection = this.typefaceCollection;
         stackConfirmDeleteDialog.typefaceManager = this.typefaceManager;
+    }
+
+    public void injectDependenciesTo(StackRenameDialog stackRenameDialog) {
+        stackRenameDialog.typefaceCollection = this.typefaceCollection;
+        stackRenameDialog.typefaceManager = this.typefaceManager;
     }
 }

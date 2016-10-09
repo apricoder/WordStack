@@ -23,7 +23,7 @@
                 android:background="@color/mainBlue"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp">
+                android:paddingLeft="15dp">
 
                 <!-- TITLE -->
                 <TextView
@@ -131,6 +131,7 @@
 
                 <!-- RENAME -->
                 <LinearLayout
+                    android:id="@+id/rename_stack_action"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:padding="10dp"

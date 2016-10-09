@@ -32,20 +32,28 @@ public class StackActionsDialog extends Dialog {
         setupFonts();
         setupTitle();
         setupCloseButton();
+        setupRenameButton();
         setupDeleteButton();
+    }
+
+    private void setupRenameButton() {
+        findViewById(R.id.rename_stack_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+                new Handler().postDelayed(new Runnable() { @Override public void run() { new StackRenameDialog(context, stack).show(); } }, 100);
+            }
+        });
     }
 
     private void setupDeleteButton() {
         findViewById(R.id.delete_stack_action).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                dismiss();
                 new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void run() {
-                        new StackConfirmDeleteDialog(context, stack).show();
-                    }
-                }, 100);
+                    public void run() { new StackConfirmDeleteDialog(context, stack).show(); } }, 100);
             }
         });
     }
@@ -54,7 +62,7 @@ public class StackActionsDialog extends Dialog {
         findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                dismiss();
             }
         });
     }

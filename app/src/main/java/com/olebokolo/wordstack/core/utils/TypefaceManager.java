@@ -1,6 +1,7 @@
 package com.olebokolo.wordstack.core.utils;
 
 import android.graphics.Typeface;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +14,8 @@ public class TypefaceManager {
             View view = contentLayout.getChildAt(i);
             if (view instanceof TextView)
                 setTypeface((TextView) view, typeface);
+            else if (view instanceof TextInputLayout)
+                setTypeface((TextInputLayout) view, typeface);
             else if (view instanceof ViewGroup)
                 setTypefaceForContainer((ViewGroup) view, typeface);
         }
@@ -22,7 +25,14 @@ public class TypefaceManager {
         textView.setTypeface(typeface);
     }
 
+    private void setTypeface(TextInputLayout view, Typeface typeface) {
+        setTypefaceForContainer(view, typeface );
+        view.setTypeface(typeface);
+    }
+
     public void setTypeface(Button button, Typeface typeface) {
         button.setTypeface(typeface);
     }
+
+
 }

@@ -18,6 +18,7 @@ import com.olebokolo.wordstack.core.events.ReanimateStackEnterEvent;
 import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.events.StackAddedEvent;
 import com.olebokolo.wordstack.core.events.StackDeleteCalledEvent;
+import com.olebokolo.wordstack.core.events.StackRenamedEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
@@ -102,6 +103,17 @@ public class StackListActivity extends AppCompatActivity {
         Log.i("WordStack", ">>> " + event.getMessage());
         Stack stack = stacks.get(event.getStackPosition());
         new StackActionsDialog(this, stack).show();
+    }
+
+    @Subscribe
+    public void onEvent(StackRenamedEvent event) {
+        findStacksForChosenLanguages();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                stackAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Subscribe
