@@ -5,28 +5,43 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.Spanned;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
+import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.utils.TypefaceCollection;
+import com.olebokolo.wordstack.core.utils.TypefaceManager;
 
-public class AlertInformational extends Dialog {
+public class StackAlert extends Dialog {
 
-    public AlertInformational(Context context, String title, Spanned content) {
+    public TypefaceCollection typefaceCollection;
+    public TypefaceManager typefaceManager;
+
+    public StackAlert(Context context, String title, Spanned content) {
         super(context);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
+        WordStack.getInstance().injectDependenciesTo(this);
         setContentView(R.layout.dialog_informational_alert);
+        setupFonts();
         setupTitle(title);
         setupContent(content);
         setupOkButton();
         setupCloseButton();
     }
 
+    private void setupFonts() {
+        typefaceManager.setTypefaceForContainer((ViewGroup) findViewById(R.id.root_layout), typefaceCollection.getRalewayMedium());
+    }
+
     private void setupTitle(String title) {
-        ((TextView)findViewById(R.id.alert_title)).setText(title);
+        ((TextView)findViewById(R.id.dialog_title)).setText(title);
     }
 
     private void setupContent(Spanned content) {
-        ((TextView)findViewById(R.id.alert_content)).setText(content);
+        ((TextView)findViewById(R.id.dialog_content )).setText(content);
     }
 
     private void setupCloseButton() {

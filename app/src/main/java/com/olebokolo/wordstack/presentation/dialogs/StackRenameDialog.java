@@ -106,7 +106,6 @@ public class StackRenameDialog extends Dialog {
 
     private void setupFonts() {
         typefaceManager.setTypefaceForContainer((ViewGroup) findViewById(R.id.root_layout), typefaceCollection.getRalewayMedium());
-        //typefaceManager.setTypefaceForContainer((ViewGroup) findViewById(R.id.stack_name_layout), typefaceCollection.getRalewayLight());
     }
 
     private void hideKeyboard() {

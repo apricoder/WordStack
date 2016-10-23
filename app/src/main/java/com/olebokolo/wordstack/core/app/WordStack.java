@@ -17,6 +17,7 @@ import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackAlert;
 import com.olebokolo.wordstack.presentation.dialogs.StackConfirmDeleteDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackRenameDialog;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
@@ -99,6 +100,8 @@ public class WordStack extends Application {
     }
 
     public void injectDependenciesTo(StackAddDialog stackAddDialog) {
+        stackAddDialog.typefaceCollection = this.typefaceCollection;
+        stackAddDialog.typefaceManager = this.typefaceManager;
         stackAddDialog.settingsService = this.userSettingsComponentsFactory.getUserSettingsService();
     }
 
@@ -120,5 +123,10 @@ public class WordStack extends Application {
     public void injectDependenciesTo(StackRenameDialog stackRenameDialog) {
         stackRenameDialog.typefaceCollection = this.typefaceCollection;
         stackRenameDialog.typefaceManager = this.typefaceManager;
+    }
+
+    public void injectDependenciesTo(StackAlert stackAlert) {
+        stackAlert.typefaceCollection = this.typefaceCollection;
+        stackAlert.typefaceManager = this.typefaceManager;
     }
 }

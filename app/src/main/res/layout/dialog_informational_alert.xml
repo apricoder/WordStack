@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="wrap_content"
@@ -9,85 +10,109 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/dialog_body"
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         card_view:cardCornerRadius="5dp">
 
         <!-- RELATIVE WRAPPER -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <!-- CONTENT WRAPPER -->
             <LinearLayout
+                android:id="@+id/dialog_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="15dp"
-                android:orientation="vertical">
+                android:layout_height="50dp"
+                android:background="@color/mainBlue"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
 
                 <!-- TITLE -->
                 <TextView
-                    android:id="@+id/alert_title"
-                    android:layout_width="match_parent"
+                    android:id="@+id/dialog_title"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     tools:text="Don't You dare!"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textAllCaps="true"
-                    android:textColor="@color/mainBlue"
-                    android:textSize="18sp"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <!-- CLOSE BUTTON -->
+                <ImageView
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:id="@+id/close_button"
+                    android:src="@drawable/c_close_white"
+                    android:layout_margin="3dp"
+                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+            </LinearLayout>
+
+            <!-- CONTENT WRAPPER -->
+            <LinearLayout
+                android:layout_below="@+id/dialog_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <!-- CONTENT -->
                 <LinearLayout
-                    android:focusableInTouchMode="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/alert_content"
-                        android:layout_marginTop="20dp"
-                        android:textColor="@color/mainBlue"
-                        android:textSize="16sp"
-                        tools:text="You've made a big mistake clicking something. From developers. With love and understanding."
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:layout_below="@+id/dialog_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end">
+                    android:padding="12dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:id="@+id/ok_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ok"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:paddingRight="5dp"
-                        android:paddingLeft="5dp"
-                        android:textAllCaps="true"
+                        android:id="@+id/dialog_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="20dp"
+                        tools:text="Can't create stack! Stack with name At University already!"
                         android:textColor="@color/mainBlue"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
                         android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:gravity="end">
+
+                        <TextView
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:layout_gravity="end"
+                            android:id="@+id/ok_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OK"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:paddingRight="5dp"
+                            android:paddingLeft="5dp"
+                            android:textAllCaps="true"
+                            android:textColor="@color/mainBlue"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+
 
                 </LinearLayout>
 
             </LinearLayout>
-
-            <!-- CLOSE BUTTON -->
-            <ImageView
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:id="@+id/close_button"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/c_close"
-                android:layout_margin="7dp"
-                android:padding="8dp"
-                android:layout_width="40dp"
-                android:layout_height="40dp" />
 
         </RelativeLayout>
 

@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import com.olebokolo.wordstack.core.events.StackAddedEvent;
 import com.olebokolo.wordstack.core.model.Stack;
 import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
+import com.olebokolo.wordstack.core.utils.TypefaceCollection;
+import com.olebokolo.wordstack.core.utils.TypefaceManager;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.orm.SugarRecord;
 
@@ -25,21 +29,35 @@ public class StackAddDialog extends Dialog {
 
     // dependencies
     public UserSettingsService settingsService;
+    public TypefaceManager typefaceManager;
+    public TypefaceCollection typefaceCollection;
     // views
     private EditText stackNameField;
     private TextView addStackButton;
-    private TextView backButton;
-    private View closeButton;
 
     public StackAddDialog(StackListActivity activity) {
         super(activity);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         WordStack.getInstance().injectDependenciesTo(this);
         setContentView(R.layout.dialog_stack_add);
         findViews();
+        setupFonts();
         setupBackButton();
         setupAddStackButton();
         setupCloseButton();
+        focusOnInputAndShowKeyboard();
+    }
+
+    private void focusOnInputAndShowKeyboard() {
+        stackNameField.postDelayed(new Runnable() {
+            public void run() {
+                stackNameField.requestFocusFromTouch();
+                InputMethodManager lManager = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                lManager.showSoftInput(stackNameField, 0);
+            }
+        }, 450);
+
     }
 
     private void setupAddStackButton() {
@@ -47,15 +65,15 @@ public class StackAddDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 hideKeyboard();
-                new Handler().postDelayed(new Runnable() {
+                new Handler().post(new Runnable() {
                     @Override
                     public void run() {
                         String stackName = stackNameField.getText().toString();
                         if (thereIsStackCalled(stackName)) showStackExistsAlertFor(stackName);
                         else createNewStack(stackName);
-                        closeDialog();
+                        hideKeyboardAndDismiss();
                     }
-                }, 200);
+                });
             }
         });
     }
@@ -75,7 +93,7 @@ public class StackAddDialog extends Dialog {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new AlertInformational(getContext(), title, content).show();
+                new StackAlert(getContext(), title, content).show();
             }
         }, 300);
     }
@@ -89,34 +107,40 @@ public class StackAddDialog extends Dialog {
         return SugarRecord.find(Stack.class, "name = ?", name).size() > 0;
     }
 
-    private void setupCloseButton() {
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                closeDialog();
-            }
-        });
+    private void setupFonts() {
+        typefaceManager.setTypefaceForContainer((ViewGroup) findViewById(R.id.root_layout), typefaceCollection.getRalewayMedium());
     }
 
     private void setupBackButton() {
-        backButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.back_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                closeDialog();
+                hideKeyboardAndDismiss();
             }
         });
     }
 
-    private void closeDialog() {
+    private void setupCloseButton() {
+        findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboardAndDismiss();
+            }
+        });
+    }
+
+    private void hideKeyboardAndDismiss() {
+        hideKeyboard();
         new Handler().postDelayed(new Runnable() {
-            @Override public void run() { dismiss(); }
-        }, 100);
+            @Override
+            public void run() {
+                dismiss();
+            }
+        }, 200);
     }
 
     private void findViews() {
         stackNameField = (EditText) findViewById(R.id.stack_name);
         addStackButton = (TextView) findViewById(R.id.add_stack_button);
-        backButton = (TextView) findViewById(R.id.back_button);
-        closeButton = findViewById(R.id.close_button);
     }
 }

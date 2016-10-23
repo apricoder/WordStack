@@ -90,12 +90,12 @@ public class StackListActivity extends AppCompatActivity {
         findStacksForChosenLanguages();
         int itemToAnimatePosition = getStackPosition(stacks.get(stacks.size() - 1));
         EventBus.getDefault().post(new ReanimateStackEnterEvent(itemToAnimatePosition));
-        new Handler().post(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 stackAdapter.notifyDataSetChanged();
             }
-        });
+        }, 100);
     }
 
     @Subscribe
