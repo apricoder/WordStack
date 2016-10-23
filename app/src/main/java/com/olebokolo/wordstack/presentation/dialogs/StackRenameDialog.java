@@ -3,6 +3,8 @@ package com.olebokolo.wordstack.presentation.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,6 +17,7 @@ import com.olebokolo.wordstack.core.events.StackRenamedEvent;
 import com.olebokolo.wordstack.core.model.Stack;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
+import com.orm.SugarRecord;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -50,16 +53,33 @@ public class StackRenameDialog extends Dialog {
         findViewById(R.id.rename_stack_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateStackName();
-                EventBus.getDefault().post(new StackRenamedEvent());
+                String enteredName = String.valueOf(stackNameField.getText());
+                if (thereIsStackCalled(enteredName)) showStackExistsAlertFor(enteredName);
+                else updateStackNameTo(enteredName);
                 hideKeyboardAndDismiss();
             }
         });
     }
 
-    private void updateStackName() {
-        stack.setName(String.valueOf(stackNameField.getText()));
+    private boolean thereIsStackCalled(String name) {
+        return SugarRecord.find(Stack.class, "name = ?", name).size() > 0;
+    }
+
+    private void showStackExistsAlertFor(String stackName) {
+        final String title = "Can't rename stack!";
+        final Spanned content = Html.fromHtml("The stack with name <strong>" + stackName + "</strong> already exists!");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new StackAlert(getContext(), title, content).show();
+            }
+        }, 300);
+    }
+
+    private void updateStackNameTo(String name) {
+        stack.setName(name);
         stack.save();
+        EventBus.getDefault().post(new StackRenamedEvent());
     }
 
     private void findViews() {
