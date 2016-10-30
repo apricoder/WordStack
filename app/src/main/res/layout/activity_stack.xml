@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".presentation.activities.StackListActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".presentation.activities.StackActivity">
 
     <!-- TOOLBAR WRAPPER -->
     <LinearLayout
@@ -24,11 +24,11 @@
 
             <!-- BACK BUTTON WRAPPER -->
             <LinearLayout
-                android:clickable="true"
-                android:background="?attr/selectableItemBackground"
                 android:id="@+id/back_toolbar_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
                 android:paddingLeft="18dp"
@@ -50,23 +50,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Stacks"
+                    android:text="Hello, Friend"
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-
             </LinearLayout>
 
             <!-- SELECTED LANGUAGES -->
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical|end"
-                android:layout_marginRight="18dp"
                 android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|end"
                 android:orientation="horizontal">
 
                 <!-- FRONT LANGUAGE -->
@@ -74,23 +73,23 @@
                     android:id="@+id/front_lang_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp"
-                    tools:src="@drawable/flag_en"
+                    android:layout_marginRight="10dp"
                     app:civ_border_color="#ddd"
                     app:civ_border_overlay="true"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"
+                    tools:src="@drawable/flag_en" />
 
                 <!-- BACK LANGUAGE -->
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_toRightOf="@id/front_lang_icon"
                     android:id="@+id/back_lang_icon"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    tools:src="@drawable/flag_fr"
+                    android:layout_toRightOf="@id/front_lang_icon"
                     app:civ_border_color="#ddd"
                     app:civ_border_overlay="true"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"
+                    tools:src="@drawable/flag_fr" />
 
             </LinearLayout>
 
@@ -108,21 +107,58 @@
     <RelativeLayout
         android:id="@+id/root_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
 
-        <!-- STACK LIST -->
-        <ListView
-            android:id="@+id/stack_list"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_stack"
-            android:paddingBottom="230dp"
-            android:layoutAnimation = "@anim/a_list_item_animation"
-            android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay">
-        </ListView>
+            android:orientation="vertical">
 
-        <!-- CONTENT WRAPPER -->
+            <!-- SEARCH LAYOUT -->
+            <LinearLayout
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
+                    android:src="@drawable/c_magnify_blue" />
+
+                <EditText
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:textSize="18sp"
+                    android:hint="Search"
+                    android:textColorHint="@color/mainBlue"
+                    android:textColor="@color/mainBlue"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!-- CARD LIST -->
+            <ListView
+                android:paddingTop="20dp"
+                android:id="@+id/card_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/item_card"
+                android:paddingBottom="230dp"
+                android:clipToPadding="false"
+                android:scrollbarStyle="outsideOverlay">
+            </ListView>
+
+        </LinearLayout>
+
+        <!-- ELEVATED LAYER WRAPPER -->
         <RelativeLayout
             android:id="@+id/content_wrapper"
             android:layout_width="match_parent"
@@ -134,9 +170,9 @@
 
         </RelativeLayout>
 
-        <!-- ADD STACK BUTTON -->
+        <!-- ADD CARD BUTTON -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_stack_button"
+            android:id="@+id/add_card_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

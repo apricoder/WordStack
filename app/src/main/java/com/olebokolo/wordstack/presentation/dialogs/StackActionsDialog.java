@@ -10,11 +10,17 @@ import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.events.StackDetailsRequestedEvent;
 import com.olebokolo.wordstack.core.model.Stack;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class StackActionsDialog extends Dialog {
+
+    // constants
+    private static final int DELAY_MILLIS = 100;
     // dependencies
     public TypefaceCollection typefaceCollection;
     public TypefaceManager typefaceManager;
@@ -31,9 +37,25 @@ public class StackActionsDialog extends Dialog {
         setContentView(R.layout.dialog_stack_actions);
         setupFonts();
         setupTitle();
+        setupEditCardsButton();
         setupCloseButton();
         setupRenameButton();
         setupDeleteButton();
+    }
+
+    private void setupEditCardsButton() {
+        findViewById(R.id.edit_stack_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new StackDetailsRequestedEvent(stack));
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
     }
 
     private void setupRenameButton() {
@@ -41,7 +63,12 @@ public class StackActionsDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 dismiss();
-                new Handler().postDelayed(new Runnable() { @Override public void run() { new StackRenameDialog(context, stack).show(); } }, 100);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new StackRenameDialog(context, stack).show();
+                    }
+                }, DELAY_MILLIS);
             }
         });
     }
@@ -53,7 +80,10 @@ public class StackActionsDialog extends Dialog {
                 dismiss();
                 new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void run() { new StackConfirmDeleteDialog(context, stack).show(); } }, 100);
+                    public void run() {
+                        new StackConfirmDeleteDialog(context, stack).show();
+                    }
+                }, DELAY_MILLIS);
             }
         });
     }
@@ -68,7 +98,7 @@ public class StackActionsDialog extends Dialog {
     }
 
     private void setupTitle() {
-        ((TextView)findViewById(R.id.dialog_title)).setText(stack.getName());
+        ((TextView) findViewById(R.id.dialog_title)).setText(stack.getName());
     }
 
     private void setupFonts() {

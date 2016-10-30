@@ -18,6 +18,7 @@ import com.olebokolo.wordstack.core.events.ReanimateStackEnterEvent;
 import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.events.StackAddedEvent;
 import com.olebokolo.wordstack.core.events.StackDeleteCalledEvent;
+import com.olebokolo.wordstack.core.events.StackDetailsRequestedEvent;
 import com.olebokolo.wordstack.core.events.StackRenamedEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
@@ -38,8 +39,11 @@ import com.orm.SugarRecord;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class StackListActivity extends AppCompatActivity {
 
@@ -102,7 +106,7 @@ public class StackListActivity extends AppCompatActivity {
     public void onEvent(StackActionsDialogCalledEvent event) {
         Log.i("WordStack", ">>> " + event.getMessage());
         Stack stack = stacks.get(event.getStackPosition());
-        new StackActionsDialog(this, stack).show();
+        new StackActionsDialog(StackListActivity.this, stack).show();
     }
 
     @Subscribe
@@ -112,6 +116,18 @@ public class StackListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 stackAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Subscribe
+    public void onEvent(final StackDetailsRequestedEvent event) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                Map<String, Serializable> extras = new HashMap<>();
+                extras.put("stack", event.getStack());
+                navigator.goForwardWithSlideAnimation(StackListActivity.this, StackActivity.class, extras);
             }
         });
     }
@@ -201,15 +217,6 @@ public class StackListActivity extends AppCompatActivity {
         stackList = (ListView) findViewById(R.id.stack_list);
     }
 
-    private void setupGoBackButton() {
-        backToolbarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View button) {
-                goBack();
-            }
-        });
-    }
-
     private void setupLanguagesIcons() {
         Language frontLanguage = languageService.findById(frontLangId);
         Language backLanguage = languageService.findById(backLangId);
@@ -221,6 +228,15 @@ public class StackListActivity extends AppCompatActivity {
         UserSettings userSettings = settingsService.getUserSettings();
         frontLangId = userSettings.getFrontLangId();
         backLangId = userSettings.getBackLangId();
+    }
+
+    private void setupGoBackButton() {
+        backToolbarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                goBack();
+            }
+        });
     }
 
     @Override

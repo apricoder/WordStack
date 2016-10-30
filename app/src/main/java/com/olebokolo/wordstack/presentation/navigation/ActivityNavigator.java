@@ -5,21 +5,35 @@ import android.content.Intent;
 
 import com.olebokolo.wordstack.R;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 public class ActivityNavigator {
 
+    // constants
+    private static final boolean DIRECTION_FORWARD = true;
+    private static final boolean DIRECTION_BACKWARDS = false;
+    private static final Map<String, Serializable> EMPTY_EXTRAS = new HashMap<>();
+
+    public void goForwardWithSlideAnimation(Activity fromActivity, Class targetActivityClass, Map<String, Serializable> extras) {
+        animateSlide(fromActivity, targetActivityClass, extras, true);
+    }
+
     public void goForwardWithSlideAnimation(Activity fromActivity, Class targetActivityClass) {
-        animateSlide(fromActivity, targetActivityClass, true);
+        animateSlide(fromActivity, targetActivityClass, EMPTY_EXTRAS, DIRECTION_FORWARD);
     }
 
     public void goBackWithSlideAnimation(Activity fromActivity, Class nextActivity) {
-        animateSlide(fromActivity, nextActivity, false);
+        animateSlide(fromActivity, nextActivity, EMPTY_EXTRAS, DIRECTION_BACKWARDS);
     }
 
-    private void animateSlide(Activity fromActivity, Class nextActivity, boolean directionForward) {
+    private void animateSlide(Activity fromActivity, Class nextActivity, Map<String, Serializable> extras, boolean direction) {
         Intent navigation = new Intent(fromActivity, nextActivity);
         navigation.putExtra("previousActivity", fromActivity.getClass());
+        for (String key : extras.keySet()) navigation.putExtra(key, extras.get(key));
         fromActivity.startActivity(navigation);
-        animateWithDirection(fromActivity, directionForward);
+        animateWithDirection(fromActivity, direction);
         fromActivity.finish();
     }
 

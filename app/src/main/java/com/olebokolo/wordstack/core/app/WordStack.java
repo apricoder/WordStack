@@ -14,6 +14,7 @@ import com.olebokolo.wordstack.presentation.activities.GreetingActivity;
 import com.olebokolo.wordstack.presentation.activities.LanguagesActivity;
 import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
+import com.olebokolo.wordstack.presentation.activities.StackActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
@@ -128,5 +129,11 @@ public class WordStack extends Application {
     public void injectDependenciesTo(StackAlert stackAlert) {
         stackAlert.typefaceCollection = this.typefaceCollection;
         stackAlert.typefaceManager = this.typefaceManager;
+    }
+
+    public void injectDependenciesTo(StackActivity stackActivity) {
+        stackActivity.typefaceCollection = this.typefaceCollection;
+        stackActivity.typefaceManager = this.typefaceManager;
+        stackActivity.navigator = this.activityNavigator;
     }
 }

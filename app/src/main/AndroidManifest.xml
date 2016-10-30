@@ -42,8 +42,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.activities.StackListActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".presentation.activities.CardsActivity"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".presentation.activities.StackActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
     </application>
 
 </manifest>

@@ -37,7 +37,7 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
     private final List<StackItem> stackItems;
     private final Application context;
     private final Animation sliding;
-    private int reanimatingItemIndex;
+    private int reanimatingItemIndex = Integer.MAX_VALUE;
 
     public StackAdapter(List<StackItem> stackItems) {
         super(WordStack.getInstance(), R.layout.item_stack, stackItems);
@@ -45,7 +45,7 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
         EventBus.getDefault().register(this);
         this.stackItems = stackItems;
         this.context = WordStack.getInstance();
-        this.sliding = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_from_right);
+        this.sliding = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_from_left);
     }
 
     @Override
@@ -81,14 +81,13 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
     }
 
     private void animateEnterSlideIfNeeded(final View row, int position) {
-        if (row.getTag(ANIMATED_KEY) != ANIMATED || position == reanimatingItemIndex) {
-            reanimatingItemIndex = -1;
+        if (position == reanimatingItemIndex) {
+            reanimatingItemIndex = Integer.MAX_VALUE;
             row.setVisibility(View.INVISIBLE);
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
                     row.startAnimation(sliding);
-                    row.setTag(ANIMATED_KEY, ANIMATED);
                     row.setVisibility(View.VISIBLE);
                 }
             });

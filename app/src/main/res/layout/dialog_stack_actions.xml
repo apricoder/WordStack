@@ -96,6 +96,7 @@
 
                 <!-- EDIT CARDS -->
                 <LinearLayout
+                    android:id="@+id/edit_stack_action"
                     android:background="?attr/selectableItemBackground"
                     android:clickable="true"
                     android:padding="10dp"
