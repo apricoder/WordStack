@@ -16,6 +16,7 @@ import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
+import com.olebokolo.wordstack.presentation.dialogs.CardAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAlert;
@@ -135,5 +136,16 @@ public class WordStack extends Application {
         stackActivity.typefaceCollection = this.typefaceCollection;
         stackActivity.typefaceManager = this.typefaceManager;
         stackActivity.navigator = this.activityNavigator;
+        stackActivity.languageService = languageComponentsFactory.getLanguageService();
+        stackActivity.flagService = languageComponentsFactory.getFlagService();
+        stackActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+    }
+
+    public void injectDependenciesTo(CardAddDialog cardAddDialog) {
+        cardAddDialog.typefaceCollection = this.typefaceCollection;
+        cardAddDialog.typefaceManager = this.typefaceManager;
+        cardAddDialog.languageService = languageComponentsFactory.getLanguageService();
+        cardAddDialog.flagService = languageComponentsFactory.getFlagService();
+        cardAddDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();
     }
 }

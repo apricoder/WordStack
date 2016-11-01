@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/dialog_body"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
+
+        <!-- RELATIVE WRAPPER -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/dialog_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/mainBlue"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
+
+                <!-- TITLE -->
+                <TextView
+                    android:id="@+id/dialog_title"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="New card"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- CLOSE BUTTON -->
+                <ImageView
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:id="@+id/close_button"
+                    android:src="@drawable/c_close_white"
+                    android:layout_margin="3dp"
+                    android:padding="8dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+            </LinearLayout>
+
+            <!-- CONTENT WRAPPER -->
+            <LinearLayout
+                android:layout_below="@+id/dialog_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="7dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="vertical">
+
+                <!-- FRONT LANGUAGE WORD -->
+                <LinearLayout
+                    android:id="@+id/front_lang_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/front_lang_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/flag_en"
+                        app:civ_border_color="@color/mainBlue"
+                        app:civ_border_overlay="true"
+                        app:civ_border_width="0.5dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:textColorHint="@color/mainBlue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/front_lang_word"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/mainBlue"
+                            android:inputType="textCapWords"
+                            android:textColorHint="@color/mainBlue"
+                            tools:text="Good morning"
+                            android:hint="Word" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <!-- BACK LANGUAGE WORD -->
+                <LinearLayout
+                    android:id="@+id/back_lang_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:id="@+id/back_lang_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/flag_de"
+                        app:civ_border_color="@color/mainBlue"
+                        app:civ_border_overlay="true"
+                        app:civ_border_width="0.5dp" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:textColorHint="@color/mainBlue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/back_lang_word"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/mainBlue"
+                            android:inputType="textCapWords"
+                            android:textColorHint="@color/mainBlue"
+                            tools:text="Guten Tag"
+                            android:hint="Translation" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <CheckBox
+                        android:layout_marginTop="2dp"
+                        android:layout_marginLeft="32dp"
+                        android:textColor="@color/mainBlue"
+                        android:text="Auto translation with Yandex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end">
+
+                    <TextView
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:id="@+id/back_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Back"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/mainBlue"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:id="@+id/add_stack_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Create"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAllCaps="true"
+                        android:textColor="@color/mainBlue"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

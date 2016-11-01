@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -123,12 +124,20 @@ public class StackListActivity extends AppCompatActivity {
     @Subscribe
     public void onEvent(final StackDetailsRequestedEvent event) {
         new Handler().post(new Runnable() {
+
             @Override
             public void run() {
                 Map<String, Serializable> extras = new HashMap<>();
-                extras.put("stack", event.getStack());
+                Stack stack = getStackFromEvent();
+                extras.put("stack", stack);
                 navigator.goForwardWithSlideAnimation(StackListActivity.this, StackActivity.class, extras);
             }
+
+            private Stack getStackFromEvent() {
+                Stack stack = event.getStack();
+                return stack != null ? stack : stacks.get(event.getPosition());
+            }
+
         });
     }
 
@@ -172,6 +181,12 @@ public class StackListActivity extends AppCompatActivity {
         findStacksForChosenLanguages();
         stackAdapter = new StackAdapter(stackItems);
         stackList.setAdapter(stackAdapter);
+        stackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                EventBus.getDefault().post(StackDetailsRequestedEvent.builder().position(i).build());
+            }
+        });
     }
 
     private List<StackItem> getStackItemsFrom(List<Stack> stacks) {

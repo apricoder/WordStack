@@ -119,6 +119,7 @@
             android:paddingBottom="230dp"
             android:layoutAnimation = "@anim/a_list_item_animation"
             android:clipToPadding="false"
+            android:descendantFocusability="blocksDescendants"
             android:scrollbarStyle="outsideOverlay">
         </ListView>
 

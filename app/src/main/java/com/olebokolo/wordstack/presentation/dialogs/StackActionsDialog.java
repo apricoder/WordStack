@@ -51,7 +51,7 @@ public class StackActionsDialog extends Dialog {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        EventBus.getDefault().post(new StackDetailsRequestedEvent(stack));
+                        EventBus.getDefault().post(StackDetailsRequestedEvent.builder().stack(stack).build());
                     }
                 }, DELAY_MILLIS);
             }
