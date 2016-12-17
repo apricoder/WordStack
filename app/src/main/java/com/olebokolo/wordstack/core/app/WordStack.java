@@ -17,11 +17,13 @@ import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.CardAddDialog;
+import com.olebokolo.wordstack.presentation.dialogs.CardEditDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAlert;
 import com.olebokolo.wordstack.presentation.dialogs.StackConfirmDeleteDialog;
-import com.olebokolo.wordstack.presentation.dialogs.StackRenameDialog;
+import com.olebokolo.wordstack.presentation.dialogs.StackEditDialog;
+import com.olebokolo.wordstack.presentation.lists.cards.CardAdapter;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
@@ -122,9 +124,9 @@ public class WordStack extends Application {
         stackConfirmDeleteDialog.typefaceManager = this.typefaceManager;
     }
 
-    public void injectDependenciesTo(StackRenameDialog stackRenameDialog) {
-        stackRenameDialog.typefaceCollection = this.typefaceCollection;
-        stackRenameDialog.typefaceManager = this.typefaceManager;
+    public void injectDependenciesTo(StackEditDialog stackEditDialog) {
+        stackEditDialog.typefaceCollection = this.typefaceCollection;
+        stackEditDialog.typefaceManager = this.typefaceManager;
     }
 
     public void injectDependenciesTo(StackAlert stackAlert) {
@@ -147,5 +149,18 @@ public class WordStack extends Application {
         cardAddDialog.languageService = languageComponentsFactory.getLanguageService();
         cardAddDialog.flagService = languageComponentsFactory.getFlagService();
         cardAddDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+    }
+
+    public void injectDependenciesTo(CardEditDialog cardEditDialog) {
+        cardEditDialog.typefaceCollection = this.typefaceCollection;
+        cardEditDialog.typefaceManager = this.typefaceManager;
+        cardEditDialog.languageService = languageComponentsFactory.getLanguageService();
+        cardEditDialog.flagService = languageComponentsFactory.getFlagService();
+        cardEditDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+    }
+
+    public void injectDependenciesTo(CardAdapter cardAdapter) {
+        cardAdapter.typefaceCollection = this.typefaceCollection;
+        cardAdapter.typefaceManager = this.typefaceManager;
     }
 }

@@ -228,7 +228,7 @@ public class StackListActivity extends AppCompatActivity {
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
         frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
-        addStackButton = (FloatingActionButton) findViewById(R.id.add_stack_button);
+        addStackButton = (FloatingActionButton) findViewById(R.id.save_stack_button);
         stackList = (ListView) findViewById(R.id.stack_list);
     }
 

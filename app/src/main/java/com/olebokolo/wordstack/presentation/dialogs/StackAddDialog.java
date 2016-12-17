@@ -40,7 +40,7 @@ public class StackAddDialog extends Dialog {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         WordStack.getInstance().injectDependenciesTo(this);
-        setContentView(R.layout.dialog_stack_add);
+        setContentView(R.layout.dialog_stack_edit);
         findViews();
         setupFonts();
         setupBackButton();
@@ -141,6 +141,6 @@ public class StackAddDialog extends Dialog {
 
     private void findViews() {
         stackNameField = (EditText) findViewById(R.id.stack_name);
-        addStackButton = (TextView) findViewById(R.id.add_stack_button);
+        addStackButton = (TextView) findViewById(R.id.save_stack_button);
     }
 }

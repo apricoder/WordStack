@@ -52,7 +52,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="Stacks"
                     android:textAllCaps="true"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/mainWhite"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -117,7 +117,7 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/item_stack"
             android:paddingBottom="230dp"
-            android:layoutAnimation = "@anim/a_list_item_animation"
+            android:layoutAnimation = "@anim/layout_anim_item_slide_very_fast"
             android:clipToPadding="false"
             android:descendantFocusability="blocksDescendants"
             android:scrollbarStyle="outsideOverlay">
@@ -137,7 +137,7 @@
 
         <!-- ADD STACK BUTTON -->
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_stack_button"
+            android:id="@+id/save_stack_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

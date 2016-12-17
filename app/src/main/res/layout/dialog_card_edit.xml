@@ -91,11 +91,11 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/front_lang_word"
+                            android:id="@+id/front_lang_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/mainBlue"
-                            android:inputType="textCapWords"
+                            android:inputType="textCapSentences"
                             android:textColorHint="@color/mainBlue"
                             tools:text="Good morning"
                             android:hint="Word" />
@@ -131,11 +131,11 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/back_lang_word"
+                            android:id="@+id/back_lang_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/mainBlue"
-                            android:inputType="textCapWords"
+                            android:inputType="textCapSentences"
                             android:textColorHint="@color/mainBlue"
                             tools:text="Guten Tag"
                             android:hint="Translation" />
@@ -184,10 +184,10 @@
                     <TextView
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"
-                        android:id="@+id/add_stack_button"
+                        android:id="@+id/save_card_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Create"
+                        android:text="Save"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:paddingRight="5dp"

@@ -21,7 +21,7 @@ import com.orm.SugarRecord;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class StackRenameDialog extends Dialog {
+public class StackEditDialog extends Dialog {
 
     // dependencies
     public TypefaceManager typefaceManager;
@@ -32,7 +32,7 @@ public class StackRenameDialog extends Dialog {
     private final Context context;
     private final Stack stack;
 
-    public StackRenameDialog(Context context, Stack stack) {
+    public StackEditDialog(Context context, Stack stack) {
         super(context);
         this.context = context;
         this.stack = stack;
@@ -40,7 +40,7 @@ public class StackRenameDialog extends Dialog {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         getWindow().getAttributes().windowAnimations = R.style.FadeDialogAnimation;
         WordStack.getInstance().injectDependenciesTo(this);
-        setContentView(R.layout.dialog_stack_rename);
+        setContentView(R.layout.dialog_stack_edit);
         findViews();
         setupFonts();
         setupContent();
@@ -50,7 +50,7 @@ public class StackRenameDialog extends Dialog {
     }
 
     private void setupRenameButton() {
-        findViewById(R.id.rename_stack_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.save_stack_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String enteredName = String.valueOf(stackNameField.getText());

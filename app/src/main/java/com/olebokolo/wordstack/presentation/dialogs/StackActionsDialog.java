@@ -66,7 +66,7 @@ public class StackActionsDialog extends Dialog {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        new StackRenameDialog(context, stack).show();
+                        new StackEditDialog(context, stack).show();
                     }
                 }, DELAY_MILLIS);
             }

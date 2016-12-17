@@ -128,7 +128,7 @@
                     android:layout_height="60dp"
                     android:background="@drawable/button_rounded"
                     android:padding="15dp"
-                    android:text="Edit stacks"
+                    android:text="Stacks"
                     android:textAllCaps="true"
                     android:textColor="@color/mainBlue"
                     android:layout_marginBottom="15dp"

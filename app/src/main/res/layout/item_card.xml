@@ -17,22 +17,23 @@
         android:baselineAligned="false">
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <!-- FRONT LANGUAGE -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/front_lang_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/flag_en"
                 app:civ_border_color="@color/mainBlue"
                 app:civ_border_overlay="true"
-                app:civ_border_width="0.5dp" />
+                app:civ_border_width="1.0dp" />
 
             <TextView
                 android:id="@+id/front_lang_text"
@@ -45,6 +46,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:gravity="center_vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:orientation="horizontal"
@@ -52,15 +54,15 @@
 
             <!-- FRONT LANGUAGE -->
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/front_back_icon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:id="@+id/back_lang_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/flag_fr"
                 app:civ_border_color="@color/mainBlue"
                 app:civ_border_overlay="true"
-                app:civ_border_width="0.5dp" />
+                app:civ_border_width="1.0dp" />
 
             <TextView
                 android:id="@+id/back_lang_text"
