@@ -1,14 +1,13 @@
 package com.olebokolo.wordstack.presentation.dialogs;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
+import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.olebokolo.wordstack.R;
@@ -37,8 +36,8 @@ public class CardEditDialog extends Dialog {
     // views
     private ImageView frontLangIcon;
     private ImageView backLangIcon;
-    private EditText frontLangText;
-    private EditText backLangText;
+    private TextInputEditText frontLangText;
+    private TextInputEditText backLangText;
     // data
     private Card card;
     private Long frontLangId;
@@ -48,7 +47,7 @@ public class CardEditDialog extends Dialog {
     private String frontLangInitialText;
     private String backLangInitialText;
 
-    public CardEditDialog(Activity activity, Card card) {
+    public CardEditDialog(Context activity, Card card) {
         super(activity);
         this.card = card;
         WordStack.getInstance().injectDependenciesTo(this);
@@ -108,8 +107,8 @@ public class CardEditDialog extends Dialog {
     private void findViews() {
         frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
-        frontLangText = (EditText) findViewById(R.id.front_lang_text);
-        backLangText = (EditText) findViewById(R.id.back_lang_text);
+        frontLangText = (TextInputEditText) findViewById(R.id.front_lang_text);
+        backLangText = (TextInputEditText) findViewById(R.id.back_lang_text);
     }
 
     private void setupLanguagesIcons() {

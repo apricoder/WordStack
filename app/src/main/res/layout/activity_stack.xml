@@ -115,17 +115,17 @@
             android:orientation="vertical">
 
             <!-- CARD LIST -->
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:paddingTop="20dp"
                 android:id="@+id/card_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layoutAnimation = "@anim/layout_anim_item_slide_very_fast"
-                tools:listitem="@layout/item_card"
                 android:paddingBottom="230dp"
                 android:clipToPadding="false"
-                android:scrollbarStyle="outsideOverlay">
-            </ListView>
+                tools:listitem="@layout/item_card">
+
+            </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 

@@ -4,20 +4,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.events.CardAddedEvent;
+import com.olebokolo.wordstack.core.events.CardEditRequestEvent;
 import com.olebokolo.wordstack.core.events.CardEditedEvent;
-import com.olebokolo.wordstack.core.events.ReanimateCardEnterEvent;
-import com.olebokolo.wordstack.core.events.ReanimateUpdatedCardEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
@@ -30,8 +31,8 @@ import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
 import com.olebokolo.wordstack.presentation.dialogs.CardAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.CardEditDialog;
-import com.olebokolo.wordstack.presentation.lists.cards.CardAdapter;
 import com.olebokolo.wordstack.presentation.lists.cards.CardItem;
+import com.olebokolo.wordstack.presentation.lists.cards.CardItemAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarRecord;
 
@@ -41,6 +42,8 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class StackActivity extends AppCompatActivity {
 
@@ -58,8 +61,8 @@ public class StackActivity extends AppCompatActivity {
     private ImageView backLangIcon;
     private ViewGroup backToolbarButton;
     private ViewGroup rootLayout;
-    private ListView cardList;
-    private CardAdapter cardAdapter;
+    private RecyclerView cardRecycler;
+    private CardItemAdapter cardAdapter;
     // data
     private Long frontLangId;
     private Long backLangId;
@@ -84,6 +87,8 @@ public class StackActivity extends AppCompatActivity {
         setupLanguages();
         setupCardItems();
         setupCardList();
+        setupCardListDivider();
+        setupRemovalOnSwipe();
 
         reloadCards();
     }
@@ -93,40 +98,55 @@ public class StackActivity extends AppCompatActivity {
     }
 
     private void setupCardList() {
-        cardAdapter = new CardAdapter(cardItems);
-        cardList.setAdapter(cardAdapter);
-        cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        cardAdapter = new CardItemAdapter(cardItems);
+        cardRecycler.setLayoutManager(new LinearLayoutManager(this));
+        cardRecycler.setAdapter(cardAdapter);
+        cardRecycler.setItemAnimator(new SlideInLeftAnimator());
+        cardRecycler.getItemAnimator().setChangeDuration(1000);
+    }
+
+    private void setupRemovalOnSwipe() {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new CardEditDialog(StackActivity.this, cards.get(i)).show();
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
             }
-        });
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                cards.get(position).delete();
+                cardAdapter.notifyItemRemoved(position);
+                reloadCards();
+            }
+        }).attachToRecyclerView(cardRecycler);
+    }
+
+    @Subscribe
+    public void onEvent(final CardEditRequestEvent event) {
+        Card card = cards.get(event.getPosition());
+        if (this.isFinishing()) return;
+        final CardEditDialog dialog = new CardEditDialog(this, card);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dialog.show();
+            }
+        }, 150);
     }
 
     @Subscribe
     public void onEvent(CardEditedEvent event) {
         reloadCards();
-        postEventToAnimateItemUpdate(event.getCard());
-        new Handler().postDelayed(new Runnable() { @Override public void run() { cardAdapter.notifyDataSetChanged(); } }, 100);
-    }
-
-    private void postEventToAnimateItemUpdate(Card card) {
-        int position = cards.indexOf(card);
-        EventBus.getDefault().post(new ReanimateUpdatedCardEvent(position));
+        int position = getCardPosition(event.getCard());
+        cardAdapter.notifyItemChanged(position);
     }
 
     @Subscribe
     public void onEvent(CardAddedEvent event) {
-        Log.i(TAG, ">>>> Got card created event!");
         reloadCards();
-        postEventToAnimateLastListItemEnter();
-        new Handler().postDelayed(new Runnable() { @Override public void run() { cardAdapter.notifyDataSetChanged(); } }, 100);
-    }
-
-    private void postEventToAnimateLastListItemEnter() {
-        int itemToAnimatePosition = getCardPosition(cards.get(cards.size() - 1));
-        Log.i(TAG, "reanimating " + itemToAnimatePosition);
-        EventBus.getDefault().post(new ReanimateCardEnterEvent(itemToAnimatePosition));
+        int last = getCardPosition(cards.get(cards.size() - 1));
+        cardAdapter.notifyItemInserted(last);
     }
 
     private int getCardPosition(Card searched) {
@@ -182,6 +202,10 @@ public class StackActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.toolbar_title)).setText(name);
     }
 
+    private void setupCardListDivider() {
+        cardRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+    }
+
     private void setupAddCardButton() {
         findViewById(R.id.save_card_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +231,7 @@ public class StackActivity extends AppCompatActivity {
     private void findViews() {
         frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
-        cardList = (ListView) findViewById(R.id.card_list);
+        cardRecycler = (RecyclerView) findViewById(R.id.card_list);
         rootLayout = (ViewGroup) findViewById(R.id.root_layout);
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
     }
