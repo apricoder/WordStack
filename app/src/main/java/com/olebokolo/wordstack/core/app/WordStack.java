@@ -24,6 +24,7 @@ import com.olebokolo.wordstack.presentation.dialogs.StackAlert;
 import com.olebokolo.wordstack.presentation.dialogs.StackConfirmDeleteDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackEditDialog;
 import com.olebokolo.wordstack.presentation.lists.cards.CardAdapter;
+import com.olebokolo.wordstack.presentation.lists.cards.CardItemAdapter;
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
@@ -162,5 +163,10 @@ public class WordStack extends Application {
     public void injectDependenciesTo(CardAdapter cardAdapter) {
         cardAdapter.typefaceCollection = this.typefaceCollection;
         cardAdapter.typefaceManager = this.typefaceManager;
+    }
+
+    public void injectDependenciesTo(CardItemAdapter cardItemAdapter) {
+        cardItemAdapter.typefaceCollection = this.typefaceCollection;
+        cardItemAdapter.typefaceManager = this.typefaceManager;
     }
 }

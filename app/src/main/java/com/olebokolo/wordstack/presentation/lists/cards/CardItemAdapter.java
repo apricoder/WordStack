@@ -4,14 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.events.CardEditRequestEvent;
+import com.olebokolo.wordstack.core.utils.TypefaceCollection;
+import com.olebokolo.wordstack.core.utils.TypefaceManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -19,15 +19,15 @@ import java.util.List;
 
 public class CardItemAdapter extends RecyclerView.Adapter<CardItemAdapter.CardItemHolder> {
 
+    // dependencies
+    public TypefaceCollection typefaceCollection;
+    public TypefaceManager typefaceManager;
+    // data
     private List<CardItem> cardItems;
-    private final Animation sliding;
-    private final Animation fading;
-    private View.OnClickListener itemClick;
 
     public CardItemAdapter(List<CardItem> cardItems) {
+        WordStack.getInstance().injectDependenciesTo(this);
         this.cardItems = cardItems;
-        this.sliding = AnimationUtils.loadAnimation(WordStack.getInstance(), R.anim.slide_in_from_left);
-        this.fading = AnimationUtils.loadAnimation(WordStack.getInstance(), R.anim.fade_in_long);
     }
 
     @Override
@@ -44,6 +44,7 @@ public class CardItemAdapter extends RecyclerView.Adapter<CardItemAdapter.CardIt
         holder.backLangText.setText(cardItem.getBackLangText());
         holder.frontLangIcon.setImageResource(cardItem.getFrontLangFlagResource());
         holder.backLangIcon.setImageResource(cardItem.getBackLangFlagResource());
+        typefaceManager.setTypefaceForContainer((ViewGroup) holder.container, typefaceCollection.getRalewayMedium());
         holder.container.setOnClickListener(getHolderClick(holder));
     }
 
