@@ -107,4 +107,10 @@ public class MainMenuActivity extends AppCompatActivity {
             navigator.goForwardWithSlideAnimation(MainMenuActivity.this, target);
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
