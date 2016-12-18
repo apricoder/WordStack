@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
@@ -46,6 +47,7 @@ public class CardEditDialog extends Dialog {
     private Side backSide;
     private String frontLangInitialText;
     private String backLangInitialText;
+    private TextView dialogTitle;
 
     public CardEditDialog(Context activity, Card card) {
         super(activity);
@@ -54,6 +56,7 @@ public class CardEditDialog extends Dialog {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         setContentView(R.layout.dialog_card_edit);
         findViews();
+        setupDialogTitle();
         setupCardSides();
         setupInputsContent();
         setupLanguages();
@@ -62,6 +65,10 @@ public class CardEditDialog extends Dialog {
         setupCloseButton();
         setupBackButton();
         setupAddCardButton();
+    }
+
+    private void setupDialogTitle() {
+        dialogTitle.setText("Edit card");
     }
 
     private void setupCardSides() {
@@ -105,6 +112,7 @@ public class CardEditDialog extends Dialog {
     }
 
     private void findViews() {
+        dialogTitle = (TextView) findViewById(R.id.dialog_title);
         frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
         frontLangText = (TextInputEditText) findViewById(R.id.front_lang_text);
