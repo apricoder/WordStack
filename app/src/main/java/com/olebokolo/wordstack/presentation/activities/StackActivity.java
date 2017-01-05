@@ -11,7 +11,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
@@ -57,15 +56,11 @@ public class StackActivity extends AppCompatActivity {
     public FlagService flagService;
     public UserSettingsService settingsService;
     // views
-    private ImageView frontLangIcon;
-    private ImageView backLangIcon;
     private ViewGroup backToolbarButton;
     private ViewGroup rootLayout;
     private RecyclerView cardRecycler;
     private CardItemAdapter cardAdapter;
     // data
-    private Long frontLangId;
-    private Long backLangId;
     private Language frontLanguage;
     private Language backLanguage;
     private Stack stack;
@@ -217,8 +212,8 @@ public class StackActivity extends AppCompatActivity {
 
     private void setupLanguages() {
         UserSettings userSettings = settingsService.getUserSettings();
-        frontLangId = userSettings.getFrontLangId();
-        backLangId = userSettings.getBackLangId();
+        Long frontLangId = userSettings.getFrontLangId();
+        Long backLangId = userSettings.getBackLangId();
         frontLanguage = languageService.findById(frontLangId);
         backLanguage = languageService.findById(backLangId);
     }
@@ -229,8 +224,6 @@ public class StackActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        frontLangIcon = (ImageView) findViewById(R.id.front_lang_icon);
-        backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
         cardRecycler = (RecyclerView) findViewById(R.id.card_list);
         rootLayout = (ViewGroup) findViewById(R.id.root_layout);
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);

@@ -60,8 +60,8 @@ public class StackListActivity extends AppCompatActivity {
     private ImageView backLangIcon;
     private ViewGroup backToolbarButton;
     private Animation deleteAnimation;
-    // data
     private FloatingActionButton addStackButton;
+    // data
     private Long frontLangId;
     private Long backLangId;
     private List<StackItem> stackItems;

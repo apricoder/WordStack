@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.activities.PracticeActivity">
+
+    <!-- TOOLBAR WRAPPER -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- TOOLBAR -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/mainBlue"
+            android:orientation="horizontal">
+
+            <!-- BACK BUTTON WRAPPER -->
+            <LinearLayout
+                android:clickable="true"
+                android:background="?attr/selectableItemBackground"
+                android:id="@+id/back_toolbar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:paddingTop="5dp">
+
+                <!-- BACK ARROW -->
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="-10dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/c_arrow_left_white" />
+
+                <!-- TITLE -->
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Pick stacks"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainWhite"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <!-- SELECTED LANGUAGES -->
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|end"
+                android:layout_marginRight="18dp"
+                android:layout_marginEnd="18dp"
+                android:orientation="horizontal">
+
+                <!-- FRONT LANGUAGE -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/front_lang_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    tools:src="@drawable/flag_en"
+                    app:civ_border_color="#ddd"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="2dp" />
+
+                <!-- BACK LANGUAGE -->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_toRightOf="@id/front_lang_icon"
+                    android:id="@+id/back_lang_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    tools:src="@drawable/flag_fr"
+                    app:civ_border_color="#ddd"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="2dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- SHADOW -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cardview_dark_background" />
+
+    </LinearLayout>
+
+    <!-- LAYOUT WRAPPER -->
+    <RelativeLayout
+        android:id="@+id/root_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- CARD LIST -->
+            <android.support.v7.widget.RecyclerView
+                android:paddingTop="20dp"
+                android:id="@+id/card_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layoutAnimation = "@anim/layout_anim_item_slide_very_fast"
+                android:paddingBottom="230dp"
+                android:clipToPadding="false"
+                tools:listitem="@layout/item_card">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+        <!-- ADD CARD BUTTON -->
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/practice_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="25dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/c_book_white"
+            app:fabSize="normal" />
+
+    </RelativeLayout>
+
+</LinearLayout>
