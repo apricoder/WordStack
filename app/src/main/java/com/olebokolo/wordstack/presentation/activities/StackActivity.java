@@ -250,6 +250,10 @@ public class StackActivity extends AppCompatActivity {
         goBack();
     }
 
+    private void goBack() {
+        navigator.goBackWithSlideAnimation(StackActivity.this, StackListActivity.class);
+    }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
@@ -265,11 +269,6 @@ public class StackActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState, outPersistentState);
         outState.putSerializable("stack", stack);
     }
-
-    private void goBack() {
-        navigator.goBackWithSlideAnimation(StackActivity.this, StackListActivity.class);
-    }
-
 
 
 }
