@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Pick stacks"
+                    android:text="Choose stacks"
                     android:textAllCaps="true"
                     android:textColor="@color/mainWhite"
                     android:textSize="20sp"
@@ -119,8 +119,7 @@
 
             <!-- CARD LIST -->
             <android.support.v7.widget.RecyclerView
-                android:paddingTop="20dp"
-                android:id="@+id/card_list"
+                android:id="@+id/stack_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layoutAnimation = "@anim/layout_anim_item_slide_very_fast"
@@ -134,6 +133,7 @@
 
         <!-- ADD CARD BUTTON -->
         <android.support.design.widget.FloatingActionButton
+            android:visibility="invisible"
             android:id="@+id/practice_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

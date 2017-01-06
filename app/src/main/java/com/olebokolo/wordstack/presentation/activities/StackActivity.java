@@ -8,7 +8,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -167,8 +166,6 @@ public class StackActivity extends AppCompatActivity {
     private CardItem getCardItemFrom(Card c) {
         Side frontSide = SugarRecord.findById(Side.class, c.getFrontSideId());
         Side backSide = SugarRecord.findById(Side.class, c.getBackSideId());
-        Log.i(TAG, "frontSide: " + frontSide);
-        Log.i(TAG, "backSide: " + backSide);
         return CardItem.builder()
                 .frontLangText(frontSide.getContent())
                 .backLangText(backSide.getContent())
