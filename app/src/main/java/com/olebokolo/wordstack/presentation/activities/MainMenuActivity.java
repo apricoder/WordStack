@@ -100,7 +100,7 @@ public class MainMenuActivity extends AppCompatActivity {
             Class target;
             switch (clickedButton.getId()) {
                 default:
-                case R.id.practice_button: target = PracticeActivity.class; break;
+                case R.id.practice_button: target = ChoosePracticeStacksActivity.class; break;
                 case R.id.edit_stacks_button: target = StackListActivity.class; break;
                 case R.id.settings_button: target = SettingsActivity.class; break;
             }

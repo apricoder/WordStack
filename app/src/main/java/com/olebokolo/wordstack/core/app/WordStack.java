@@ -10,10 +10,10 @@ import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponents
 import com.olebokolo.wordstack.core.user.settings.factory.UserSettingsComponentsFactoryImpl;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
+import com.olebokolo.wordstack.presentation.activities.ChoosePracticeStacksActivity;
 import com.olebokolo.wordstack.presentation.activities.GreetingActivity;
 import com.olebokolo.wordstack.presentation.activities.LanguagesActivity;
 import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
-import com.olebokolo.wordstack.presentation.activities.PracticeActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
@@ -172,13 +172,13 @@ public class WordStack extends Application {
         cardItemAdapter.typefaceManager = this.typefaceManager;
     }
 
-    public void injectDependenciesTo(PracticeActivity practiceActivity) {
-        practiceActivity.typefaceCollection = this.typefaceCollection;
-        practiceActivity.typefaceManager = this.typefaceManager;
-        practiceActivity.navigator = activityNavigator;
-        practiceActivity.languageService = languageComponentsFactory.getLanguageService();
-        practiceActivity.flagService = languageComponentsFactory.getFlagService();
-        practiceActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+    public void injectDependenciesTo(ChoosePracticeStacksActivity choosePracticeStacksActivity) {
+        choosePracticeStacksActivity.typefaceCollection = this.typefaceCollection;
+        choosePracticeStacksActivity.typefaceManager = this.typefaceManager;
+        choosePracticeStacksActivity.navigator = activityNavigator;
+        choosePracticeStacksActivity.languageService = languageComponentsFactory.getLanguageService();
+        choosePracticeStacksActivity.flagService = languageComponentsFactory.getFlagService();
+        choosePracticeStacksActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
     }
 
     public void injectDependenciesTo(PracticeStackItemAdapter practiceStackItemAdapter) {

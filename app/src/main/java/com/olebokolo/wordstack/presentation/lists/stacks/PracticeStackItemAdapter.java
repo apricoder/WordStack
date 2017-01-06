@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
@@ -45,6 +46,16 @@ public class PracticeStackItemAdapter extends RecyclerView.Adapter<PracticeStack
         typefaceManager.setTypeface(holder.stackNameText, typefaceCollection.getRalewayMedium());
         typefaceManager.setTypeface(holder.cardsCountText, typefaceCollection.getRalewayLight());
         holder.container.setOnClickListener(getHolderClick(holder));
+        holder.checkBox.setOnCheckedChangeListener(getCheckboxListener(holder));
+    }
+
+    private CompoundButton.OnCheckedChangeListener getCheckboxListener(final StackItemHolder holder) {
+        return new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                broadcastStackState(b, holder);
+            }
+        };
     }
 
     private View.OnClickListener getHolderClick(final StackItemHolder holder) {
@@ -52,10 +63,14 @@ public class PracticeStackItemAdapter extends RecyclerView.Adapter<PracticeStack
             @Override
             public void onClick(View view) {
                 boolean isChecked = !holder.checkBox.isChecked();
-                holder.checkBox.setChecked(isChecked);
-                EventBus.getDefault().post(new PracticeStackCheckedEvent(holder.getAdapterPosition(), isChecked));
+                broadcastStackState(isChecked, holder);
             }
         };
+    }
+
+    private void broadcastStackState(boolean isChecked, StackItemHolder holder) {
+        holder.checkBox.setChecked(isChecked);
+        EventBus.getDefault().post(new PracticeStackCheckedEvent(holder.getAdapterPosition(), isChecked));
     }
 
     @Override

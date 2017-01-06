@@ -34,7 +34,7 @@ import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
-public class PracticeActivity extends AppCompatActivity {
+public class ChoosePracticeStacksActivity extends AppCompatActivity {
 
     // dependencies
     public TypefaceCollection typefaceCollection;
@@ -60,7 +60,7 @@ public class PracticeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_practice);
+        setContentView(R.layout.activity_choose_practice_stacks);
         WordStack.getInstance().injectDependenciesTo(this);
         EventBus.getDefault().register(this);
         findViews();
@@ -172,7 +172,7 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     private void goBack() {
-        navigator.goBackWithSlideAnimation(PracticeActivity.this, MainMenuActivity.class);
+        navigator.goBackWithSlideAnimation(ChoosePracticeStacksActivity.this, MainMenuActivity.class);
     }
 
 }
