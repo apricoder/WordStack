@@ -84,9 +84,10 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
         checkAllBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean checked = checkAllBox.isChecked();
                 for (int position = 0; position < stackRecycler.getChildCount(); position++) {
                     View row = stackRecycler.getChildAt(position);
-                    ((CheckBox)row.findViewById(R.id.checkbox)).setChecked(checkAllBox.isChecked());
+                    ((CheckBox)row.findViewById(R.id.checkbox)).setChecked(checked);
                 }
             }
         });
@@ -103,9 +104,19 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(PracticeStackCheckedEvent event) {
-        if (!event.isChecked()) checkAllBox.setChecked(false);
         stackItems.get(event.getPosition()).setChecked(event.isChecked());
+        updateCheckAllBoxState();
         updatePracticeButtonVisibility();
+    }
+
+    private void updateCheckAllBoxState() {
+        boolean allChecked = true;
+        for (PracticeStackItem item : stackItems)
+            if (!item.isChecked()) {
+                allChecked = false;
+                break;
+            }
+        checkAllBox.setChecked(allChecked);
     }
 
     private void updatePracticeButtonVisibility() {
