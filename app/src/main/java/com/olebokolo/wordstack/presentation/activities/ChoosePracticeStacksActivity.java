@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
@@ -50,6 +52,8 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
     private FloatingActionButton practiceButton;
     private PracticeStackItemAdapter stackAdapter;
     private RecyclerView stackRecycler;
+    private TextView checkAllText;
+    private CheckBox checkAllBox;
     // data
     private Long frontLangId;
     private Long backLangId;
@@ -70,12 +74,36 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
         setupLanguagesIcons();
         setupStackItems();
         setupStackList();
+        setupCheckAllLayout();
+        setupCheckAllBox();
 
         reloadStacks();
     }
 
+    private void setupCheckAllBox() {
+        checkAllBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (int position = 0; position < stackRecycler.getChildCount(); position++) {
+                    View row = stackRecycler.getChildAt(position);
+                    ((CheckBox)row.findViewById(R.id.checkbox)).setChecked(checkAllBox.isChecked());
+                }
+            }
+        });
+    }
+
+    private void setupCheckAllLayout() {
+        findViewById(R.id.check_all_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAllBox.performClick();
+            }
+        });
+    }
+
     @Subscribe
     public void onEvent(PracticeStackCheckedEvent event) {
+        if (!event.isChecked()) checkAllBox.setChecked(false);
         stackItems.get(event.getPosition()).setChecked(event.isChecked());
         updatePracticeButtonVisibility();
     }
@@ -99,7 +127,13 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
     private void reloadStacks() {
         stacks = getStacksForChosenLanguages();
         stackItems.clear();
-        stackItems.addAll(getStackItemsFrom(stacks));
+        stackItems.addAll(filterEmpty(getStackItemsFrom(stacks)));
+    }
+
+    private List<PracticeStackItem> filterEmpty(List<PracticeStackItem> items) {
+        List<PracticeStackItem> filtered = new ArrayList<>();
+        for (PracticeStackItem item : items) if (item.getCardsCount() > 0) filtered.add(item);
+        return filtered;
     }
 
     private List<PracticeStackItem> getStackItemsFrom(List<Stack> stacks) {
@@ -138,6 +172,8 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
         backLangIcon = (ImageView) findViewById(R.id.back_lang_icon);
         practiceButton = (FloatingActionButton) findViewById(R.id.practice_button);
         stackRecycler = (RecyclerView) findViewById(R.id.stack_list);
+        checkAllText = (TextView) findViewById(R.id.check_all_text);
+        checkAllBox = (CheckBox) findViewById(R.id.check_all_box);
     }
 
     private void setupLanguagesIcons() {
@@ -155,6 +191,7 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
 
     private void setupTypeface() {
         typefaceManager.setTypefaceForContainer(backToolbarButton, typefaceCollection.getRalewayMedium());
+        typefaceManager.setTypeface(checkAllText, typefaceCollection.getRalewayMedium());
     }
 
     private void setupGoBackButton() {

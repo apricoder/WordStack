@@ -13,13 +13,14 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/mainBlueDark"
         android:orientation="vertical">
 
         <!-- TOOLBAR -->
         <LinearLayout
+            android:background="@color/mainBlue"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/mainBlue"
             android:orientation="horizontal">
 
             <!-- BACK BUTTON WRAPPER -->
@@ -50,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Choose stacks"
+                    android:text="Practice stacks"
                     android:textAllCaps="true"
                     android:textColor="@color/mainWhite"
                     android:textSize="20sp"
@@ -93,6 +94,39 @@
                     app:civ_border_width="2dp" />
 
             </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- CHECK ALL LAYOUT -->
+        <LinearLayout
+            android:id="@+id/check_all_layout"
+            android:background="?attr/selectableItemBackground"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:paddingRight="15.5dp"
+            android:paddingEnd="15.5dp"
+            android:paddingLeft="18dp"
+            android:paddingStart="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/check_all_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Check all"
+                android:textAllCaps="true"
+                android:textColor="@color/mainWhite"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/check_all_box"
+                app:buttonTint="@color/mainWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
