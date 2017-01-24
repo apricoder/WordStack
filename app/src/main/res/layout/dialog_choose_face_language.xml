@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/root_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/dialog_body"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
+
+        <!-- RELATIVE WRAPPER -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/dialog_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/mainBlue"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <!-- TITLE -->
+                <TextView
+                    android:id="@+id/dialog_title"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Choose face side"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAllCaps="true"
+                    android:textColor="#fff"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- CONTENT -->
+            <LinearLayout
+                android:layout_below="@+id/dialog_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dialog_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Which side to show first?"
+                    android:textColor="@color/mainBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/front_lang_layout"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/front_lang_icon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/flag_uk"
+                            app:civ_border_color="@color/mainBlue"
+                            app:civ_border_overlay="true"
+                            app:civ_border_width="1.2dp" />
+
+                        <TextView
+                            android:id="@+id/front_lang_name"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            tools:text="Ukrainian"
+                            android:textColor="@color/mainBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/back_lang_layout"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/back_lang_icon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/flag_de"
+                            app:civ_border_color="@color/mainBlue"
+                            app:civ_border_overlay="true"
+                            app:civ_border_width="1.2dp" />
+
+                        <TextView
+                            android:id="@+id/back_lang_name"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            tools:text="German"
+                            android:textColor="@color/mainBlue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

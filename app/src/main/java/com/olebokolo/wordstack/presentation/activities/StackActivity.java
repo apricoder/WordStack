@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.cards.CardsService;
 import com.olebokolo.wordstack.core.events.CardAddedEvent;
 import com.olebokolo.wordstack.core.events.CardEditRequestEvent;
 import com.olebokolo.wordstack.core.events.CardEditedEvent;
@@ -21,7 +22,6 @@ import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
 import com.olebokolo.wordstack.core.model.Language;
-import com.olebokolo.wordstack.core.model.Side;
 import com.olebokolo.wordstack.core.model.Stack;
 import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
@@ -54,6 +54,7 @@ public class StackActivity extends AppCompatActivity {
     public LanguageService languageService;
     public FlagService flagService;
     public UserSettingsService settingsService;
+    public CardsService cardsService;
     // views
     private ViewGroup backToolbarButton;
     private ViewGroup rootLayout;
@@ -154,28 +155,7 @@ public class StackActivity extends AppCompatActivity {
     private void reloadCards() {
         cards = getCardsOf(stack);
         cardItems.clear();
-        cardItems.addAll(getCardItemsFrom(cards));
-    }
-
-    private List<CardItem> getCardItemsFrom(List<Card> cards) {
-        List<CardItem> cardItems = new ArrayList<>();
-        for (Card card : cards) cardItems.add(getCardItemFrom(card));
-        return cardItems;
-    }
-
-    private CardItem getCardItemFrom(Card c) {
-        Side frontSide = SugarRecord.findById(Side.class, c.getFrontSideId());
-        Side backSide = SugarRecord.findById(Side.class, c.getBackSideId());
-        return CardItem.builder()
-                .frontLangText(frontSide.getContent())
-                .backLangText(backSide.getContent())
-                .frontLangFlagResource(getFlagFor(frontLanguage))
-                .backLangFlagResource(getFlagFor(backLanguage))
-                .build();
-    }
-
-    private int getFlagFor(Language language) {
-        return flagService.getFlagByLanguageShortName(language.getShortName());
+        cardItems.addAll(cardsService.getCardItemsFrom(cards));
     }
 
     private List<Card> getCardsOf(Stack stack) {

@@ -68,8 +68,8 @@
                 android:gravity="center_vertical|end"
                 android:orientation="horizontal">
 
-                <!-- FRONT LANGUAGE -->
-                <de.hdodenhof.circleimageview.CircleImageView
+                <!-- SEARCH -->
+                <ImageView
                     android:id="@+id/front_lang_icon"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
@@ -79,8 +79,8 @@
                     android:layout_marginRight="10dp"
                     android:src="@drawable/c_magnify_white"/>
 
-                <!-- BACK LANGUAGE -->
-                <de.hdodenhof.circleimageview.CircleImageView
+                <!-- SOUND -->
+                <ImageView
                     android:id="@+id/back_lang_icon"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"

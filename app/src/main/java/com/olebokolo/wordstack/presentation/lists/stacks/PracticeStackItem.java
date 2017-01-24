@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor(suppressConstructorProperties = true)
 @RequiredArgsConstructor(suppressConstructorProperties = true)
 public class PracticeStackItem {
+    @NonNull private Long id;
     @NonNull private String stackName;
     @NonNull private int cardsCount;
     private boolean checked;

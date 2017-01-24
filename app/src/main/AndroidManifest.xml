@@ -52,6 +52,10 @@
             android:name=".presentation.activities.ChoosePracticeStacksActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".presentation.activities.PracticeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
     </application>
 
 </manifest>

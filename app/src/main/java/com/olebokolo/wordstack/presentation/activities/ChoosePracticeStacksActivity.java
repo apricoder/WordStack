@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -31,8 +32,11 @@ import com.orm.SugarRecord;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
@@ -76,8 +80,27 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
         setupStackList();
         setupCheckAllLayout();
         setupCheckAllBox();
+        setupPracticeButton();
 
         reloadStacks();
+    }
+
+    private void setupPracticeButton() {
+        practiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Long> chosenStacks = filterChosenStacksIdsFrom(stackItems);
+                Map<String, Serializable> extras = new HashMap<>();
+                extras.put("stacks",  TextUtils.join(",", chosenStacks));
+                navigator.goForwardWithSlideAnimation(ChoosePracticeStacksActivity.this, PracticeActivity.class, extras);
+            }
+        });
+    }
+
+    private List<Long> filterChosenStacksIdsFrom(List<PracticeStackItem> stackItems) {
+        List<Long> filtered = new ArrayList<>();
+        for(PracticeStackItem item : stackItems) if (item.isChecked()) filtered.add(item.getId());
+        return filtered;
     }
 
     private void setupCheckAllBox() {
@@ -156,7 +179,7 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
     private PracticeStackItem getStackItemFrom(Stack stack) {
         String stackId = String.valueOf(stack.getId());
         int cards = SugarRecord.find(Card.class, "stack_Id = ?", stackId).size();
-        return new PracticeStackItem(stack.getName(), cards);
+        return new PracticeStackItem(stack.getId(), stack.getName(), cards);
     }
 
     private List<Stack> getStacksForChosenLanguages() {

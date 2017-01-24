@@ -2,6 +2,7 @@ package com.olebokolo.wordstack.core.app;
 
 import android.app.Application;
 
+import com.olebokolo.wordstack.core.cards.CardsService;
 import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactory;
 import com.olebokolo.wordstack.core.languages.factory.LanguageComponentsFactoryImpl;
 import com.olebokolo.wordstack.core.resources.factory.DrawableComponentsFactory;
@@ -14,11 +15,13 @@ import com.olebokolo.wordstack.presentation.activities.ChoosePracticeStacksActiv
 import com.olebokolo.wordstack.presentation.activities.GreetingActivity;
 import com.olebokolo.wordstack.presentation.activities.LanguagesActivity;
 import com.olebokolo.wordstack.presentation.activities.MainMenuActivity;
+import com.olebokolo.wordstack.presentation.activities.PracticeActivity;
 import com.olebokolo.wordstack.presentation.activities.SettingsActivity;
 import com.olebokolo.wordstack.presentation.activities.StackActivity;
 import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.CardAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.CardEditDialog;
+import com.olebokolo.wordstack.presentation.dialogs.PracticeChooseFaceSideDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAlert;
@@ -42,6 +45,7 @@ public class WordStack extends Application {
     @Getter private ActivityNavigator activityNavigator;
     private TypefaceManager typefaceManager;
     private TypefaceCollection typefaceCollection;
+    private CardsService cardsService;
 
     public WordStack() {
         instance = this;
@@ -61,6 +65,9 @@ public class WordStack extends Application {
         SugarContext.init(this);
         typefaceManager = new TypefaceManager();
         typefaceCollection = new TypefaceCollection(this);
+        cardsService = new CardsService();
+        cardsService.flagService = languageComponentsFactory.getFlagService();
+        cardsService.languageService = languageComponentsFactory.getLanguageService();
     }
 
     public void injectDependenciesTo(StackListActivity stackListActivity) {
@@ -141,6 +148,7 @@ public class WordStack extends Application {
         stackActivity.typefaceCollection = this.typefaceCollection;
         stackActivity.typefaceManager = this.typefaceManager;
         stackActivity.navigator = this.activityNavigator;
+        stackActivity.cardsService = this.cardsService;
         stackActivity.languageService = languageComponentsFactory.getLanguageService();
         stackActivity.flagService = languageComponentsFactory.getFlagService();
         stackActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
@@ -184,5 +192,23 @@ public class WordStack extends Application {
     public void injectDependenciesTo(PracticeStackItemAdapter practiceStackItemAdapter) {
         practiceStackItemAdapter.typefaceCollection = this.typefaceCollection;
         practiceStackItemAdapter.typefaceManager = this.typefaceManager;
+    }
+
+    public void injectDependenciesTo(PracticeActivity practiceActivity) {
+        practiceActivity.typefaceCollection = this.typefaceCollection;
+        practiceActivity.typefaceManager = this.typefaceManager;
+        practiceActivity.navigator = activityNavigator;
+        practiceActivity.languageService = languageComponentsFactory.getLanguageService();
+        practiceActivity.flagService = languageComponentsFactory.getFlagService();
+        practiceActivity.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+        practiceActivity.cardsService = this.cardsService;
+    }
+
+    public void injectDependenciesTo(PracticeChooseFaceSideDialog practiceChooseFaceSideDialog) {
+        practiceChooseFaceSideDialog.typefaceCollection = this.typefaceCollection;
+        practiceChooseFaceSideDialog.typefaceManager = this.typefaceManager;
+        practiceChooseFaceSideDialog.languageService = languageComponentsFactory.getLanguageService();
+        practiceChooseFaceSideDialog.flagService = languageComponentsFactory.getFlagService();
+        practiceChooseFaceSideDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();
     }
 }
