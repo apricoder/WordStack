@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.events.PracticeStackEvent;
 import com.olebokolo.wordstack.core.events.ReanimateStackEnterEvent;
 import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.events.StackAddedEvent;
@@ -42,6 +44,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,6 +120,19 @@ public class StackListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 stackAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Subscribe
+    public void onEvent(final PracticeStackEvent event) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                List<Long> chosenStacks = Collections.singletonList(event.getStackId());
+                Map<String, Serializable> extras = new HashMap<>();
+                extras.put("stacks",  TextUtils.join(",", chosenStacks));
+                navigator.goForwardWithSlideAnimation(StackListActivity.this, PracticeActivity.class, extras);
             }
         });
     }

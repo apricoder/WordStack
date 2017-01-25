@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
+import com.olebokolo.wordstack.core.events.PracticeStackEvent;
 import com.olebokolo.wordstack.core.events.StackDetailsRequestedEvent;
 import com.olebokolo.wordstack.core.model.Stack;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
@@ -37,10 +38,26 @@ public class StackActionsDialog extends Dialog {
         setContentView(R.layout.dialog_stack_actions);
         setupFonts();
         setupTitle();
+        setupPracticeButton();
         setupEditCardsButton();
         setupCloseButton();
         setupRenameButton();
         setupDeleteButton();
+    }
+
+    private void setupPracticeButton() {
+        findViewById(R.id.practice_stack_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(new PracticeStackEvent(stack.getId()));
+                    }
+                }, DELAY_MILLIS);
+            }
+        });
     }
 
     private void setupEditCardsButton() {
