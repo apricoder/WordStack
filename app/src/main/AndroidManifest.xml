@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.olebokolo.wordstack">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".core.app.WordStack"
         android:allowBackup="true"

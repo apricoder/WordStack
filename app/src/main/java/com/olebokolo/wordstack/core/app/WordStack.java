@@ -33,6 +33,7 @@ import com.olebokolo.wordstack.presentation.lists.stacks.PracticeStackItemAdapte
 import com.olebokolo.wordstack.presentation.lists.stacks.StackAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarContext;
+import com.squareup.okhttp.OkHttpClient;
 
 import lombok.Getter;
 
@@ -46,6 +47,7 @@ public class WordStack extends Application {
     private TypefaceManager typefaceManager;
     private TypefaceCollection typefaceCollection;
     private CardsService cardsService;
+    private OkHttpClient client;
 
     public WordStack() {
         instance = this;
@@ -57,6 +59,7 @@ public class WordStack extends Application {
         drawableComponentsFactory = new DrawableComponentsFactoryImpl();
         languageComponentsFactory = new LanguageComponentsFactoryImpl();
         activityNavigator = new ActivityNavigator();
+        client = new OkHttpClient();
     }
 
     @Override
@@ -160,6 +163,7 @@ public class WordStack extends Application {
         cardAddDialog.languageService = languageComponentsFactory.getLanguageService();
         cardAddDialog.flagService = languageComponentsFactory.getFlagService();
         cardAddDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+        cardAddDialog.client = this.client;
     }
 
     public void injectDependenciesTo(CardEditDialog cardEditDialog) {
