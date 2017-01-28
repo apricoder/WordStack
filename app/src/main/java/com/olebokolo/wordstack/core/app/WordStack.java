@@ -169,6 +169,7 @@ public class WordStack extends Application {
     public void injectDependenciesTo(CardEditDialog cardEditDialog) {
         cardEditDialog.typefaceCollection = this.typefaceCollection;
         cardEditDialog.typefaceManager = this.typefaceManager;
+        cardEditDialog.client = this.client;
         cardEditDialog.languageService = languageComponentsFactory.getLanguageService();
         cardEditDialog.flagService = languageComponentsFactory.getFlagService();
         cardEditDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();

@@ -34,6 +34,8 @@ public class StackAddDialog extends Dialog {
     // views
     private EditText stackNameField;
     private TextView addStackButton;
+    private Long frontLangId;
+    private Long backLangId;
 
     public StackAddDialog(StackListActivity activity) {
         super(activity);
@@ -43,6 +45,7 @@ public class StackAddDialog extends Dialog {
         setContentView(R.layout.dialog_stack_edit);
         findViews();
         setupFonts();
+        setupLanguages();
         setupBackButton();
         setupAddStackButton();
         setupCloseButton();
@@ -79,12 +82,15 @@ public class StackAddDialog extends Dialog {
     }
 
     private void createNewStack(String stackName) {
-        UserSettings userSettings = settingsService.getUserSettings();
-        Long frontLangId = userSettings.getFrontLangId();
-        Long backLangId = userSettings.getBackLangId();
         Stack.builder().name(stackName).frontLangId(frontLangId).backLangId(backLangId).build().save();
         String eventMessage = "New stack with name \"" + stackName + "\"has been successfully created";
         EventBus.getDefault().post(new StackAddedEvent(eventMessage));
+    }
+
+    private void setupLanguages() {
+        UserSettings userSettings = settingsService.getUserSettings();
+        frontLangId = userSettings.getFrontLangId();
+        backLangId = userSettings.getBackLangId();
     }
 
     private void showStackExistsAlertFor(String stackName) {
@@ -104,7 +110,10 @@ public class StackAddDialog extends Dialog {
     }
 
     private boolean thereIsStackCalled(String name) {
-        return SugarRecord.find(Stack.class, "name = ?", name).size() > 0;
+        return SugarRecord.find(Stack.class,
+                "name = ? and front_Lang_Id = ? and back_Lang_Id = ?",
+                name, String.valueOf(frontLangId), String.valueOf(backLangId)
+        ).size() > 0;
     }
 
     private void setupFonts() {

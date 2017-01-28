@@ -44,6 +44,9 @@ import java.io.IOException;
 
 public class CardAddDialog extends Dialog {
 
+    private final static boolean TRANSLATE_FRONT_WORD = true;
+    private final static boolean TRANSLATE_BACK_WORD = false;
+
     public TypefaceCollection typefaceCollection;
     public TypefaceManager typefaceManager;
     public LanguageService languageService;
@@ -66,7 +69,7 @@ public class CardAddDialog extends Dialog {
     private String apiKey;
     private String apiUrl;
     private Handler handler;
-    private int delay  = 1000;
+    private int delay  = 600;
     private boolean autoTranslation;
     private boolean editingFrontWord;
     private boolean editingBackWord;
@@ -80,7 +83,6 @@ public class CardAddDialog extends Dialog {
         setContentView(R.layout.dialog_card_edit);
         findViews();
         setupLanguages();
-        setupLanguagesIcons();
         setupFonts();
         setupCloseButton();
         setupBackButton();
@@ -161,7 +163,7 @@ public class CardAddDialog extends Dialog {
 
     private TextWatcher backLangTextWatcher = new TextWatcher() {
         @Override public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) { }
-        @Override public void onTextChanged(CharSequence newText, int start, int count, int after) { if (handler != null) handler.removeCallbacks(onStoppedTypingFrontWord); }
+        @Override public void onTextChanged(CharSequence newText, int start, int count, int after) { if (handler != null) handler.removeCallbacks(onStoppedTypingBackWord); }
         @Override public void afterTextChanged(Editable editable) {
             if (autoTranslation && editingBackWord) {
                 handler = new Handler(Looper.getMainLooper());
@@ -173,7 +175,7 @@ public class CardAddDialog extends Dialog {
     private void autoTranslateFrontWord(CharSequence newText) {
         Log.d("WordStack", "Auto translating " + newText.toString());
         if (!newText.toString().isEmpty()) {
-            Request request = getRequest(String.valueOf(newText));
+            Request request = getRequest(String.valueOf(newText), TRANSLATE_FRONT_WORD);
             client.newCall(request).enqueue(frontWordTranslated);
         } else setBackWord("");
     }
@@ -205,7 +207,7 @@ public class CardAddDialog extends Dialog {
     private void autoTranslateBackWord(Editable newText) {
         Log.d("WordStack", "Auto translating " + newText.toString());
         if (!newText.toString().isEmpty() && autoTranslation) {
-            Request request = getRequest(String.valueOf(newText));
+            Request request = getRequest(String.valueOf(newText), TRANSLATE_BACK_WORD);
             client.newCall(request).enqueue(backWordTranslated);
         } else setFrontWord("");
     }
@@ -228,12 +230,12 @@ public class CardAddDialog extends Dialog {
         });
     }
 
-    private Request getRequest(String text) {
+    private Request getRequest(String text, boolean editingFrontWord) {
         apiKey = activity.getString(R.string.yandex_api_key);
         apiUrl = activity.getString(R.string.yandex_api_url);
-        String fromLanguage = editingFrontWord ? frontLanguage.getShortName() : backLanguage.getShortName();
-        String toLanguage = editingFrontWord ? backLanguage.getShortName() : frontLanguage.getShortName();
-        String url = apiUrl + "?key=" + apiKey + "&text=" + text + "&lang=" + fromLanguage + "-" + toLanguage;
+        String url = apiUrl + "?key=" + apiKey + "&text=" + text + "&lang=" + (editingFrontWord
+                ? (frontLanguage.getShortName() + "-" + backLanguage.getShortName())
+                : (backLanguage.getShortName() + "-" + frontLanguage.getShortName()));
         Log.d("WordStack", url);
         return new Request.Builder().url(url).build();
     }
@@ -276,17 +278,14 @@ public class CardAddDialog extends Dialog {
         autoTranslateCheckBox = (CheckBox) findViewById(R.id.auto_translate_checkbox);
     }
 
-    private void setupLanguagesIcons() {
-        frontLanguage = languageService.findById(frontLangId);
-        backLanguage = languageService.findById(backLangId);
-        frontLangIcon.setImageResource(flagService.getFlagByLanguageShortName(frontLanguage.getShortName()));
-        backLangIcon.setImageResource(flagService.getFlagByLanguageShortName(backLanguage.getShortName()));
-    }
-
     private void setupLanguages() {
         UserSettings userSettings = settingsService.getUserSettings();
         frontLangId = userSettings.getFrontLangId();
         backLangId = userSettings.getBackLangId();
+        frontLanguage = languageService.findById(frontLangId);
+        backLanguage = languageService.findById(backLangId);
+        frontLangIcon.setImageResource(flagService.getFlagByLanguageShortName(frontLanguage.getShortName()));
+        backLangIcon.setImageResource(flagService.getFlagByLanguageShortName(backLanguage.getShortName()));
     }
 
     private void setupFonts() {
