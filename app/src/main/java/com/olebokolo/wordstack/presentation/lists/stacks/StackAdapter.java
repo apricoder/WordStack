@@ -3,7 +3,7 @@ package com.olebokolo.wordstack.presentation.lists.stacks;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,9 +27,6 @@ import java.util.List;
 
 public class StackAdapter extends ArrayAdapter<StackItem> {
 
-    // constants
-    public static final Integer ANIMATED_KEY = R.anim.slide_in_from_right;
-    public static final String ANIMATED = "ANIMATED";
     // dependencies
     public TypefaceCollection typefaceCollection;
     public TypefaceManager typefaceManager;
@@ -48,8 +45,9 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
         this.sliding = AnimationUtils.loadAnimation(getContext(), R.anim.slide_in_from_left);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View row, ViewGroup parent) {
+    public View getView(int position, View row, @NonNull ViewGroup parent) {
         TextTextHolder holder;
         if (row == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -74,7 +72,6 @@ public class StackAdapter extends ArrayAdapter<StackItem> {
         row.findViewById(R.id.stack_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("WordStack", ">>> called stack actions");
                 EventBus.getDefault().post(new StackActionsDialogCalledEvent("Actions dialog called!", stackPosition));
             }
         });

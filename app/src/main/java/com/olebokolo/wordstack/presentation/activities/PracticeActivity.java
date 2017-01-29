@@ -124,7 +124,7 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onStartPracticeEvent(PracticeStartEvent e) {
+    public void onStartPracticeEvent(PracticeStartEvent event) {
         checkButton.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -138,7 +138,7 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onTurnOverCardsEvent(PracticeTurnOverCardsEvent e) {
+    public void onTurnOverCardsEvent(PracticeTurnOverCardsEvent event) {
         turnOverCards();
         onStartPracticeEvent(new PracticeStartEvent());
     }

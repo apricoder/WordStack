@@ -21,7 +21,6 @@ import com.olebokolo.wordstack.core.events.ReanimateStackEnterEvent;
 import com.olebokolo.wordstack.core.events.StackActionsDialogCalledEvent;
 import com.olebokolo.wordstack.core.events.StackAddedEvent;
 import com.olebokolo.wordstack.core.events.StackDeleteCalledEvent;
-import com.olebokolo.wordstack.core.events.StackDetailsRequestedEvent;
 import com.olebokolo.wordstack.core.events.StackRenamedEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
@@ -138,26 +137,6 @@ public class StackListActivity extends AppCompatActivity {
     }
 
     @Subscribe
-    public void onEvent(final StackDetailsRequestedEvent event) {
-        new Handler().post(new Runnable() {
-
-            @Override
-            public void run() {
-                Map<String, Serializable> extras = new HashMap<>();
-                Stack stack = getStackFromEvent();
-                extras.put("stack", stack);
-                navigator.goForwardWithSlideAnimation(StackListActivity.this, StackActivity.class, extras);
-            }
-
-            private Stack getStackFromEvent() {
-                Stack stack = event.getStack();
-                return stack != null ? stack : stacks.get(event.getPosition());
-            }
-
-        });
-    }
-
-    @Subscribe
     public void onEvent(StackDeleteCalledEvent event) {
         final Stack stack = event.getStack();
         int position = getStackPosition(stack);
@@ -200,9 +179,15 @@ public class StackListActivity extends AppCompatActivity {
         stackList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                EventBus.getDefault().post(StackDetailsRequestedEvent.builder().position(i).build());
+                openDetailsOf(stacks.get(i));
             }
         });
+    }
+
+    private void openDetailsOf(Stack stack) {
+        Map<String, Serializable> extras = new HashMap<>();
+        extras.put("stack", stack);
+        navigator.goForwardWithSlideAnimation(StackListActivity.this, StackActivity.class, extras);
     }
 
     private List<StackItem> getStackItemsFrom(List<Stack> stacks) {

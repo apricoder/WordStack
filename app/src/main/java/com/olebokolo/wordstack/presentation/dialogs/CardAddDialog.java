@@ -246,7 +246,9 @@ public class CardAddDialog extends Dialog {
             public void onClick(View view) {
                 getCardFromEnteredData().save();
                 EventBus.getDefault().post(new CardAddedEvent());
-                hideKeyboardAndDismiss();
+                frontLangText.setText("");
+                backLangText.setText("");
+                frontLangText.requestFocus();
             }
         });
     }

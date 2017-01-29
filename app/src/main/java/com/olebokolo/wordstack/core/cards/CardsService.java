@@ -11,42 +11,52 @@ import com.orm.SugarRecord;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 public class CardsService {
 
     public FlagService flagService;
     public LanguageService languageService;
-    private Language frontLanguage;
-    private Language backLanguage;
 
     public List<CardItem> getCardItemsFrom(List<Card> cards) {
+        LanguagePair languagePair = getLanguagesOf(cards);
         List<CardItem> cardItems = new ArrayList<>();
-        for (Card card : cards) cardItems.add(getCardItemFrom(card));
+        for (Card card : cards) cardItems.add(getCardItemFrom(card, languagePair));
         return cardItems;
     }
 
-    private void initLanguagesOf(Card card) {
-        if (frontLanguage == null && backLanguage == null && card != null) {
+    private LanguagePair getLanguagesOf(List<Card> cards) {
+        if (!cards.isEmpty()) {
+            Card card = cards.get(0);
             Side frontSide = SugarRecord.findById(Side.class, card.getFrontSideId());
             Side backSide = SugarRecord.findById(Side.class, card.getBackSideId());
-            frontLanguage = languageService.findById(frontSide.getLanguageId());
-            backLanguage = languageService.findById(backSide.getLanguageId());
-        }
+            Language frontLanguage = languageService.findById(frontSide.getLanguageId());
+            Language backLanguage = languageService.findById(backSide.getLanguageId());
+            return new LanguagePair(frontLanguage, backLanguage);
+        } else return new LanguagePair();
     }
 
-    public CardItem getCardItemFrom(Card card) {
-        initLanguagesOf(card);
+    private CardItem getCardItemFrom(Card card, LanguagePair languagePair) {
         Side frontSide = SugarRecord.findById(Side.class, card.getFrontSideId());
         Side backSide = SugarRecord.findById(Side.class, card.getBackSideId());
         return CardItem.builder()
                 .frontLangText(frontSide.getContent())
                 .backLangText(backSide.getContent())
-                .frontLangFlagResource(getFlagFor(frontLanguage))
-                .backLangFlagResource(getFlagFor(backLanguage))
+                .frontLangFlagResource(getFlagFor(languagePair.frontLanguage))
+                .backLangFlagResource(getFlagFor(languagePair.backLanguage))
                 .build();
     }
 
     private int getFlagFor(Language language) {
         return flagService.getFlagByLanguageShortName(language.getShortName());
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor(suppressConstructorProperties = true)
+    private class LanguagePair {
+        Language frontLanguage;
+        Language backLanguage;
     }
 
 }

@@ -21,9 +21,7 @@ import com.olebokolo.wordstack.core.events.CardEditedEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
-import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.model.Stack;
-import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
@@ -45,8 +43,6 @@ import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
 public class StackActivity extends AppCompatActivity {
 
-    // constants
-    private static final String TAG = "WordStack";
     // dependencies
     public TypefaceCollection typefaceCollection;
     public TypefaceManager typefaceManager;
@@ -61,12 +57,9 @@ public class StackActivity extends AppCompatActivity {
     private RecyclerView cardRecycler;
     private CardItemAdapter cardAdapter;
     // data
-    private Language frontLanguage;
-    private Language backLanguage;
     private Stack stack;
     private List<Card> cards;
     private List<CardItem> cardItems;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +72,6 @@ public class StackActivity extends AppCompatActivity {
         setupTypeface();
         setupGoBackButton();
         setupAddCardButton();
-        setupLanguages();
         setupCardItems();
         setupCardList();
         setupCardListDivider();
@@ -185,14 +177,6 @@ public class StackActivity extends AppCompatActivity {
                 new CardAddDialog(StackActivity.this, stack).show();
             }
         });
-    }
-
-    private void setupLanguages() {
-        UserSettings userSettings = settingsService.getUserSettings();
-        Long frontLangId = userSettings.getFrontLangId();
-        Long backLangId = userSettings.getBackLangId();
-        frontLanguage = languageService.findById(frontLangId);
-        backLanguage = languageService.findById(backLangId);
     }
 
     private void setupTypeface() {
