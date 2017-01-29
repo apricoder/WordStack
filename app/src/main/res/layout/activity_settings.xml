@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,12 +14,17 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/mainBlueDark"
         android:orientation="vertical">
 
         <!-- TOOLBAR -->
         <LinearLayout
+            android:background="@color/mainBlue"
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="56dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
 
             <!-- BACK BUTTON WRAPPER -->
             <LinearLayout
@@ -40,7 +46,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="-10dp"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/c_arrow_left_blue" />
+                    android:src="@drawable/c_arrow_left_white" />
 
                 <!-- TITLE -->
                 <TextView
@@ -50,7 +56,7 @@
                     android:layout_gravity="center_vertical"
                     android:text="Settings"
                     android:textAllCaps="true"
-                    android:textColor="@color/mainBlue"
+                    android:textColor="@color/mainWhite"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -106,12 +112,11 @@
 
                         <!-- LANGUAGES ICON -->
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_marginTop="-1dp"
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
                             android:padding="3dp"
-                            android:layout_marginRight="25dp"
-                            android:layout_marginEnd="25dp"
-                            android:alpha="0.8"
+                            android:layout_marginRight="15dp"
                             android:src="@drawable/c_translate_blue" />
 
                         <!-- LANGUAGES TITLE -->
@@ -121,10 +126,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="Languages"
-                            android:textAllCaps="false"
+                            android:textAllCaps="true"
                             android:textColor="@color/mainBlue"
                             android:textStyle="bold"
-                            android:textSize="20sp" />
+                            android:textSize="17sp" />
 
                         <!-- ICONS LAYOUT -->
                         <LinearLayout
@@ -134,25 +139,27 @@
                             android:orientation="horizontal">
 
                             <!-- FRONT LANGUAGE -->
-                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/front_lang_icon"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_margin="10dp"
-                                tools:src="@drawable/flag_en"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                android:src="@drawable/flag_en"
                                 app:civ_border_color="@color/mainBlue"
                                 app:civ_border_overlay="true"
-                                app:civ_border_width="0.5dp" />
+                                app:civ_border_width="1.2dp" />
 
                             <!-- BACK LANGUAGE -->
-                            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                            <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/back_lang_icon"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                tools:src="@drawable/flag_fr"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:alpha="0.8"
+                                android:src="@drawable/flag_fr"
                                 app:civ_border_color="@color/mainBlue"
                                 app:civ_border_overlay="true"
-                                app:civ_border_width="0.5dp" />
+                                app:civ_border_width="1.2dp" />
 
                         </LinearLayout>
 

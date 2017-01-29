@@ -61,7 +61,7 @@
             android:paddingRight="0dp"
             android:paddingStart="5dp">
 
-            <!-- FRONT LANGUAGE -->
+            <!-- BACK LANGUAGE -->
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/back_lang_icon"
                 android:layout_width="22dp"
