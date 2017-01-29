@@ -11,12 +11,17 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/mainBlueDark"
         android:orientation="vertical">
 
         <!-- TOOLBAR -->
         <LinearLayout
+            android:background="@color/mainBlue"
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="56dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal">
 
             <!-- BACK BUTTON WRAPPER -->
             <LinearLayout
@@ -34,11 +39,11 @@
                 <!-- BACK ARROW -->
                 <ImageView
                     android:layout_width="30dp"
-                    android:layout_height="28dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="-10dp"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/c_arrow_left_blue" />
+                    android:src="@drawable/c_arrow_left_white" />
 
                 <!-- TITLE -->
                 <TextView
@@ -46,9 +51,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Choose languages"
+                    android:text="Choose Languages"
                     android:textAllCaps="true"
-                    android:textColor="@color/mainBlue"
+                    android:textColor="@color/mainWhite"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -61,7 +66,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/mainBlue" />
+            android:background="@color/mainBlueDark" />
 
     </LinearLayout>
 

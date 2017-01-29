@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WordStack</string>
+    <string name="app_name">Word Stack</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</string>
 
     <string name="yandex_api_key">trnsl.1.1.20151026T155547Z.64e1b390cd29c3e0.4424a7a238275b7c6c48a362775d459eaba37d65</string>

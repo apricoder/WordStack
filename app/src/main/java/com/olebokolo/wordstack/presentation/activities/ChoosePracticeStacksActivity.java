@@ -68,7 +68,7 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_practice_stacks);
+        setContentView(R.layout.activity_practice_stacks);
         WordStack.getInstance().injectDependenciesTo(this);
         EventBus.getDefault().register(this);
         findViews();
