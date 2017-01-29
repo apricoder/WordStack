@@ -107,7 +107,7 @@
                         tools:src="@drawable/flag_en"
                         app:civ_border_color="@color/mainBlue"
                         app:civ_border_overlay="true"
-                        app:civ_border_width="0.5dp" />
+                        app:civ_border_width="1.2dp" />
 
                     <LinearLayout
                         android:layout_marginLeft="40dp"
@@ -155,7 +155,7 @@
                         tools:src="@drawable/flag_fr"
                         app:civ_border_color="@color/mainBlue"
                         app:civ_border_overlay="true"
-                        app:civ_border_width="0.5dp" />
+                        app:civ_border_width="1.2dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

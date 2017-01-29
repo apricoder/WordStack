@@ -82,7 +82,7 @@
                         android:src="@drawable/flag_en"
                         app:civ_border_color="@color/mainBlue"
                         app:civ_border_overlay="true"
-                        app:civ_border_width="0.5dp" />
+                        app:civ_border_width="1.2dp" />
 
                     <android.support.design.widget.TextInputLayout
                         android:textColorHint="@color/mainBlue"
@@ -121,7 +121,7 @@
                         android:src="@drawable/flag_de"
                         app:civ_border_color="@color/mainBlue"
                         app:civ_border_overlay="true"
-                        app:civ_border_width="0.5dp" />
+                        app:civ_border_width="1.2dp" />
 
                     <android.support.design.widget.TextInputLayout
                         android:textColorHint="@color/mainBlue"
