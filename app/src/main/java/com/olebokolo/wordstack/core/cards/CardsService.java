@@ -41,6 +41,7 @@ public class CardsService {
         Side frontSide = SugarRecord.findById(Side.class, card.getFrontSideId());
         Side backSide = SugarRecord.findById(Side.class, card.getBackSideId());
         return CardItem.builder()
+                .id(card.getId())
                 .frontLangText(frontSide.getContent())
                 .backLangText(backSide.getContent())
                 .frontLangFlagResource(getFlagFor(languagePair.frontLanguage))

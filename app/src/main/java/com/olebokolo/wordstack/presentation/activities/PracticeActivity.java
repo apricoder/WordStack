@@ -285,7 +285,7 @@ public class PracticeActivity extends AppCompatActivity {
         ArrayList<CardItem> allCardItemsCopy = new ArrayList<>(allCardItems);
         allCardItems.clear();
         for (CardItem c : allCardItemsCopy)
-            allCardItems.add(new CardItem(
+            allCardItems.add(new CardItem(c.getId(),
                     c.getBackLangFlagResource(), c.getFrontLangFlagResource(),
                     c.getBackLangText(), c.getFrontLangText()));
         currentCardItems = new ArrayList<>(allCardItems);

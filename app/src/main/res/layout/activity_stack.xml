@@ -103,8 +103,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:paddingRight="15.5dp"
-                android:paddingEnd="15.5dp"
+                android:paddingRight="10dp"
                 android:paddingLeft="15dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
@@ -114,11 +113,21 @@
                     android:textCursorDrawable="@null"
                     android:id="@+id/search_text"
                     android:hint="Search"
-                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textColorHint="@color/mainWhite"
                     android:textColor="@color/mainWhite"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/clear_search_text"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="12dp"
+                    android:src="@drawable/c_close_white"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp" />
 
             </LinearLayout>
 

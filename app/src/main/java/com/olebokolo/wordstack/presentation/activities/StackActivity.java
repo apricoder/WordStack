@@ -13,8 +13,12 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,6 +56,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -76,6 +82,7 @@ public class StackActivity extends AppCompatActivity {
     private ImageView searchButton;
     private ExpandableLayout searchLayout;
     private EditText searchField;
+    private View clearSearchButton;
     // data
     private Stack stack;
     private List<Card> cards;
@@ -104,8 +111,37 @@ public class StackActivity extends AppCompatActivity {
         setupRemovalOnSwipe();
         setupSpeakButton();
         setupSearchButton();
+        setupSearch();
+        setupSearchClear();
 
         reloadCards();
+    }
+
+    private void setupSearchClear() {
+        clearSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchField.setText("");
+            }
+        });
+    }
+
+    private void setupSearch() {
+        searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE))
+                    hideKeyboard();
+                return false;
+            }
+        });
+        searchField.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override public void afterTextChanged(Editable editable) { }
+            @Override public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                reloadCards();
+            }
+        });
     }
 
     private void setupSearchButton() {
@@ -317,7 +353,31 @@ public class StackActivity extends AppCompatActivity {
     private void reloadCards() {
         cards = getCardsOf(stack);
         cardItems.clear();
-        cardItems.addAll(cardsService.getCardItemsFrom(cards));
+        cardItems.addAll(filter(cardsService.getCardItemsFrom(cards)));
+        alignCardsToFilteredItems();
+        cardRecycler.getAdapter().notifyDataSetChanged();
+    }
+
+    private void alignCardsToFilteredItems() {
+        for (int i = 0; i < cardItems.size(); i++) {
+            if (!cardItems.get(i).getId().equals(cards.get(i).getId())) {
+                cards.remove(i);
+                i--;
+            }
+        }
+    }
+
+    private Collection<? extends CardItem> filter(List<CardItem> items) {
+        Iterator<CardItem> carsIterator = items.iterator();
+        while (carsIterator.hasNext()) {
+            CardItem c = carsIterator.next();
+            String searchText = searchField.getText().toString().toLowerCase();
+            String frontWords = c.getFrontLangText().toLowerCase();
+            String backWords = c.getBackLangText().toLowerCase();
+            if (!frontWords.contains(searchText) && !backWords.contains(searchText))
+                carsIterator.remove();
+        }
+        return items;
     }
 
     private List<Card> getCardsOf(Stack stack) {
@@ -362,6 +422,7 @@ public class StackActivity extends AppCompatActivity {
         searchButton = (ImageView) findViewById(R.id.search_button);
         searchLayout = (ExpandableLayout) findViewById(R.id.search_layout);
         searchField = (EditText) findViewById(R.id.search_text);
+        clearSearchButton = findViewById(R.id.clear_search_text);
     }
 
     private void setupGoBackButton() {

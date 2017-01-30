@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor(suppressConstructorProperties = true)
 public class CardItem {
+    private Long id;
     private Integer frontLangFlagResource;
     private Integer backLangFlagResource;
     private String frontLangText;
