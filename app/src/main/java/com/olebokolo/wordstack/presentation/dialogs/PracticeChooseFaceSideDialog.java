@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +50,6 @@ public class PracticeChooseFaceSideDialog extends Dialog {
         this.activity = activity;
         this.setCanceledOnTouchOutside(false);
         WordStack.getInstance().injectDependenciesTo(this);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         setContentView(R.layout.dialog_choose_face_language);
         findViews();
         setupFonts();

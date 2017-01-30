@@ -2,6 +2,7 @@ package com.olebokolo.wordstack.presentation.activities;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -147,39 +148,45 @@ public class PracticeActivity extends AppCompatActivity {
         });
     }
 
+    private void sayWith(TextToSpeech speaker, String word) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            speaker.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+        else frontLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
     private View.OnClickListener sayFrontWord = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String word = frontLangWord.getText().toString();
-            if (!word.isEmpty()) frontLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
-            else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+            String text = frontLangWord.getText().toString();
+            if (!text.isEmpty()) sayWith(frontLanguageSpeaker, text);
+            else sayWith(frontLanguageSpeaker, "Content is missing");
         }
     };
 
     private View.OnClickListener sayFrontWordWithBackSpeaker = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String word = frontLangWord.getText().toString();
-            if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
-            else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+            String text = frontLangWord.getText().toString();
+            if (!text.isEmpty()) sayWith(backLanguageSpeaker, text);
+            else sayWith(backLanguageSpeaker, "Content is missing");
         }
     };
 
     private View.OnClickListener sayBackWord = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String word = backLangWord.getText().toString();
-            if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
-            else backLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+            String text = backLangWord.getText().toString();
+            if (!text.isEmpty()) sayWith(backLanguageSpeaker, text);
+            else sayWith(backLanguageSpeaker, "Content is missing");
         }
     };
 
     private View.OnClickListener sayBackWordWithFrontSpeaker = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String word = frontLangWord.getText().toString();
-            if (!word.isEmpty()) frontLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
-            else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+            String text = backLangWord.getText().toString();
+            if (!text.isEmpty()) sayWith(frontLanguageSpeaker, text);
+            else sayWith(frontLanguageSpeaker, "Content is missing");
         }
     };
 
@@ -192,8 +199,8 @@ public class PracticeActivity extends AppCompatActivity {
 
     @Subscribe
     public void onTurnOverCardsEvent(PracticeTurnOverCardsEvent event) {
-        setupFrontSideClick(sayBackWordWithFrontSpeaker, backLangSpeechSupported);
-        setupBackSideClick(sayFrontWordWithBackSpeaker, frontLangSpeechSupported);
+        setupFrontSideClick(sayFrontWordWithBackSpeaker, backLangSpeechSupported);
+        setupBackSideClick(sayBackWordWithFrontSpeaker, frontLangSpeechSupported);
         turnOverCards();
         startPractice();
     }
