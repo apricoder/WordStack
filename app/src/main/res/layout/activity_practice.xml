@@ -161,16 +161,34 @@
                     android:layout_width="270dp"
                     android:layout_height="180dp">
 
-                    <TextView
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:id="@+id/front_lang_word"
-                        android:gravity="center"
-                        android:padding="20dp"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/mainBlueLight"
-                        android:textSize="28sp"
-                        android:text="Woher kommen Sie?"/>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:clickable="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:id="@+id/front_lang_word"
+                            android:gravity="center"
+                            android:padding="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/mainBlueLight"
+                            android:textSize="28sp"
+                            android:text="Woher kommen Sie?"/>
+
+                        <ImageView
+                            android:id="@+id/front_lang_speech"
+                            android:clickable="true"
+                            android:src="@drawable/c_volume_blue"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="10dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                    </RelativeLayout>
 
                 </android.support.v7.widget.CardView>
 
@@ -182,17 +200,33 @@
                     android:layout_width="270dp"
                     android:layout_height="180dp">
 
-                    <TextView
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:id="@+id/back_lang_word"
-                        android:gravity="center"
-                        android:padding="20dp"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/mainBlueLight"
-                        android:textSize="28sp"
-                        android:text="Звідки Ви?"/>
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:id="@+id/back_lang_word"
+                            android:gravity="center"
+                            android:padding="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/mainBlueLight"
+                            android:textSize="28sp"
+                            android:text="Звідки Ви?"/>
+
+                        <ImageView
+                            android:id="@+id/back_lang_speech"
+                            android:src="@drawable/c_volume_blue"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="10dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp" />
+
+                    </RelativeLayout>
 
                 </android.support.v7.widget.CardView>
 

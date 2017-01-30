@@ -4,11 +4,14 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import com.olebokolo.wordstack.R;
@@ -19,6 +22,8 @@ import com.olebokolo.wordstack.core.events.PracticeTurnOverCardsEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
+import com.olebokolo.wordstack.core.model.Language;
+import com.olebokolo.wordstack.core.model.UserSettings;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
@@ -35,6 +40,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class PracticeActivity extends AppCompatActivity {
 
@@ -57,6 +63,10 @@ public class PracticeActivity extends AppCompatActivity {
     private FloatingActionButton yesButton;
     private FloatingActionButton noButton;
     private View shuffleButton;
+    private TextToSpeech frontLanguageSpeaker;
+    private TextToSpeech backLanguageSpeaker;
+    private ImageView frontSpeakerView;
+    private ImageView backSpeakerView;
     private ObjectAnimator fadeInCheckButtonOnAnswer;
     private ObjectAnimator moveYesButtonLeftOnCheck;
     private ObjectAnimator moveYesButtonRightOnAnswer;
@@ -66,15 +76,20 @@ public class PracticeActivity extends AppCompatActivity {
     private ObjectAnimator fadeOutNoButtonOnAnswer;
     private ObjectAnimator moveCardLeft;
     private ObjectAnimator moveCardFromRight;
-    private ObjectAnimator moveAccrossTheScreen;
+    private ObjectAnimator moveAcrossTheScreen;
     private int buttonsAnimationTime = 150;
     private int buttonsTranslationOnX = 200;
     private int cardTranslationOnX = 800;
     private int cardMoveTime = 150;
+
     // data
     private List<CardItem> allCardItems;
     private List<CardItem> currentCardItems;
     private CardItem topCard;
+    private Language frontLanguage;
+    private Language backLanguage;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +98,7 @@ public class PracticeActivity extends AppCompatActivity {
         WordStack.getInstance().injectDependenciesTo(this);
         EventBus.getDefault().register(this);
         findViews();
+        setupLanguages();
         setupTypeface();
         setupGoBackButton();
         setupAnimations();
@@ -94,6 +110,95 @@ public class PracticeActivity extends AppCompatActivity {
         updateCurrentCardsCount();
         chooseCardsFaceSide();
         hideActionButtons();
+    }
+
+    private void setupLanguages() {
+        UserSettings settings = settingsService.getUserSettings();
+        frontLanguage = languageService.findById(settings.getFrontLangId());
+        backLanguage = languageService.findById(settings.getBackLangId());
+    }
+
+    private void setupFrontSpeaker() {
+        frontLangWord.setOnClickListener(sayFrontWord);
+        frontSpeakerView.setOnClickListener(sayFrontWord);
+        frontLanguageSpeaker = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    Locale locale = languageService.getLocaleForLanguage(frontLanguage);
+                    int result = frontLanguageSpeaker.setLanguage(locale);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+                        frontSpeakerView.setOnClickListener(languageNotSupportedClick);
+                        frontLangWord.setOnClickListener(textToSpeechInitializationFailed);
+                    }
+                } else {
+                    frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+                    frontSpeakerView.setOnClickListener(textToSpeechInitializationFailed);
+                    frontLangWord.setOnClickListener(textToSpeechInitializationFailed);
+                }
+            }
+        });
+    }
+
+    private void setupBackSpeaker() {
+        backLangWord.setOnClickListener(sayBackWord);
+        backSpeakerView.setOnClickListener(sayBackWord);
+        backLanguageSpeaker = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    Locale locale = languageService.getLocaleForLanguage(backLanguage);
+                    int result = backLanguageSpeaker.setLanguage(locale);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+                        backSpeakerView.setOnClickListener(languageNotSupportedClick);
+                    }
+                } else {
+                    backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+                    backSpeakerView.setOnClickListener(textToSpeechInitializationFailed);
+                }
+            }
+        });
+    }
+
+    private View.OnClickListener sayFrontWord = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String word = frontLangWord.getText().toString();
+            if (!word.isEmpty()) frontLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+        }
+    };
+
+    private View.OnClickListener sayBackWord = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String word = backLangWord.getText().toString();
+            if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            else backLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+        }
+    };
+
+    private View.OnClickListener languageNotSupportedClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(PracticeActivity.this, "Speech in this language is not supported", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private View.OnClickListener textToSpeechInitializationFailed = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(PracticeActivity.this, "Text to speech failed to initialize", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    @Subscribe
+    public void onTurnOverCardsEvent(PracticeTurnOverCardsEvent event) {
+        swapLanguages();
+        turnOverCards();
+        onStartPracticeEvent(new PracticeStartEvent());
     }
 
     private void hideActionButtons() {
@@ -115,9 +220,9 @@ public class PracticeActivity extends AppCompatActivity {
                 hideActionButtons();
                 shuffleButton.postDelayed(new Runnable() {
                     @Override
-                    public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); if (cardFlipper.getDisplayedChild() > 0) flipCardIn(0); moveAccrossTheScreen.start(); } }, cardMoveTime);
-                shuffleButton.postDelayed(new Runnable() { @Override public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); moveAccrossTheScreen.start(); } }, cardMoveTime * 2);
-                shuffleButton.postDelayed(new Runnable() { @Override public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); moveAccrossTheScreen.start(); } }, cardMoveTime * 3);
+                    public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); if (cardFlipper.getDisplayedChild() > 0) flipCardIn(0); moveAcrossTheScreen.start(); } }, cardMoveTime);
+                shuffleButton.postDelayed(new Runnable() { @Override public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); moveAcrossTheScreen.start(); } }, cardMoveTime * 2);
+                shuffleButton.postDelayed(new Runnable() { @Override public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); moveAcrossTheScreen.start(); } }, cardMoveTime * 3);
                 shuffleButton.postDelayed(new Runnable() { @Override public void run() { currentCardItems = shuffle(currentCardItems); setupNextCard(); moveNextCardIn(); showCheckButton();} }, cardMoveTime * 4);
             }
         });
@@ -125,6 +230,8 @@ public class PracticeActivity extends AppCompatActivity {
 
     @Subscribe
     public void onStartPracticeEvent(PracticeStartEvent event) {
+        setupFrontSpeaker();
+        setupBackSpeaker();
         checkButton.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -137,12 +244,6 @@ public class PracticeActivity extends AppCompatActivity {
         }, buttonsAnimationTime);
     }
 
-    @Subscribe
-    public void onTurnOverCardsEvent(PracticeTurnOverCardsEvent event) {
-        turnOverCards();
-        onStartPracticeEvent(new PracticeStartEvent());
-    }
-
     private void turnOverCards() {
         ArrayList<CardItem> allCardItemsCopy = new ArrayList<>(allCardItems);
         allCardItems.clear();
@@ -151,6 +252,12 @@ public class PracticeActivity extends AppCompatActivity {
                     c.getBackLangFlagResource(), c.getFrontLangFlagResource(),
                     c.getBackLangText(), c.getFrontLangText()));
         currentCardItems = new ArrayList<>(allCardItems);
+    }
+
+    private void swapLanguages() {
+        Language buff = frontLanguage;
+        frontLanguage = backLanguage;
+        backLanguage = buff;
     }
 
     private void chooseCardsFaceSide() {
@@ -163,11 +270,11 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     private void setupAnimations() {
-        moveAccrossTheScreen = ObjectAnimator.ofFloat(cardFlipper, "translationX", cardTranslationOnX, -cardTranslationOnX);
+        moveAcrossTheScreen = ObjectAnimator.ofFloat(cardFlipper, "translationX", cardTranslationOnX, -cardTranslationOnX);
         moveCardLeft = ObjectAnimator.ofFloat(cardFlipper, "translationX", 0, -cardTranslationOnX);
         moveCardFromRight = ObjectAnimator.ofFloat(cardFlipper, "translationX", cardTranslationOnX, 0);
 
-        moveAccrossTheScreen.setDuration(cardMoveTime);
+        moveAcrossTheScreen.setDuration(cardMoveTime);
         moveCardLeft.setDuration(cardMoveTime);
         moveCardFromRight.setDuration(cardMoveTime);
 
@@ -277,7 +384,7 @@ public class PracticeActivity extends AppCompatActivity {
     private void setupCheckButton() {
         cardFlipper.setVisibility(View.INVISIBLE);
         checkButton.setOnClickListener(checkClick);
-        frontLangWord.setOnClickListener(checkClick);
+        // frontLangWord.setOnClickListener(checkClick);
     }
 
     private View.OnClickListener checkClick = new View.OnClickListener() {
@@ -332,7 +439,9 @@ public class PracticeActivity extends AppCompatActivity {
         checkAllText = (TextView) findViewById(R.id.check_all_text);
         cardsCountText = (TextView) findViewById(R.id.cards_count);
         frontLangWord = (TextView) findViewById(R.id.front_lang_word);
+        frontSpeakerView = (ImageView) findViewById(R.id.front_lang_speech);
         backLangWord = (TextView) findViewById(R.id.back_lang_word);
+        backSpeakerView = (ImageView) findViewById(R.id.back_lang_speech);
         cardFlipper = (ViewAnimator) findViewById(R.id.card_flipper);
         checkButton = (FloatingActionButton) findViewById(R.id.check_button);
         yesButton = (FloatingActionButton) findViewById(R.id.yes_button);
@@ -364,5 +473,4 @@ public class PracticeActivity extends AppCompatActivity {
     private void goBack() {
         navigator.goBackWithSlideAnimation(PracticeActivity.this, MainMenuActivity.class);
     }
-
 }
