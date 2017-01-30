@@ -1,5 +1,7 @@
 package com.olebokolo.wordstack.presentation.dialogs;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -60,6 +62,9 @@ public class CardAddDialog extends Dialog {
     private EditText frontLangText;
     private EditText backLangText;
     private CheckBox autoTranslateCheckBox;
+    private View cardAddedLayout;
+    private ObjectAnimator fadeOutCardAddedMessage;
+    private ObjectAnimator fadeInCardAddedMessage;
 
     private Stack stack;
     private Language frontLanguage;
@@ -89,6 +94,7 @@ public class CardAddDialog extends Dialog {
         setupFrontLangFocusListener();
         setupBackLangFocusListener();
         setupAddCardButton();
+        setupFeedbackAnimation();
         setupAutoTranslationOfFrontWord();
         setupAutoTranslationOfBackWord();
         setupAutoTranslateTrigger();
@@ -249,8 +255,27 @@ public class CardAddDialog extends Dialog {
                 frontLangText.setText("");
                 backLangText.setText("");
                 frontLangText.requestFocus();
+                showCardAdded();
             }
         });
+    }
+
+    private void showCardAdded() {
+        cardAddedLayout.setVisibility(View.VISIBLE);
+        fadeInCardAddedMessage.start();
+    }
+
+    private void setupFeedbackAnimation() {
+        fadeInCardAddedMessage = ObjectAnimator.ofFloat(cardAddedLayout, "alpha", 0, 1);
+        fadeInCardAddedMessage.setDuration(200);
+        fadeInCardAddedMessage.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animator) { }
+            @Override public void onAnimationCancel(Animator animator) { }
+            @Override public void onAnimationRepeat(Animator animator) { }
+            @Override public void onAnimationEnd(Animator animator) { fadeOutCardAddedMessage.start(); }
+        });
+        fadeOutCardAddedMessage = ObjectAnimator.ofFloat(cardAddedLayout, "alpha", 1, 0);
+        fadeOutCardAddedMessage.setDuration(200);
     }
 
     private Card getCardFromEnteredData() {
@@ -278,6 +303,7 @@ public class CardAddDialog extends Dialog {
         frontLangText = (EditText) findViewById(R.id.front_lang_text);
         backLangText = (EditText) findViewById(R.id.back_lang_text);
         autoTranslateCheckBox = (CheckBox) findViewById(R.id.auto_translate_checkbox);
+        cardAddedLayout = findViewById(R.id.card_added_layout);
     }
 
     private void setupLanguages() {

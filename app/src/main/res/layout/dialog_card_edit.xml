@@ -162,6 +162,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end">
+                    
+                    <LinearLayout
+                        android:id="@+id/card_added_layout"
+                        android:visibility="invisible"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:padding="10dp">
+                        
+                        <ImageView
+                            android:src="@drawable/c_check_blue"
+                            android:layout_width="30dp"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:clickable="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Added"
+                            android:textAllCaps="true"
+                            android:textColor="@color/mainBlue"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="18sp" />
+                        
+                    </LinearLayout>
 
                     <TextView
                         android:background="?attr/selectableItemBackgroundBorderless"

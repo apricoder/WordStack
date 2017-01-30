@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:largeHeap="true"
         android:name=".core.app.WordStack"
         android:allowBackup="true"
         android:icon="@drawable/c_logo_light"

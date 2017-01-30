@@ -178,7 +178,7 @@ public class PracticeActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             String word = frontLangWord.getText().toString();
-            if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            if (!word.isEmpty()) frontLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
             else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
         }
     };
