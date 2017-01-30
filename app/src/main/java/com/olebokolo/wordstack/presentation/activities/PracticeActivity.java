@@ -88,7 +88,8 @@ public class PracticeActivity extends AppCompatActivity {
     private CardItem topCard;
     private Language frontLanguage;
     private Language backLanguage;
-
+    private boolean frontLangSpeechSupported;
+    private boolean backLangSpeechSupported;
 
 
     @Override
@@ -99,6 +100,8 @@ public class PracticeActivity extends AppCompatActivity {
         EventBus.getDefault().register(this);
         findViews();
         setupLanguages();
+        setupFrontSpeaker();
+        setupBackSpeaker();
         setupTypeface();
         setupGoBackButton();
         setupAnimations();
@@ -119,44 +122,26 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     private void setupFrontSpeaker() {
-        frontLangWord.setOnClickListener(sayFrontWord);
-        frontSpeakerView.setOnClickListener(sayFrontWord);
         frontLanguageSpeaker = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
                     Locale locale = languageService.getLocaleForLanguage(frontLanguage);
                     int result = frontLanguageSpeaker.setLanguage(locale);
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
-                        frontSpeakerView.setOnClickListener(languageNotSupportedClick);
-                        frontLangWord.setOnClickListener(textToSpeechInitializationFailed);
-                    }
-                } else {
-                    frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
-                    frontSpeakerView.setOnClickListener(textToSpeechInitializationFailed);
-                    frontLangWord.setOnClickListener(textToSpeechInitializationFailed);
+                    frontLangSpeechSupported = !(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED);
                 }
             }
         });
     }
 
     private void setupBackSpeaker() {
-        backLangWord.setOnClickListener(sayBackWord);
-        backSpeakerView.setOnClickListener(sayBackWord);
         backLanguageSpeaker = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
                     Locale locale = languageService.getLocaleForLanguage(backLanguage);
                     int result = backLanguageSpeaker.setLanguage(locale);
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
-                        backSpeakerView.setOnClickListener(languageNotSupportedClick);
-                    }
-                } else {
-                    backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
-                    backSpeakerView.setOnClickListener(textToSpeechInitializationFailed);
+                    backLangSpeechSupported = !(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED);                } else {
                 }
             }
         });
@@ -171,12 +156,30 @@ public class PracticeActivity extends AppCompatActivity {
         }
     };
 
+    private View.OnClickListener sayFrontWordWithBackSpeaker = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String word = frontLangWord.getText().toString();
+            if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+        }
+    };
+
     private View.OnClickListener sayBackWord = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             String word = backLangWord.getText().toString();
             if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
             else backLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
+        }
+    };
+
+    private View.OnClickListener sayBackWordWithFrontSpeaker = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String word = frontLangWord.getText().toString();
+            if (!word.isEmpty()) backLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+            else frontLanguageSpeaker.speak("Content is missing", TextToSpeech.QUEUE_FLUSH, null);
         }
     };
 
@@ -187,18 +190,39 @@ public class PracticeActivity extends AppCompatActivity {
         }
     };
 
-    private View.OnClickListener textToSpeechInitializationFailed = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Toast.makeText(PracticeActivity.this, "Text to speech failed to initialize", Toast.LENGTH_SHORT).show();
-        }
-    };
-
     @Subscribe
     public void onTurnOverCardsEvent(PracticeTurnOverCardsEvent event) {
-        swapLanguages();
+        setupFrontSideClick(sayBackWordWithFrontSpeaker, backLangSpeechSupported);
+        setupBackSideClick(sayFrontWordWithBackSpeaker, frontLangSpeechSupported);
         turnOverCards();
-        onStartPracticeEvent(new PracticeStartEvent());
+        startPractice();
+    }
+
+    @Subscribe
+    public void onStartPracticeEvent(PracticeStartEvent event) {
+        setupFrontSideClick(sayFrontWord, frontLangSpeechSupported);
+        setupBackSideClick(sayBackWord, backLangSpeechSupported);
+        startPractice();
+    }
+
+    private void setupBackSideClick(View.OnClickListener onClick, boolean available) {
+        if (available) {
+            backSpeakerView.setOnClickListener(onClick);
+            backLangWord.setOnClickListener(onClick);
+        } else {
+            backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+            backSpeakerView.setOnClickListener(languageNotSupportedClick);
+        }
+    }
+
+    private void setupFrontSideClick(View.OnClickListener onClick, boolean available) {
+        if (available) {
+            frontSpeakerView.setOnClickListener(onClick);
+            frontLangWord.setOnClickListener(onClick);
+        } else {
+            frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+            frontSpeakerView.setOnClickListener(languageNotSupportedClick);
+        }
     }
 
     private void hideActionButtons() {
@@ -228,10 +252,7 @@ public class PracticeActivity extends AppCompatActivity {
         });
     }
 
-    @Subscribe
-    public void onStartPracticeEvent(PracticeStartEvent event) {
-        setupFrontSpeaker();
-        setupBackSpeaker();
+    private void startPractice() {
         checkButton.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -252,12 +273,6 @@ public class PracticeActivity extends AppCompatActivity {
                     c.getBackLangFlagResource(), c.getFrontLangFlagResource(),
                     c.getBackLangText(), c.getFrontLangText()));
         currentCardItems = new ArrayList<>(allCardItems);
-    }
-
-    private void swapLanguages() {
-        Language buff = frontLanguage;
-        frontLanguage = backLanguage;
-        backLanguage = buff;
     }
 
     private void chooseCardsFaceSide() {
@@ -384,7 +399,6 @@ public class PracticeActivity extends AppCompatActivity {
     private void setupCheckButton() {
         cardFlipper.setVisibility(View.INVISIBLE);
         checkButton.setOnClickListener(checkClick);
-        // frontLangWord.setOnClickListener(checkClick);
     }
 
     private View.OnClickListener checkClick = new View.OnClickListener() {
