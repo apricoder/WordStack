@@ -223,7 +223,7 @@ public class PracticeActivity extends AppCompatActivity {
             backSpeakerView.setOnClickListener(onClick);
             backLangWord.setOnClickListener(onClick);
         } else {
-            backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+            backSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_blue);
             backSpeakerView.setOnClickListener(languageNotSupportedClick);
         }
     }
@@ -233,7 +233,7 @@ public class PracticeActivity extends AppCompatActivity {
             frontSpeakerView.setOnClickListener(onClick);
             frontLangWord.setOnClickListener(onClick);
         } else {
-            frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_grey);
+            frontSpeakerView.setImageResource(R.drawable.c_volume_off_light_light_blue);
             frontSpeakerView.setOnClickListener(languageNotSupportedClick);
         }
     }

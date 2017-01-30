@@ -149,9 +149,9 @@ public class CardItemAdapter extends RecyclerView.Adapter<CardItemAdapter.CardIt
     }
 
     private void showSpeakerIcon(CardItemHolder holder) {
-        holder.frontLangIcon.setImageResource(frontLangAvailable ? R.drawable.c_volume_blue : R.drawable.c_volume_off_light_light_grey);
+        holder.frontLangIcon.setImageResource(frontLangAvailable ? R.drawable.c_volume_blue : R.drawable.c_volume_off_light_light_blue);
         holder.frontLangIcon.setBorderColor(WordStack.getInstance().getResources().getColor(R.color.transparent));
-        holder.backLangIcon.setImageResource(backLangAvailable ? R.drawable.c_volume_blue : R.drawable.c_volume_off_light_light_grey);
+        holder.backLangIcon.setImageResource(backLangAvailable ? R.drawable.c_volume_blue : R.drawable.c_volume_off_light_light_blue);
         holder.backLangIcon.setBorderColor(WordStack.getInstance().getResources().getColor(R.color.transparent));
     }
 

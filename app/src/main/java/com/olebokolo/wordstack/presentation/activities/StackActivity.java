@@ -101,6 +101,13 @@ public class StackActivity extends AppCompatActivity {
         reloadCards();
     }
 
+    @Override
+    protected void onDestroy() {
+        if (frontLanguageSpeaker != null) frontLanguageSpeaker.shutdown();
+        if (backLanguageSpeaker != null) backLanguageSpeaker.shutdown();
+        super.onDestroy();
+    }
+
     private void setupSpeakers() {
         new Thread(new Runnable() {
             @Override
