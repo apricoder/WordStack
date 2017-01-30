@@ -2,6 +2,7 @@ package com.olebokolo.wordstack.presentation.activities;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +45,8 @@ import com.olebokolo.wordstack.presentation.lists.cards.CardItemAdapter;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarRecord;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -68,6 +73,9 @@ public class StackActivity extends AppCompatActivity {
     private RecyclerView cardRecycler;
     private CardItemAdapter cardAdapter;
     private ImageView speakButton;
+    private ImageView searchButton;
+    private ExpandableLayout searchLayout;
+    private EditText searchField;
     // data
     private Stack stack;
     private List<Card> cards;
@@ -77,7 +85,6 @@ public class StackActivity extends AppCompatActivity {
     private TextToSpeech backLanguageSpeaker;
     private boolean frontLangSpeechSupported;
     private boolean backLangSpeechSupported;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,9 +103,52 @@ public class StackActivity extends AppCompatActivity {
         setupCardListDivider();
         setupRemovalOnSwipe();
         setupSpeakButton();
-
+        setupSearchButton();
 
         reloadCards();
+    }
+
+    private void setupSearchButton() {
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final int iconResource;
+
+                if (!searchLayout.isExpanded()) {
+                    searchLayout.expand();
+                    searchField.requestFocusFromTouch();
+                    InputMethodManager lManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    lManager.showSoftInput(searchField, 0);
+                    iconResource = R.drawable.c_arrow_up;
+                } else {
+                    searchLayout.collapse();
+                    hideKeyboard();
+                    iconResource = R.drawable.c_magnify_white;
+                }
+
+                final ObjectAnimator fadeOut = ObjectAnimator.ofFloat(searchButton, "alpha", 1, 0);
+                final ObjectAnimator fadeIn = ObjectAnimator.ofFloat(searchButton, "alpha", 0, 1);
+                fadeOut.setDuration(200); fadeIn.setDuration(200);
+                fadeOut.addListener(new Animator.AnimatorListener() {
+                    @Override public void onAnimationStart(Animator animator) { }
+                    @Override public void onAnimationCancel(Animator animator) { }
+                    @Override public void onAnimationRepeat(Animator animator) { }
+                    @Override public void onAnimationEnd(Animator animator) {
+                        searchButton.setImageResource(iconResource);
+                        fadeIn.start();
+                    }
+                });
+                fadeOut.start();
+            }
+        });
+
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(findViewById(R.id.root_layout).getWindowToken(), 0);
     }
 
     @Override
@@ -309,6 +359,9 @@ public class StackActivity extends AppCompatActivity {
         rootLayout = (ViewGroup) findViewById(R.id.root_layout);
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
         speakButton = (ImageView) findViewById(R.id.speak_button);
+        searchButton = (ImageView) findViewById(R.id.search_button);
+        searchLayout = (ExpandableLayout) findViewById(R.id.search_layout);
+        searchField = (EditText) findViewById(R.id.search_text);
     }
 
     private void setupGoBackButton() {

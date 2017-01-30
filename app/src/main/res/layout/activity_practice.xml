@@ -92,42 +92,48 @@
 
         </LinearLayout>
 
-        <!-- CHECK ALL LAYOUT -->
-        <LinearLayout
-            android:id="@+id/check_all_layout"
-            android:background="?attr/selectableItemBackground"
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/cards_count_layout"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:paddingRight="15.5dp"
-            android:paddingEnd="15.5dp"
-            android:paddingLeft="18dp"
-            android:paddingStart="18dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            app:el_duration="400"
+            app:el_expanded="false">
 
-            <TextView
-                android:id="@+id/check_all_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Cards left"
-                android:textAllCaps="true"
-                android:textColor="@color/mainWhite"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_weight="1"/>
+            <LinearLayout
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingRight="15.5dp"
+                android:paddingEnd="15.5dp"
+                android:paddingLeft="18dp"
+                android:paddingStart="18dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/cards_count"
-                android:textAllCaps="true"
-                android:textColor="@color/mainWhite"
-                tools:text="18"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Cards left"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainWhite"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"/>
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/cards_count"
+                    android:textAllCaps="true"
+                    android:textColor="@color/mainWhite"
+                    tools:text="18"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
 
         <!-- SHADOW -->
         <View

@@ -13,6 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         android:orientation="vertical">
 
         <!-- TOOLBAR -->
@@ -89,6 +90,42 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:el_duration="400"
+            app:el_expanded="false">
+
+            <LinearLayout
+                android:id="@+id/check_all_layout"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:paddingRight="15.5dp"
+                android:paddingEnd="15.5dp"
+                android:paddingLeft="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_expandable="true">
+
+                <EditText
+                    android:textCursorDrawable="@null"
+                    android:id="@+id/search_text"
+                    android:hint="Search"
+                    android:maxLines="1"
+                    android:textColorHint="@color/mainWhite"
+                    android:textColor="@color/mainWhite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
+        <!-- CHECK ALL LAYOUT -->
+
 
         <!-- SHADOW -->
         <View

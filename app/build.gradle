@@ -49,6 +49,8 @@ dependencies {
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     // * circular image view
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    // * expandable layout
+    compile 'net.cachapa.expandablelayout:expandablelayout:2.7'
     // --------------------------------------------------------
 
     //---------------------------------------------------------

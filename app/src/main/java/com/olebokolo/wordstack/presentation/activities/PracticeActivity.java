@@ -34,6 +34,8 @@ import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarRecord;
 import com.tekle.oss.android.animation.AnimationFactory;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -56,7 +58,6 @@ public class PracticeActivity extends AppCompatActivity {
     // view
     private ViewAnimator cardFlipper;
     private ViewGroup backToolbarButton;
-    private TextView checkAllText;
     private TextView cardsCountText;
     private TextView frontLangWord;
     private TextView backLangWord;
@@ -91,6 +92,7 @@ public class PracticeActivity extends AppCompatActivity {
     private Language backLanguage;
     private boolean frontLangSpeechSupported;
     private boolean backLangSpeechSupported;
+    private ExpandableLayout expandableLayout;
 
 
     @Override
@@ -266,6 +268,7 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     private void startPractice() {
+        expandableLayout.expand();
         checkButton.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -463,8 +466,6 @@ public class PracticeActivity extends AppCompatActivity {
 
     private void findViews() {
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
-        checkAllText = (TextView) findViewById(R.id.check_all_text);
-        cardsCountText = (TextView) findViewById(R.id.cards_count);
         frontLangWord = (TextView) findViewById(R.id.front_lang_word);
         frontSpeakerView = (ImageView) findViewById(R.id.front_lang_speech);
         backLangWord = (TextView) findViewById(R.id.back_lang_word);
@@ -474,11 +475,13 @@ public class PracticeActivity extends AppCompatActivity {
         yesButton = (FloatingActionButton) findViewById(R.id.yes_button);
         noButton = (FloatingActionButton) findViewById(R.id.no_button);
         shuffleButton = findViewById(R.id.shuffle_button);
+        expandableLayout = (ExpandableLayout) findViewById(R.id.cards_count_layout);
+        cardsCountText = (TextView) findViewById(R.id.cards_count);
     }
 
     private void setupTypeface() {
         typefaceManager.setTypefaceForContainer(backToolbarButton, typefaceCollection.getRalewayMedium());
-        typefaceManager.setTypeface(checkAllText, typefaceCollection.getRalewayMedium());
+        typefaceManager.setTypefaceForContainer(expandableLayout, typefaceCollection.getRalewayMedium());
         typefaceManager.setTypeface(frontLangWord, typefaceCollection.getRalewayLight());
         typefaceManager.setTypeface(backLangWord, typefaceCollection.getRalewayLight());
     }
