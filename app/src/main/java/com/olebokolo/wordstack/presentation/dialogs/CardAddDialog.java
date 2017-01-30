@@ -275,7 +275,7 @@ public class CardAddDialog extends Dialog {
             @Override public void onAnimationEnd(Animator animator) { fadeOutCardAddedMessage.start(); }
         });
         fadeOutCardAddedMessage = ObjectAnimator.ofFloat(cardAddedLayout, "alpha", 1, 0);
-        fadeOutCardAddedMessage.setDuration(200);
+        fadeOutCardAddedMessage.setDuration(400);
     }
 
     private Card getCardFromEnteredData() {

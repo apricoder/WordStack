@@ -88,6 +88,12 @@ public class StackListActivity extends AppCompatActivity {
         setupDeleteAnimation();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void setupDeleteAnimation() {
         deleteAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_to_right_fast);
     }

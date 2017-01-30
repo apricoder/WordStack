@@ -1,8 +1,12 @@
 package com.olebokolo.wordstack.presentation.activities;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.olebokolo.wordstack.R;
@@ -18,9 +23,14 @@ import com.olebokolo.wordstack.core.cards.CardsService;
 import com.olebokolo.wordstack.core.events.CardAddedEvent;
 import com.olebokolo.wordstack.core.events.CardEditRequestEvent;
 import com.olebokolo.wordstack.core.events.CardEditedEvent;
+import com.olebokolo.wordstack.core.events.CardSayWordEvent;
+import com.olebokolo.wordstack.core.events.CardSpeakOutEvent;
+import com.olebokolo.wordstack.core.events.CardStopSpeakingOutEvent;
+import com.olebokolo.wordstack.core.events.LanguageAvailabilityDiscoveredEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
 import com.olebokolo.wordstack.core.model.Card;
+import com.olebokolo.wordstack.core.model.Language;
 import com.olebokolo.wordstack.core.model.Stack;
 import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
@@ -38,6 +48,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator;
 
@@ -56,10 +67,17 @@ public class StackActivity extends AppCompatActivity {
     private ViewGroup rootLayout;
     private RecyclerView cardRecycler;
     private CardItemAdapter cardAdapter;
+    private ImageView speakButton;
     // data
     private Stack stack;
     private List<Card> cards;
     private List<CardItem> cardItems;
+    private boolean speakingOutLoud;
+    private TextToSpeech frontLanguageSpeaker;
+    private TextToSpeech backLanguageSpeaker;
+    private boolean frontLangSpeechSupported;
+    private boolean backLangSpeechSupported;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +87,7 @@ public class StackActivity extends AppCompatActivity {
         WordStack.getInstance().injectDependenciesTo(this);
         EventBus.getDefault().register(this);
         findViews();
+        setupSpeakers();
         setupTypeface();
         setupGoBackButton();
         setupAddCardButton();
@@ -76,9 +95,103 @@ public class StackActivity extends AppCompatActivity {
         setupCardList();
         setupCardListDivider();
         setupRemovalOnSwipe();
+        setupSpeakButton();
+
 
         reloadCards();
     }
+
+    private void setupSpeakers() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                setupFrontSpeaker();
+                setupBackSpeaker();
+            }
+        }).start();
+    }
+
+    private void setupSpeakButton() {
+        speakButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                speakingOutLoud = !speakingOutLoud;
+                handleSpeakingOutChange();
+            }
+        });
+    }
+
+    private void handleSpeakingOutChange() {
+        if (speakingOutLoud) EventBus.getDefault().post(new CardSpeakOutEvent());
+        else EventBus.getDefault().post(new CardStopSpeakingOutEvent());
+        cardRecycler.getAdapter().notifyDataSetChanged();
+        final int iconResource = speakingOutLoud ? R.drawable.c_close_white : R.drawable.c_volume_white;
+
+        final ObjectAnimator fadeOut = ObjectAnimator.ofFloat(speakButton, "alpha", 1, 0);
+        final ObjectAnimator fadeIn = ObjectAnimator.ofFloat(speakButton, "alpha", 0, 1);
+        fadeOut.setDuration(200); fadeIn.setDuration(200);
+        fadeOut.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animator) { }
+            @Override public void onAnimationCancel(Animator animator) { }
+            @Override public void onAnimationRepeat(Animator animator) { }
+            @Override public void onAnimationEnd(Animator animator) {
+                speakButton.setImageResource(iconResource);
+                fadeIn.start();
+            }
+        });
+        fadeOut.start();
+    }
+    
+    @Subscribe
+    public void onEvent(CardSayWordEvent event) {
+        String text = event.getText();
+        Integer side = event.getSide();
+        if (side == CardSayWordEvent.FRONT_LANG) sayWith(frontLanguageSpeaker, text);
+        else sayWith(backLanguageSpeaker, text);
+    }
+
+    private void sayWith(TextToSpeech speaker, String word) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            speaker.speak(word, TextToSpeech.QUEUE_FLUSH, null, null);
+        else frontLanguageSpeaker.speak(word, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    private void setupFrontSpeaker() {
+        frontLanguageSpeaker = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    Language frontLanguage = languageService.findById(stack.getFrontLangId());
+                    Locale locale = languageService.getLocaleForLanguage(frontLanguage);
+                    int result = frontLanguageSpeaker.setLanguage(locale);
+                    frontLangSpeechSupported = !(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED);
+                    EventBus.getDefault().post(new LanguageAvailabilityDiscoveredEvent(CardSayWordEvent.FRONT_LANG, frontLangSpeechSupported));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    private void setupBackSpeaker() {
+        backLanguageSpeaker = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    Language backLanguage = languageService.findById(stack.getBackLangId());
+                    Locale locale = languageService.getLocaleForLanguage(backLanguage);
+                    int result = backLanguageSpeaker.setLanguage(locale);
+                    backLangSpeechSupported = !(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED);
+                    EventBus.getDefault().post(new LanguageAvailabilityDiscoveredEvent(CardSayWordEvent.BACK_LANG, backLangSpeechSupported));} else {
+                }
+            }
+        });
+    }
+
 
     private void setupCardItems() {
         cardItems = new ArrayList<>();
@@ -188,6 +301,7 @@ public class StackActivity extends AppCompatActivity {
         cardRecycler = (RecyclerView) findViewById(R.id.card_list);
         rootLayout = (ViewGroup) findViewById(R.id.root_layout);
         backToolbarButton = (ViewGroup) findViewById(R.id.back_toolbar_button);
+        speakButton = (ImageView) findViewById(R.id.speak_button);
     }
 
     private void setupGoBackButton() {

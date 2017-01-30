@@ -116,6 +116,12 @@ public class PracticeActivity extends AppCompatActivity {
         hideActionButtons();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void setupLanguages() {
         UserSettings settings = settingsService.getUserSettings();
         frontLanguage = languageService.findById(settings.getFrontLangId());

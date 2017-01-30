@@ -85,6 +85,12 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
         reloadStacks();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     private void setupPracticeButton() {
         practiceButton.setOnClickListener(new View.OnClickListener() {
             @Override

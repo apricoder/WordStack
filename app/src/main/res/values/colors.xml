@@ -8,4 +8,5 @@
     <color name="mainBlueLight">#656c7b</color>
     <color name="mainBlueDark">#323e58</color>
     <color name="mainWhite">#eee</color>
+    <color name="transparent">#00000000</color>
 </resources>
