@@ -83,6 +83,8 @@ public class StackActivity extends AppCompatActivity {
     private ExpandableLayout searchLayout;
     private EditText searchField;
     private View clearSearchButton;
+    private ObjectAnimator fadeSearchIconOut;
+    private ObjectAnimator fadeSearchIconIn;
     // data
     private Stack stack;
     private List<Card> cards;
@@ -111,17 +113,27 @@ public class StackActivity extends AppCompatActivity {
         setupRemovalOnSwipe();
         setupSpeakButton();
         setupSearchButton();
+        setupSearchButtonAnimations();
         setupSearch();
         setupSearchClear();
-
         reloadCards();
+    }
+
+    private void setupSearchButtonAnimations() {
+        fadeSearchIconOut = ObjectAnimator.ofFloat(searchButton, "alpha", 1, 0);
+        fadeSearchIconIn = ObjectAnimator.ofFloat(searchButton, "alpha", 0, 1);
+        fadeSearchIconOut.setDuration(200);
+        fadeSearchIconIn.setDuration(200);
     }
 
     private void setupSearchClear() {
         clearSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fadeSearchIconIn.start();
                 searchField.setText("");
+                searchLayout.collapse();
+                hideKeyboard();
             }
         });
     }
@@ -145,41 +157,16 @@ public class StackActivity extends AppCompatActivity {
     }
 
     private void setupSearchButton() {
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                final int iconResource;
-
-                if (!searchLayout.isExpanded()) {
                     searchLayout.expand();
                     searchField.requestFocusFromTouch();
                     InputMethodManager lManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     lManager.showSoftInput(searchField, 0);
-                    iconResource = R.drawable.c_arrow_up;
-                } else {
-                    searchLayout.collapse();
-                    hideKeyboard();
-                    iconResource = R.drawable.c_magnify_white;
-                }
-
-                final ObjectAnimator fadeOut = ObjectAnimator.ofFloat(searchButton, "alpha", 1, 0);
-                final ObjectAnimator fadeIn = ObjectAnimator.ofFloat(searchButton, "alpha", 0, 1);
-                fadeOut.setDuration(200); fadeIn.setDuration(200);
-                fadeOut.addListener(new Animator.AnimatorListener() {
-                    @Override public void onAnimationStart(Animator animator) { }
-                    @Override public void onAnimationCancel(Animator animator) { }
-                    @Override public void onAnimationRepeat(Animator animator) { }
-                    @Override public void onAnimationEnd(Animator animator) {
-                        searchButton.setImageResource(iconResource);
-                        fadeIn.start();
-                    }
-                });
-                fadeOut.start();
+                fadeSearchIconOut.start();
             }
         });
-
     }
 
     private void hideKeyboard() {
@@ -234,7 +221,7 @@ public class StackActivity extends AppCompatActivity {
         });
         fadeOut.start();
     }
-    
+
     @Subscribe
     public void onEvent(CardSayWordEvent event) {
         String text = event.getText();
@@ -300,13 +287,8 @@ public class StackActivity extends AppCompatActivity {
 
     private void setupRemovalOnSwipe() {
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            @Override public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) { return false; }
+            @Override public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 cards.get(position).delete();
                 cardAdapter.notifyItemRemoved(position);
@@ -436,7 +418,8 @@ public class StackActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        goBack();
+        if (searchLayout.isExpanded()) searchLayout.collapse();
+        else goBack();
     }
 
     private void goBack() {
