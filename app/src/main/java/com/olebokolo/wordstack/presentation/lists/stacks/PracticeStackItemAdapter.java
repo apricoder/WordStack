@@ -40,9 +40,10 @@ public class PracticeStackItemAdapter extends RecyclerView.Adapter<PracticeStack
 
     @Override
     public void onBindViewHolder(final StackItemHolder holder, int position) {
-        PracticeStackItem stackItemItem = stackItems.get(position);
-        holder.stackNameText.setText(stackItemItem.getStackName());
-        holder.cardsCountText.setText(stackItemItem.getCardsCount() + " cards");
+        PracticeStackItem stackItem = stackItems.get(position);
+        holder.stackNameText.setText(stackItem.getStackName());
+        holder.cardsCountText.setText(stackItem.getCardsCount() + " cards");
+        holder.checkBox.setChecked(stackItem.isChecked());
         typefaceManager.setTypeface(holder.stackNameText, typefaceCollection.getRalewayMedium());
         typefaceManager.setTypeface(holder.cardsCountText, typefaceCollection.getRalewayLight());
         holder.container.setOnClickListener(getHolderClick(holder));

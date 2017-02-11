@@ -114,10 +114,8 @@ public class ChoosePracticeStacksActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean checked = checkAllBox.isChecked();
-                for (int position = 0; position < stackRecycler.getChildCount(); position++) {
-                    View row = stackRecycler.getChildAt(position);
-                    ((CheckBox)row.findViewById(R.id.checkbox)).setChecked(checked);
-                }
+                for(PracticeStackItem item : stackItems) item.setChecked(checked);
+                stackRecycler.getAdapter().notifyDataSetChanged();
             }
         });
     }

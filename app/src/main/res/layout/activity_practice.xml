@@ -83,7 +83,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:src="@drawable/c_replay_white"
-                    android:id="@+id/back_lang_icon"
+                    android:id="@+id/restart_button"
                     android:padding="10dp"
                     android:layout_width="45dp"
                     android:layout_height="45dp" />

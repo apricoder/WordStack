@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +19,9 @@ import android.widget.ViewAnimator;
 import com.olebokolo.wordstack.R;
 import com.olebokolo.wordstack.core.app.WordStack;
 import com.olebokolo.wordstack.core.cards.CardsService;
+import com.olebokolo.wordstack.core.events.PracticeQuitEvent;
 import com.olebokolo.wordstack.core.events.PracticeStartEvent;
+import com.olebokolo.wordstack.core.events.PracticeTurnOverCardsAndRestartEvent;
 import com.olebokolo.wordstack.core.events.PracticeTurnOverCardsEvent;
 import com.olebokolo.wordstack.core.languages.flags.FlagService;
 import com.olebokolo.wordstack.core.languages.services.LanguageService;
@@ -29,6 +32,7 @@ import com.olebokolo.wordstack.core.user.settings.services.UserSettingsService;
 import com.olebokolo.wordstack.core.utils.TypefaceCollection;
 import com.olebokolo.wordstack.core.utils.TypefaceManager;
 import com.olebokolo.wordstack.presentation.dialogs.PracticeChooseFaceSideDialog;
+import com.olebokolo.wordstack.presentation.dialogs.PracticeFinishedDialog;
 import com.olebokolo.wordstack.presentation.lists.cards.CardItem;
 import com.olebokolo.wordstack.presentation.navigation.ActivityNavigator;
 import com.orm.SugarRecord;
@@ -42,8 +46,10 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class PracticeActivity extends AppCompatActivity {
 
@@ -65,6 +71,7 @@ public class PracticeActivity extends AppCompatActivity {
     private FloatingActionButton yesButton;
     private FloatingActionButton noButton;
     private View shuffleButton;
+    private View restartButton;
     private TextToSpeech frontLanguageSpeaker;
     private TextToSpeech backLanguageSpeaker;
     private ImageView frontSpeakerView;
@@ -93,7 +100,8 @@ public class PracticeActivity extends AppCompatActivity {
     private boolean frontLangSpeechSupported;
     private boolean backLangSpeechSupported;
     private ExpandableLayout expandableLayout;
-
+    private boolean turnedOver;
+    private String[] stackIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +120,7 @@ public class PracticeActivity extends AppCompatActivity {
         setupYesButton();
         setupNoButton();
         setupShuffleButton();
+        setupRestartButton();
         getStacksFromIntentExtras();
         updateCurrentCardsCount();
         chooseCardsFaceSide();
@@ -220,8 +229,27 @@ public class PracticeActivity extends AppCompatActivity {
         startPractice();
     }
 
+    @Subscribe
+    public void onEvent(PracticeQuitEvent event) {
+        goBack();
+    }
+
+    @Subscribe
+    public void onEvent(PracticeTurnOverCardsAndRestartEvent event) {
+        if (turnedOver) {
+            setupFrontSideClick(sayFrontWord, frontLangSpeechSupported);
+            setupBackSideClick(sayBackWord, backLangSpeechSupported);
+        } else {
+            setupFrontSideClick(sayFrontWordWithBackSpeaker, backLangSpeechSupported);
+            setupBackSideClick(sayBackWordWithFrontSpeaker, frontLangSpeechSupported);
+        }
+        turnOverCards();
+        startPractice();
+    }
+
     private void setupBackSideClick(View.OnClickListener onClick, boolean available) {
         if (available) {
+            backSpeakerView.setImageResource(R.drawable.c_volume_blue);
             backSpeakerView.setOnClickListener(onClick);
             backLangWord.setOnClickListener(onClick);
         } else {
@@ -232,6 +260,7 @@ public class PracticeActivity extends AppCompatActivity {
 
     private void setupFrontSideClick(View.OnClickListener onClick, boolean available) {
         if (available) {
+            frontSpeakerView.setImageResource(R.drawable.c_volume_blue);
             frontSpeakerView.setOnClickListener(onClick);
             frontLangWord.setOnClickListener(onClick);
         } else {
@@ -267,7 +296,19 @@ public class PracticeActivity extends AppCompatActivity {
         });
     }
 
+    private void setupRestartButton() {
+        restartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Map<String, Serializable> extras = new HashMap<>();
+                extras.put("stacks",  TextUtils.join(",", stackIds));
+                navigator.goForwardWithSlideAnimation(PracticeActivity.this, PracticeActivity.class, extras);
+            }
+        });
+    }
+
     private void startPractice() {
+        updateCurrentCardsCount();
         expandableLayout.expand();
         checkButton.postDelayed(new Runnable() {
             @Override
@@ -282,6 +323,7 @@ public class PracticeActivity extends AppCompatActivity {
     }
 
     private void turnOverCards() {
+        turnedOver = !turnedOver;
         ArrayList<CardItem> allCardItemsCopy = new ArrayList<>(allCardItems);
         allCardItems.clear();
         for (CardItem c : allCardItemsCopy)
@@ -347,6 +389,7 @@ public class PracticeActivity extends AppCompatActivity {
         checkButton.hide();
         yesButton.hide();
         noButton.hide();
+        new PracticeFinishedDialog(this).show();
     }
 
     private Animator.AnimatorListener cardHiddenAnimationListener = new Animator.AnimatorListener() {
@@ -445,7 +488,7 @@ public class PracticeActivity extends AppCompatActivity {
         Serializable serializable = getIntent().getSerializableExtra("stacks");
         if (serializable != null) {
             String stacksString = serializable.toString();
-            String[] stackIds = stacksString.split(",");
+            stackIds = stacksString.split(",");
             List<Card> cards = getCardsWith(stackIds);
             allCardItems = shuffle(cardsService.getCardItemsFrom(cards));
             currentCardItems = new ArrayList<>(allCardItems);
@@ -475,6 +518,7 @@ public class PracticeActivity extends AppCompatActivity {
         yesButton = (FloatingActionButton) findViewById(R.id.yes_button);
         noButton = (FloatingActionButton) findViewById(R.id.no_button);
         shuffleButton = findViewById(R.id.shuffle_button);
+        restartButton = findViewById(R.id.restart_button);
         expandableLayout = (ExpandableLayout) findViewById(R.id.cards_count_layout);
         cardsCountText = (TextView) findViewById(R.id.cards_count);
     }

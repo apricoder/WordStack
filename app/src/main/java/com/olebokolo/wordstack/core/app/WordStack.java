@@ -22,6 +22,7 @@ import com.olebokolo.wordstack.presentation.activities.StackListActivity;
 import com.olebokolo.wordstack.presentation.dialogs.CardAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.CardEditDialog;
 import com.olebokolo.wordstack.presentation.dialogs.PracticeChooseFaceSideDialog;
+import com.olebokolo.wordstack.presentation.dialogs.PracticeFinishedDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackActionsDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAddDialog;
 import com.olebokolo.wordstack.presentation.dialogs.StackAlert;
@@ -215,5 +216,10 @@ public class WordStack extends Application {
         practiceChooseFaceSideDialog.languageService = languageComponentsFactory.getLanguageService();
         practiceChooseFaceSideDialog.flagService = languageComponentsFactory.getFlagService();
         practiceChooseFaceSideDialog.settingsService = userSettingsComponentsFactory.getUserSettingsService();
+    }
+
+    public void injectDependenciesTo(PracticeFinishedDialog practiceFinishedDialog) {
+        practiceFinishedDialog.typefaceCollection = this.typefaceCollection;
+        practiceFinishedDialog.typefaceManager = this.typefaceManager;
     }
 }
