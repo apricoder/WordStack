@@ -418,7 +418,10 @@ public class StackActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (searchLayout.isExpanded()) searchLayout.collapse();
+        if (searchLayout.isExpanded()) {
+            fadeSearchIconIn.start();
+            searchLayout.collapse();
+        }
         else goBack();
     }
 
