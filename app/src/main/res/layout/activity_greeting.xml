@@ -7,41 +7,6 @@
     tools:context=".presentation.activities.GreetingActivity">
 
     <!-- TOOLBAR WRAPPER -->
-    <LinearLayout
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- TOOLBAR -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:paddingTop="5dp">
-
-            <!-- TITLE -->
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Welcome"
-                android:textAllCaps="true"
-                android:textColor="@color/mainBlue"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <!-- SHADOW -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/mainBlueDark" />
-
-    </LinearLayout>
 
     <!-- LAYOUT WRAPPER -->
     <RelativeLayout
@@ -99,5 +64,45 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <!-- TOOLBAR -->
+        <RelativeLayout
+            android:background="@color/mainBlue"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="5dp">
+
+            <!-- TITLE -->
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Welcome"
+                android:textAllCaps="true"
+                android:textColor="@color/mainWhite"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <!-- SHADOW -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/mainBlueDark" />
+
+    </LinearLayout>
 
 </RelativeLayout>
