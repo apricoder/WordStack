@@ -8,4 +8,5 @@ Among greatest benefits there is an automatic translation and possibility to hea
 pronounciation of words or frazes.
 
 P.S. My bachelor degree work.
+
 P.P.S. Any usage of source code must be agreed with author.
